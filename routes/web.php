@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ExpenseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('accounts', AccountController::class)->except('show');
     Route::resource('categories', CategoryController::class)->except('show');
     Route::resource('incomes', IncomeController::class)->except('show');
+    Route::resource('expenses', ExpenseController::class)->except('show');
 });
 
 require __DIR__.'/auth.php';

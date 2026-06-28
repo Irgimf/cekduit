@@ -24,6 +24,10 @@
                     <x-nav-link :href="route('incomes.index')" :active="request()->routeIs('incomes.*')">
                         {{ __('Pemasukan') }}
                     </x-nav-link>
+                    
+                    <x-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.*')">
+                        {{ __('Pengeluaran') }}
+                    </x-nav-link>
                 </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -85,6 +89,10 @@
 
             <x-responsive-nav-link :href="route('incomes.index')" :active="request()->routeIs('incomes.*')">
                 {{ __('Pemasukan') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('expenses.index')" :active="request()->routeIs('expenses.*')">
+                {{ __('Pengeluaran') }}
             </x-responsive-nav-link>
         </div>
 
