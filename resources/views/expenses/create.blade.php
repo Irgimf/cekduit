@@ -12,14 +12,15 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Rekening</label>
-                    <select name="account_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
-                        <option value="">-- Pilih Rekening --</option>
-                        @foreach ($accounts as $account)
-                            <option value="{{ $account->id }}" @selected(old('account_id') == $account->id)>
-                                {{ $account->name }}
-                            </option>
-                        @endforeach
-                    </select>
+                        <select name="account_id" id="account_id" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            <option value="">-- Pilih Rekening --</option>
+                            @foreach ($accounts as $account)
+                                <option value="{{ $account->id }}" data-balance="{{ $account->balance }}"
+                                        @selected(old('account_id') == $account->id)>
+                                    {{ $account->name }} (Rp {{ number_format($account->balance, 0, ',', '.') }})
+                                </option>
+                            @endforeach
+                        </select>
                     @error('account_id') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
                 </div>
 
