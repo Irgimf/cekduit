@@ -20,8 +20,11 @@
                     <x-nav-link :href="route('accounts.index')" :active="request()->routeIs('accounts.*')">
                         {{ __('Rekening') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('incomes.index')" :active="request()->routeIs('incomes.*')">
+                        {{ __('Pemasukan') }}
+                    </x-nav-link>
                 </div>
-            </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
@@ -72,11 +75,16 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
+                {{ __('Kategori') }}
+            </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('accounts.index')" :active="request()->routeIs('accounts.*')">
                 {{ __('Rekening') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.*')">
-                {{ __('Kategori') }}
+
+            <x-responsive-nav-link :href="route('incomes.index')" :active="request()->routeIs('incomes.*')">
+                {{ __('Pemasukan') }}
             </x-responsive-nav-link>
         </div>
 
