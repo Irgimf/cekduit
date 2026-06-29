@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Http\Requests\UpdateAvatarRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -57,4 +59,21 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+        public function updateAvatar(UpdateAvatarRequest $request): RedirectResponse
+    {
+        $user = $request->user();
+
+        // Hapus foto lama kalau ada
+        if ($user->avatar) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
+        $path = $request->file('avatar')->store('avatars', 'public');
+
+        $user->update(['avatar' => $path]);
+
+        return Redirect::route('profile.edit')->with('status', 'avatar-updated');
+    }
 }
+
+

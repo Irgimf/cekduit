@@ -46,4 +46,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+    public function getAvatarUrlAttribute(): string
+{
+    return $this->avatar
+        ? asset('storage/' . $this->avatar)
+        : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=6366f1&color=fff';
 }
+}
+
