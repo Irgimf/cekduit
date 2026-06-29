@@ -28,9 +28,17 @@
             @endisset
 
             <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+        <main>
+            @if (session('success'))
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-4">
+                    <div class="p-4 bg-green-100 text-green-800 rounded-lg">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            @endif
+
+            {{ $slot }}
+        </main>
         </div>
         @stack('scripts')
     </body>

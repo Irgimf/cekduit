@@ -83,11 +83,11 @@
             </div>
 
             {{-- Detail table --}}
-            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
+            <div class="bg-white shadow-sm rounded-lg overflow-x-auto">
                 <div class="px-6 py-4 border-b border-gray-100">
                     <h3 class="font-medium text-gray-700">Detail Transaksi — {{ $periodLabel }}</h3>
                 </div>
-                <table class="w-full text-left">
+                <table class="w-full text-left min-w-[600px]">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-sm font-medium text-gray-600">Tanggal</th>

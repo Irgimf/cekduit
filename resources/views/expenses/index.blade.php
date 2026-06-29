@@ -56,8 +56,8 @@
                 </a>
             </div>
 
-            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                <table class="w-full text-left">
+            <div class="bg-white shadow-sm rounded-lg overflow-x-auto">
+                 <table class="w-full text-left min-w-[600px]">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-sm font-medium text-gray-600">Tanggal</th>

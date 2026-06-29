@@ -8,12 +8,6 @@
     <div class="py-6">
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
 
-            @if (session('success'))
-                <div class="mb-4 p-4 bg-green-100 text-green-800 rounded-lg">
-                    {{ session('success') }}
-                </div>
-            @endif
-
             {{-- Filter & Search --}}
             <form method="GET" class="bg-white shadow-sm rounded-lg p-4 mb-4 grid grid-cols-1 md:grid-cols-5 gap-3">
                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari deskripsi..."
@@ -57,8 +51,8 @@
                 </a>
             </div>
 
-            <div class="bg-white shadow-sm rounded-lg overflow-hidden">
-                <table class="w-full text-left">
+            <div class="bg-white shadow-sm rounded-lg overflow-x-auto">
+                <table class="w-full text-left min-w-[600px]">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-sm font-medium text-gray-600">Tanggal</th>
