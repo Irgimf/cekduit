@@ -1,45 +1,38 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'CekDuit') }}</title>
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,600,700,800&display=swap" rel="stylesheet" />
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js'])
+</head>
+<body class="min-h-screen" style="background-color:#FFFBEB;">
+    @include('layouts.navigation')
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+    @if (isset($header))
+        <header style="border-bottom: 2px solid #000; background: #fff;">
+            <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                {{ $header }}
+            </div>
+        </header>
+    @endif
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
-
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-        <main>
-            @if (session('success'))
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-4">
-                    <div class="p-4 bg-green-100 text-green-800 rounded-lg">
-                        {{ session('success') }}
-                    </div>
+    <main>
+        @if (session('success'))
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 pt-4">
+                <div class="nb-card p-3 font-bold text-sm"
+                     style="background: #4ADE80;">
+                    ✅ {{ session('success') }}
                 </div>
-            @endif
+            </div>
+        @endif
 
-            {{ $slot }}
-        </main>
-        </div>
-        @stack('scripts')
-    </body>
+        {{ $slot }}
+    </main>
+
+    @stack('scripts')
+</body>
 </html>

@@ -9,13 +9,21 @@ use Illuminate\View\View;
 
 class OtpVerificationController extends Controller
 {
-    public function show(): View|RedirectResponse
+    public function show(Request $request): View|RedirectResponse
     {
         if (auth()->user()->hasVerifiedEmail()) {
             return redirect()->route('dashboard');
         }
 
-        return view('auth.verify-otp');
+        $lastSent = $request->session()->get('otp_last_sent_at');
+        $cooldownSeconds = 0;
+
+        if ($lastSent) {
+            $elapsed = now()->diffInSeconds($lastSent, false);
+            $cooldownSeconds = max(0, 60 + $elapsed);
+        }
+
+        return view('auth.verify-otp', compact('cooldownSeconds'));
     }
 
     public function verify(Request $request): RedirectResponse
@@ -32,13 +40,21 @@ class OtpVerificationController extends Controller
 
         $user->forceFill(['email_verified_at' => now()])->save();
         $user->clearOtp();
+        $request->session()->forget('otp_last_sent_at');
 
         return redirect()->route('dashboard')->with('success', 'Email berhasil diverifikasi!');
     }
 
     public function resend(Request $request): RedirectResponse
     {
+        $lastSent = $request->session()->get('otp_last_sent_at');
+
+        if ($lastSent && now()->diffInSeconds($lastSent, false) > -60) {
+            return back()->withErrors(['otp_code' => 'Harap tunggu 60 detik sebelum kirim ulang.']);
+        }
+
         $request->user()->generateAndSendOtp('verifikasi akun');
+        $request->session()->put('otp_last_sent_at', now());
 
         return back()->with('status', 'Kode OTP baru sudah dikirim ke email kamu.');
     }

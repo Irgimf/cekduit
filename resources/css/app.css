@@ -1,3 +1,134 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ===== NEUBRUTALISM BASE ===== */
+:root {
+    --nb-border: 2px solid #000;
+    --nb-shadow: 4px 4px 0px #000;
+    --nb-shadow-sm: 2px 2px 0px #000;
+    --nb-accent: #fbbf24;
+    --nb-accent-green: #4ade80;
+    --nb-accent-red: #f87171;
+    --nb-accent-blue: #60a5fa;
+}
+
+body {
+    background-color: #fffbeb;
+    font-family: "Figtree", sans-serif;
+}
+
+.nb-card {
+    border: var(--nb-border);
+    box-shadow: var(--nb-shadow);
+    background: #fff;
+    border-radius: 0 !important;
+}
+
+.nb-btn {
+    border: var(--nb-border);
+    box-shadow: var(--nb-shadow-sm);
+    border-radius: 0 !important;
+    font-weight: 700;
+    transition: all 0.1s ease;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.nb-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+}
+
+.nb-btn:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+}
+
+.nb-btn-primary {
+    background: var(--nb-accent);
+    color: #000;
+}
+.nb-btn-green {
+    background: var(--nb-accent-green);
+    color: #000;
+}
+.nb-btn-red {
+    background: var(--nb-accent-red);
+    color: #000;
+}
+.nb-btn-dark {
+    background: #000;
+    color: #fff;
+}
+.nb-btn-white {
+    background: #fff;
+    color: #000;
+}
+
+.nb-input {
+    border: var(--nb-border) !important;
+    border-radius: 0 !important;
+    box-shadow: var(--nb-shadow-sm) !important;
+    background: #fff;
+    outline: none !important;
+}
+
+.nb-input:focus {
+    box-shadow: var(--nb-shadow) !important;
+}
+
+.nb-table th {
+    background: #000;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 10px 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+}
+
+.nb-table td {
+    border: 1px solid #000;
+    padding: 10px 16px;
+}
+
+.nb-table tr:nth-child(even) td {
+    background: #fafafa;
+}
+.nb-table tr:hover td {
+    background: #fef9c3;
+}
+
+.nb-badge-income {
+    background: var(--nb-accent-green);
+    border: var(--nb-border);
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.nb-badge-expense {
+    background: var(--nb-accent-red);
+    border: var(--nb-border);
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.nb-nav {
+    border-bottom: var(--nb-border);
+    background: var(--nb-accent);
+}
+
+.nb-nav-link {
+    font-weight: 700;
+    border-bottom: 3px solid transparent;
+    padding: 4px 0;
+}
+
+.nb-nav-link:hover,
+.nb-nav-link.active {
+    border-bottom: 3px solid #000;
+}
