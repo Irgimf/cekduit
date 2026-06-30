@@ -12,7 +12,7 @@
 <body style="background-color:#FFFBEB; min-height: 100vh;" class="flex flex-col items-center justify-center pt-6 sm:pt-0">
     <div class="mb-6">
         <a href="/" class="text-3xl font-black tracking-tight text-black">
-            💰 CekDuit
+            CekDuit
         </a>
     </div>
 

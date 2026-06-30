@@ -120,6 +120,8 @@ body {
 .nb-nav {
     border-bottom: var(--nb-border);
     background: var(--nb-accent);
+    position: relative;
+    z-index: 10;
 }
 
 .nb-nav-link {

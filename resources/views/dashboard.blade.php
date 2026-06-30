@@ -29,14 +29,14 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div class="lg:col-span-2 nb-card p-6">
-                    <h3 class="font-black mb-4 uppercase text-sm">📈 Tren 6 Bulan Terakhir</h3>
+                    <h3 class="font-black mb-4 uppercase text-sm">Tren 6 Bulan Terakhir</h3>
                     <canvas id="trendChart" height="120"
                             data-labels="{{ json_encode($chartLabels) }}"
                             data-income="{{ json_encode($chartIncome) }}"
                             data-expense="{{ json_encode($chartExpense) }}"></canvas>
                 </div>
                 <div class="nb-card p-6">
-                    <h3 class="font-black mb-4 uppercase text-sm">🍩 Pengeluaran per Kategori</h3>
+                    <h3 class="font-black mb-4 uppercase text-sm">Pengeluaran per Kategori</h3>
                     @if ($expenseCategoryLabels->isEmpty())
                         <p class="text-sm font-bold text-gray-500">Belum ada data pengeluaran bulan ini.</p>
                     @else
@@ -50,8 +50,8 @@
             <div class="nb-card overflow-hidden">
                 <div class="px-6 py-4 flex justify-between items-center"
                      style="border-bottom: 2px solid #000; background: #FBBF24;">
-                    <h3 class="font-black uppercase text-sm">🕐 Transaksi Terbaru</h3>
-                    <a href="{{ route('incomes.index') }}"
+                    <h3 class="font-black uppercase text-sm">Transaksi Terbaru</h3>
+                    <a href="{{ route('reports.index') }}"
                        class="nb-btn nb-btn-dark px-3 py-1 text-xs">Lihat Semua</a>
                 </div>
                 <table class="nb-table w-full text-left">
