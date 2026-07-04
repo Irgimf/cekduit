@@ -1,50 +1,51 @@
 <x-guest-layout>
-    <h2 class="text-xl font-black mb-6">Masuk ke Akun</h2>
+    <h2 style="font-size:20px;font-weight:700;color:var(--dark);margin-bottom:4px;">Selamat Datang</h2>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:24px;">Masuk ke akun CekDuit kamu</p>
 
     @if (session('status'))
-        <div class="nb-card p-3 mb-4 text-sm font-bold" style="background: #4ADE80;">
-            {{ session('status') }}
-        </div>
+        <div class="cd-flash-success mb-4">{{ session('status') }}</div>
     @endif
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" style="display:flex;flex-direction:column;gap:16px;">
         @csrf
 
-        <div class="mb-4">
-            <label class="block text-sm font-black mb-1">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                   class="nb-input w-full px-3 py-2 text-sm">
-            @error('email') <p class="text-red-600 text-sm mt-1 font-bold">{{ $message }}</p> @enderror
+        <div>
+            <label class="cd-label">Email</label>
+            <input type="email" name="email" value="{{ old('email') }}" required autofocus
+                   class="cd-input" placeholder="nama@email.com">
+            @error('email') <p class="cd-error">{{ $message }}</p> @enderror
         </div>
 
-        <div class="mb-4">
-            <label class="block text-sm font-black mb-1">Password</label>
-            <input id="password" type="password" name="password" required
-                   class="nb-input w-full px-3 py-2 text-sm">
-            @error('password') <p class="text-red-600 text-sm mt-1 font-bold">{{ $message }}</p> @enderror
+        <div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
+                <label class="cd-label" style="margin:0;">Password</label>
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}"
+                       style="font-size:12px;color:var(--blue);font-weight:500;">Lupa password?</a>
+                @endif
+            </div>
+            <input type="password" name="password" required class="cd-input" placeholder="••••••••">
+            @error('password') <p class="cd-error">{{ $message }}</p> @enderror
         </div>
 
-        <div class="mb-4 flex items-center gap-2">
+        <div style="display:flex;align-items:center;gap:8px;">
             <input type="checkbox" name="remember" id="remember_me"
-                   class="nb-input w-4 h-4">
-            <label for="remember_me" class="text-sm font-bold">Ingat saya</label>
+                   style="width:15px;height:15px;accent-color:var(--blue);">
+            <label for="remember_me" style="font-size:13px;color:var(--muted);">Ingat saya</label>
         </div>
 
-        <button type="submit" class="nb-btn nb-btn-primary w-full py-2 font-black text-sm mb-4">
-             Masuk
+        <button type="submit" class="cd-btn cd-btn-primary" style="justify-content:center;padding:11px;">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
+            </svg>
+            Masuk
         </button>
-
-        <div class="flex flex-col gap-2 text-sm">
-            @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}" class="font-bold underline">
-                    Lupa password?
-                </a>
-            @endif
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="font-bold underline">
-                    Belum punya akun? Daftar di sini →
-                </a>
-            @endif
-        </div>
     </form>
+
+    @if (Route::has('register'))
+        <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted);">
+            Belum punya akun?
+            <a href="{{ route('register') }}" style="color:var(--blue);font-weight:600;">Daftar sekarang</a>
+        </p>
+    @endif
 </x-guest-layout>

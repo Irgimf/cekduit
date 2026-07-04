@@ -1,97 +1,117 @@
-<nav x-data="{ open: false }" class="nb-nav" style="position: relative; z-index: 10;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex items-center gap-8">
-                <a href="{{ route('dashboard') }}"
-                   class="text-xl font-black tracking-tight text-black">
-                    CekDuit
-                </a>
+<x-app-layout>
+    <x-slot name="header">
+        <h1 class="cd-page-title">Dashboard</h1>
+    </x-slot>
 
-                <div class="hidden sm:flex items-center gap-6">
-                    @foreach ([
-                        ['route' => 'dashboard', 'label' => 'Dashboard'],
-                        ['route' => 'accounts.index', 'label' => 'Rekening'],
-                        ['route' => 'categories.index', 'label' => 'Kategori'],
-                        ['route' => 'transactions.index', 'label' => 'Transaksi'],
-                        ['route' => 'reports.index', 'label' => 'Laporan'],
-                    ] as $nav)
-                        <a href="{{ route($nav['route']) }}"
-                           class="nb-nav-link text-sm {{ request()->routeIs(str_replace('.index', '.*', $nav['route'])) ? 'active' : '' }}">
-                            {{ $nav['label'] }}
-                        </a>
-                    @endforeach
+    <div style="display:flex;flex-direction:column;gap:20px;">
+
+        {{-- Stat Cards --}}
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;">
+            <div class="stat-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                    <span style="font-size:13px;font-weight:600;color:var(--muted);">Total Saldo</span>
+                    <div style="width:34px;height:34px;background:var(--blue-light);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;color:var(--blue);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
                 </div>
+                <p style="font-size:22px;font-weight:800;color:var(--dark);">
+                    Rp {{ number_format($totalBalance, 0, ',', '.') }}
+                </p>
             </div>
 
-            <div class="hidden sm:flex items-center">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="nb-btn nb-btn-dark px-3 py-1.5 text-sm flex items-center gap-2">
-                            <img src="{{ Auth::user()->avatar_url }}" alt="Avatar"
-                                 class="w-6 h-6 object-cover" style="border: 1px solid #fff;">
-                            {{ Auth::user()->name }}
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                    </x-slot>
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')" class="font-bold">
-                            Profile
-                        </x-dropdown-link>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault(); this.closest('form').submit();"
-                                    class="font-bold">
-                                Log Out
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
+            <div class="stat-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                    <span style="font-size:13px;font-weight:600;color:var(--muted);">Pemasukan Bulan Ini</span>
+                    <div style="width:34px;height:34px;background:var(--green-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;color:var(--green);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                        </svg>
+                    </div>
+                </div>
+                <p style="font-size:22px;font-weight:800;color:var(--green);">
+                    Rp {{ number_format($monthlyIncome, 0, ',', '.') }}
+                </p>
             </div>
 
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="nb-btn nb-btn-dark p-2">
-                    <svg class="h-5 w-5" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
-                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden"
-                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12" />
+            <div class="stat-card">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                    <span style="font-size:13px;font-weight:600;color:var(--muted);">Pengeluaran Bulan Ini</span>
+                    <div style="width:34px;height:34px;background:var(--red-bg);border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;color:var(--red);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"/>
+                        </svg>
+                    </div>
+                </div>
+                <p style="font-size:22px;font-weight:800;color:var(--red);">
+                    Rp {{ number_format($monthlyExpense, 0, ',', '.') }}
+                </p>
+            </div>
+        </div>
+
+        {{-- Charts --}}
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;" class="max-lg:grid-cols-1">
+            <div class="cd-card" style="padding:24px;">
+                <h3 style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px;">Tren 6 Bulan Terakhir</h3>
+                <canvas id="trendChart" height="120"
+                        data-labels="{{ json_encode($chartLabels) }}"
+                        data-income="{{ json_encode($chartIncome) }}"
+                        data-expense="{{ json_encode($chartExpense) }}"></canvas>
+            </div>
+
+            <div class="cd-card" style="padding:24px;">
+                <h3 style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px;">Pengeluaran per Kategori</h3>
+                @if ($expenseCategoryLabels->isEmpty())
+                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:160px;color:var(--muted);">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;margin-bottom:8px;opacity:0.3;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                        </svg>
+                        <p style="font-size:13px;">Belum ada data</p>
+                    </div>
+                @else
+                    <canvas id="categoryChart" height="200"
+                            data-labels="{{ json_encode($expenseCategoryLabels) }}"
+                            data-data="{{ json_encode($expenseCategoryData) }}"></canvas>
+                @endif
+            </div>
+        </div>
+
+        {{-- Recent Transactions --}}
+        <div class="cd-card" style="overflow:hidden;">
+            <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+                <h3 style="font-size:15px;font-weight:700;color:var(--dark);">Transaksi Terbaru</h3>
+                <a href="{{ route('transactions.index') }}" class="cd-btn cd-btn-ghost cd-btn-sm">
+                    Lihat semua
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
                     </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden"
-         style="border-top: 2px solid #000; background: #fff;">
-        <div class="py-2 space-y-1 px-4">
-            @foreach ([
-                ['route' => 'dashboard', 'label' => 'Dashboard'],
-                ['route' => 'accounts.index', 'label' => 'Rekening'],
-                ['route' => 'categories.index', 'label' => 'Kategori'],
-                ['route' => 'transactions.index', 'label' => 'Transaksi'],
-                ['route' => 'reports.index', 'label' => 'Laporan'],
-            ] as $nav)
-                <a href="{{ route($nav['route']) }}"
-                   class="block py-2 font-bold text-sm border-b border-gray-100">
-                    {{ $nav['label'] }}
                 </a>
-            @endforeach
-        </div>
-        <div class="py-3 px-4 border-t-2 border-black">
-            <div class="font-black">{{ Auth::user()->name }}</div>
-            <div class="text-sm text-gray-600">{{ Auth::user()->email }}</div>
-            <div class="mt-2 flex gap-2">
-                <a href="{{ route('profile.edit') }}" class="nb-btn nb-btn-primary px-3 py-1 text-sm">Profile</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="nb-btn nb-btn-dark px-3 py-1 text-sm">Log Out</button>
-                </form>
             </div>
+            <table class="cd-table">
+                <tbody>
+                    @forelse ($recentTransactions as $transaction)
+                        <tr>
+                            <td style="color:var(--muted);font-size:13px;white-space:nowrap;">
+                                {{ $transaction->transaction_date->format('d M Y') }}
+                            </td>
+                            <td>
+                                <div style="font-weight:600;font-size:14px;">{{ $transaction->category->name }}</div>
+                                <div style="font-size:12px;color:var(--muted);">{{ $transaction->account->name }}</div>
+                            </td>
+                            <td style="text-align:right;font-weight:700;font-size:14px;white-space:nowrap;color:{{ $transaction->type === 'income' ? 'var(--green)' : 'var(--red)' }}">
+                                {{ $transaction->type === 'income' ? '+' : '-' }}Rp {{ number_format($transaction->amount, 0, ',', '.') }}
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">
+                                Belum ada transaksi
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
-</nav>
+</x-app-layout>
