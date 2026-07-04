@@ -81,7 +81,7 @@
         <div class="cd-card" style="overflow:hidden;">
             <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
                 <h3 style="font-size:15px;font-weight:700;color:var(--dark);">Transaksi Terbaru</h3>
-                <a href="{{ route('transactions.index') }}" class="cd-btn cd-btn-ghost cd-btn-sm">
+                <a href="{{ route('reports.index') }}" class="cd-btn cd-btn-ghost cd-btn-sm">
                     Lihat semua
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>

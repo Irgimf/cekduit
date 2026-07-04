@@ -16,12 +16,11 @@ class TransactionController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = auth()->user()->transactions()
-            ->with(['account', 'category']);
+        $activeTab = $request->get('type', 'income');
 
-        if ($request->filled('type')) {
-            $query->where('type', $request->type);
-        }
+        $query = auth()->user()->transactions()
+            ->where('type', $activeTab)  // selalu filter
+            ->with(['account', 'category']);
 
         if ($request->filled('search')) {
             $query->where('description', 'like', '%' . $request->search . '%');
@@ -48,8 +47,6 @@ class TransactionController extends Controller
         $accounts = auth()->user()->accounts;
         $incomeCategories = auth()->user()->categories()->where('type', 'income')->get();
         $expenseCategories = auth()->user()->categories()->where('type', 'expense')->get();
-
-        $activeTab = $request->get('type', 'income');
 
         return view('transactions.index', compact(
             'transactions', 'accounts', 'incomeCategories', 'expenseCategories', 'activeTab'
