@@ -13,7 +13,6 @@ class AccountController extends Controller
     public function index(): View
     {
         $accounts = auth()->user()->accounts()->latest()->get();
-
         return view('accounts.index', compact('accounts'));
     }
 
@@ -24,7 +23,10 @@ class AccountController extends Controller
 
     public function store(StoreAccountRequest $request): RedirectResponse
     {
-        auth()->user()->accounts()->create($request->validated());
+        auth()->user()->accounts()->create(array_merge(
+            $request->validated(),
+            ['balance' => 0] // saldo awal selalu 0
+        ));
 
         return redirect()->route('accounts.index')
             ->with('success', 'Rekening berhasil ditambahkan.');
@@ -33,15 +35,14 @@ class AccountController extends Controller
     public function edit(Account $account): View
     {
         $this->authorize('update', $account);
-
         return view('accounts.edit', compact('account'));
     }
 
     public function update(UpdateAccountRequest $request, Account $account): RedirectResponse
     {
         $this->authorize('update', $account);
-
         $account->update($request->validated());
+        // Sengaja tidak update balance di sini
 
         return redirect()->route('accounts.index')
             ->with('success', 'Rekening berhasil diperbarui.');
@@ -50,7 +51,6 @@ class AccountController extends Controller
     public function destroy(Account $account): RedirectResponse
     {
         $this->authorize('delete', $account);
-
         $account->delete();
 
         return redirect()->route('accounts.index')

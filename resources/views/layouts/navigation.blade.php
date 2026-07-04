@@ -1,9 +1,8 @@
-<nav x-data="{ open: false }" class="nb-nav">
+<nav x-data="{ open: false }" class="nb-nav" style="position: relative; z-index: 10;">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center gap-8">
-                <a href="{{ route('dashboard') }}"
-                   class="text-xl font-black tracking-tight text-black">
+                <a href="{{ route('dashboard') }}" class="text-xl font-black tracking-tight text-black">
                     CekDuit
                 </a>
 
@@ -12,8 +11,7 @@
                         ['route' => 'dashboard', 'label' => 'Dashboard'],
                         ['route' => 'accounts.index', 'label' => 'Rekening'],
                         ['route' => 'categories.index', 'label' => 'Kategori'],
-                        ['route' => 'incomes.index', 'label' => 'Pemasukan'],
-                        ['route' => 'expenses.index', 'label' => 'Pengeluaran'],
+                        ['route' => 'transactions.index', 'label' => 'Transaksi'],
                         ['route' => 'reports.index', 'label' => 'Laporan'],
                     ] as $nav)
                         <a href="{{ route($nav['route']) }}"
@@ -52,10 +50,8 @@
                 </x-dropdown>
             </div>
 
-            {{-- Mobile hamburger --}}
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open"
-                        class="nb-btn nb-btn-dark p-2">
+                <button @click="open = ! open" class="nb-btn nb-btn-dark p-2">
                     <svg class="h-5 w-5" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex"
                               stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -69,17 +65,15 @@
         </div>
     </div>
 
-    {{-- Mobile menu --}}
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden"
          style="border-top: 2px solid #000; background: #fff;">
         <div class="py-2 space-y-1 px-4">
             @foreach ([
-                ['route' => 'dashboard', 'label' => '🏠 Dashboard'],
-                ['route' => 'accounts.index', 'label' => '💳 Rekening'],
-                ['route' => 'categories.index', 'label' => '🏷️ Kategori'],
-                ['route' => 'incomes.index', 'label' => '📈 Pemasukan'],
-                ['route' => 'expenses.index', 'label' => '📉 Pengeluaran'],
-                ['route' => 'reports.index', 'label' => '📊 Laporan'],
+                ['route' => 'dashboard', 'label' => 'Dashboard'],
+                ['route' => 'accounts.index', 'label' => 'Rekening'],
+                ['route' => 'categories.index', 'label' => 'Kategori'],
+                ['route' => 'transactions.index', 'label' => 'Transaksi'],
+                ['route' => 'reports.index', 'label' => 'Laporan'],
             ] as $nav)
                 <a href="{{ route($nav['route']) }}"
                    class="block py-2 font-bold text-sm border-b border-gray-100">

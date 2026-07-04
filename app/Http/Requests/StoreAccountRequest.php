@@ -8,15 +8,16 @@ class StoreAccountRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; // otorisasi dicek lewat AccountPolicy di controller
+        return true;
     }
 
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:100'],
-            'type' => ['required', 'in:cash,bank,e_wallet'],
-            'balance' => ['required', 'numeric', 'min:0'],
+            'name'           => ['required', 'string', 'max:100'],
+            'type'           => ['required', 'in:cash,bank,e_wallet'],
+            'account_number' => ['nullable', 'string', 'max:50'],
+            'admin_fee'      => ['nullable', 'numeric', 'min:0'],
         ];
     }
 }

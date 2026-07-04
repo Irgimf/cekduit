@@ -40,7 +40,7 @@
 
             <div class="flex justify-end">
                 <a href="{{ route('expenses.create') }}"
-                   class="nb-btn nb-btn-green px-4 py-2 text-sm">+ Tambah Pengeluaran</a>
+                   class="nb-btn nb-btn-red px-4 py-2 text-sm">- Tambah Pengeluaran</a>
             </div>
 
             <div class="nb-card overflow-x-auto">
