@@ -167,6 +167,16 @@
                     </tbody>
                 </table>
             </div>
+
+            {{-- Bagian Pagination yang Benar (Di luar tabel, di dalam kartu) --}}
+            @if ($transactions->total() > 0)
+                <div style="padding:12px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                    <p style="font-size:13px;color:var(--muted);">
+                        Menampilkan {{ $transactions->firstItem() }}–{{ $transactions->lastItem() }} dari {{ $transactions->total() }} transaksi
+                    </p>
+                    {{ $transactions->appends(request()->query())->links() }}
+                </div>
+            @endif
         </div>
 
     </div>

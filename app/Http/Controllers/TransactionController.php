@@ -17,39 +17,67 @@ class TransactionController extends Controller
     public function index(Request $request): View
     {
         $activeTab = $request->get('type', 'income');
+        $now = now();
 
+        // Period filter
+        $period = $request->get('period', 'this_month');
         $query = auth()->user()->transactions()
-            ->where('type', $activeTab)  // selalu filter
+            ->where('type', $activeTab)
             ->with(['account', 'category']);
 
-        if ($request->filled('search')) {
-            $query->where('description', 'like', '%' . $request->search . '%');
-        }
-
-        if ($request->filled('account_id')) {
-            $query->where('account_id', $request->account_id);
-        }
+        match($period) {
+            'last_month' => $query->whereYear('transaction_date', $now->copy()->subMonth()->year)
+                                ->whereMonth('transaction_date', $now->copy()->subMonth()->month),
+            'this_year'  => $query->whereYear('transaction_date', $now->year),
+            'all'        => $query,
+            default      => $query->whereYear('transaction_date', $now->year)
+                                ->whereMonth('transaction_date', $now->month),
+        };
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
         }
 
-        if ($request->filled('from_date')) {
-            $query->whereDate('transaction_date', '>=', $request->from_date);
-        }
+        // Sort
+        $sort = $request->get('sort', 'latest');
+        match($sort) {
+            'oldest'  => $query->oldest('transaction_date'),
+            'highest' => $query->orderByDesc('amount'),
+            'lowest'  => $query->orderBy('amount'),
+            default   => $query->latest('transaction_date'),
+        };
 
-        if ($request->filled('to_date')) {
-            $query->whereDate('transaction_date', '<=', $request->to_date);
-        }
+        $transactions = $query->paginate(5)->withQueryString();
 
-        $transactions = $query->latest('transaction_date')->paginate(15)->withQueryString();
+        // Summary stats (bulan ini selalu)
+        $summaryQuery = auth()->user()->transactions()
+            ->where('type', $activeTab)
+            ->whereYear('transaction_date', $now->year)
+            ->whereMonth('transaction_date', $now->month);
 
-        $accounts = auth()->user()->accounts;
-        $incomeCategories = auth()->user()->categories()->where('type', 'income')->get();
+        $totalThisMonth = (clone $summaryQuery)->sum('amount');
+
+        $highestTx = (clone $summaryQuery)->with('category')->orderByDesc('amount')->first();
+
+        $daysInLast30 = 30;
+        $dailyAvg = auth()->user()->transactions()
+            ->where('type', $activeTab)
+            ->where('transaction_date', '>=', $now->copy()->subDays(30))
+            ->sum('amount') / $daysInLast30;
+
+        $summary = [
+            'total'             => $totalThisMonth,
+            'highest'           => $highestTx?->amount ?? 0,
+            'highest_category'  => $highestTx?->category?->name,
+            'daily_avg'         => $dailyAvg,
+        ];
+
+        $accounts          = auth()->user()->accounts;
+        $incomeCategories  = auth()->user()->categories()->where('type', 'income')->get();
         $expenseCategories = auth()->user()->categories()->where('type', 'expense')->get();
 
         return view('transactions.index', compact(
-            'transactions', 'accounts', 'incomeCategories', 'expenseCategories', 'activeTab'
+            'transactions', 'accounts', 'incomeCategories', 'expenseCategories', 'activeTab', 'summary'
         ));
     }
 

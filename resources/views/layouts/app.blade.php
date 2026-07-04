@@ -101,39 +101,36 @@
     {{-- ===== MAIN CONTENT ===== --}}
     <div class="main-content" id="main-content">
 
-        {{-- Topbar --}}
-        <div class="topbar">
-            <div class="topbar-left">
-                {{-- Toggle button --}}
-                <button class="topbar-toggle" id="sidebar-toggle" onclick="toggleSidebar()">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                    </svg>
-                </button>
-
-                {{-- Tanggal --}}
+    {{-- Topbar --}}
+    <div class="topbar" style="padding: 10px 32px 10px 24px;">
+        <div class="topbar-left">
+            <button class="topbar-toggle" id="sidebar-toggle" onclick="toggleSidebar()">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+            <div>
                 <div class="topbar-date" id="topbar-date"></div>
-            </div>
-
-            {{-- User info --}}
-            <div style="display:flex;align-items:center;gap:10px;">
-                <a href="{{ route('profile.edit') }}"
-                   style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:6px 12px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);transition:all 0.15s;"
-                   onmouseover="this.style.borderColor='var(--blue)'"
-                   onmouseout="this.style.borderColor='var(--border)'">
-                    <img src="{{ Auth::user()->avatar_url }}" alt="Avatar"
-                         style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--blue-light);">
-                    <span style="font-size:14px;font-weight:600;color:var(--dark);">{{ Auth::user()->name }}</span>
-                </a>
+                @if (isset($header))
+                    <div style="font-size:18px;font-weight:700;color:var(--dark);line-height:1.2;margin-top:1px;">
+                        {{ $header }}
+                    </div>
+                @endif
             </div>
         </div>
 
-        {{-- Page Header --}}
-        @if (isset($header))
-            <div style="background:var(--white);border-bottom:1px solid var(--border);padding:14px 24px;">
-                {{ $header }}
-            </div>
-        @endif
+        {{-- User info — beri margin kanan supaya tidak mentok --}}
+        <div style="display:flex;align-items:center;gap:10px;margin-right:8px;">
+            <a href="{{ route('profile.edit') }}"
+            style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);transition:all 0.15s;"
+            onmouseover="this.style.borderColor='var(--blue)'"
+            onmouseout="this.style.borderColor='var(--border)'">
+                <img src="{{ Auth::user()->avatar_url }}" alt="Avatar"
+                    style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--blue-light);">
+                <span style="font-size:14px;font-weight:600;color:var(--dark);">{{ Auth::user()->name }}</span>
+            </a>
+        </div>
+    </div>
 
         {{-- Flash message --}}
         <div class="page-content">
