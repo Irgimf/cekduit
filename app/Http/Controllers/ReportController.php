@@ -40,27 +40,27 @@ class ReportController extends Controller
     {
         [$periodType, $start, $end, $label] = $this->resolveRange($request);
 
-        // Mengambil SEMUA transaksi untuk periode terpilih (penting untuk total saldo & ekspor)
         $transactions = auth()->user()->transactions()
             ->with(['account', 'category'])
+            ->where('is_transfer', false)   // ← tambahkan ini
             ->whereBetween('transaction_date', [$start, $end])
             ->orderBy('transaction_date')
             ->get();
 
-        $totalIncome = $transactions->where('type', 'income')->sum('amount');
+        $totalIncome  = $transactions->where('type', 'income')->sum('amount');
         $totalExpense = $transactions->where('type', 'expense')->sum('amount');
 
         return [
             'transactions' => $transactions,
             'summary' => [
-                'total_income' => $totalIncome,
+                'total_income'  => $totalIncome,
                 'total_expense' => $totalExpense,
-                'net' => $totalIncome - $totalExpense,
+                'net'           => $totalIncome - $totalExpense,
             ],
-            'periodType' => $periodType,
+            'periodType'  => $periodType,
             'periodLabel' => $label,
-            'start' => $start,
-            'end' => $end,
+            'start'       => $start,
+            'end'         => $end,
         ];
     }
 

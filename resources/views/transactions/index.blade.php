@@ -25,21 +25,31 @@
                     Pantau dan kelola semua {{ $activeTab === 'income' ? 'sumber pendapatan' : 'pengeluaran' }} Anda
                 </p>
             </div>
-            @if ($activeTab === 'income')
-                <button id="btn-open-income" class="cd-btn cd-btn-green">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                {{-- Tombol Transfer selalu tampil --}}
+                <button id="btn-open-transfer" class="cd-btn cd-btn-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                     </svg>
-                    Tambah Pemasukan
+                    Transfer
                 </button>
-            @else
-                <button id="btn-open-expense" class="cd-btn cd-btn-red">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                    </svg>
-                    Tambah Pengeluaran
-                </button>
-            @endif
+
+                @if ($activeTab === 'income')
+                    <button id="btn-open-income" class="cd-btn cd-btn-green">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Tambah Pemasukan
+                    </button>
+                @else
+                    <button id="btn-open-expense" class="cd-btn cd-btn-red">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Tambah Pengeluaran
+                    </button>
+                @endif
+            </div>
         </div>
 
         {{-- Filter bar --}}
@@ -367,11 +377,106 @@
         </div>
     </div>
 
+        {{-- Modal Transfer --}}
+    <div id="modal-transfer"
+        style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.6);backdrop-filter:blur(4px);z-index:9999;align-items:center;justify-content:center;padding:16px;">
+        <div class="cd-modal">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <div>
+                    <h3 style="font-size:17px;font-weight:700;color:var(--dark);margin:0;">Transfer Antar Rekening</h3>
+                    <p style="font-size:13px;color:var(--muted);margin-top:2px;">Pindahkan saldo dari satu rekening ke rekening lain</p>
+                </div>
+                <button onclick="closeModal('modal-transfer')" style="background:none;border:none;cursor:pointer;color:var(--muted);padding:4px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <form action="{{ route('transactions.transfer') }}" method="POST"
+                style="display:flex;flex-direction:column;gap:14px;">
+                @csrf
+
+                {{-- Dari & Ke Rekening --}}
+                <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end;">
+                    <div>
+                        <label class="cd-label">Dari Rekening</label>
+                        <select name="from_account_id" id="from_account" class="cd-input" onchange="updateToOptions()">
+                            <option value="">-- Pilih --</option>
+                            @foreach ($accounts as $account)
+                                <option value="{{ $account->id }}" data-balance="{{ $account->balance }}">
+                                    {{ $account->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div style="padding-bottom:2px;display:flex;align-items:center;justify-content:center;">
+                        <div style="width:32px;height:32px;background:var(--blue-light);border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;color:var(--blue);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="cd-label">Ke Rekening</label>
+                        <select name="to_account_id" id="to_account" class="cd-input">
+                            <option value="">-- Pilih --</option>
+                            @foreach ($accounts as $account)
+                                <option value="{{ $account->id }}">
+                                    {{ $account->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                {{-- Info saldo rekening asal --}}
+                <div id="balance-info" style="display:none;background:var(--blue-light);border-radius:8px;padding:10px 14px;">
+                    <p style="font-size:12px;color:var(--blue);font-weight:600;">Saldo tersedia</p>
+                    <p id="balance-text" style="font-size:16px;font-weight:700;color:var(--dark);"></p>
+                </div>
+
+                <div>
+                    <label class="cd-label">Jumlah Transfer</label>
+                    <div style="position:relative;">
+                        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--muted);font-weight:500;">Rp</span>
+                        <input type="number" step="0.01" min="0.01" name="amount"
+                            class="cd-input" style="padding-left:36px;" placeholder="0">
+                    </div>
+                    @error('amount') <p class="cd-error">{{ $message }}</p> @enderror
+                </div>
+
+                <div>
+                    <label class="cd-label">Tanggal</label>
+                    <input type="date" name="transaction_date"
+                        value="{{ date('Y-m-d') }}" class="cd-input">
+                </div>
+
+                <div>
+                    <label class="cd-label">Catatan <span style="color:var(--muted);font-weight:400;">(opsional)</span></label>
+                    <input type="text" name="description" class="cd-input" placeholder="Contoh: Bayar utang, Top up">
+                </div>
+
+                <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:4px;border-top:1px solid var(--border);">
+                    <button type="button" onclick="closeModal('modal-transfer')" class="cd-btn cd-btn-white">Batal</button>
+                    <button type="submit" class="cd-btn cd-btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                        </svg>
+                        Proses Transfer
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        ['modal-income','modal-expense'].forEach(id => {
+        ['modal-income','modal-expense','modal-transfer'].forEach(id => {
             const el = document.getElementById(id);
             if (el) el.addEventListener('click', e => { if (e.target === el) closeModal(id); });
         });
@@ -379,8 +484,11 @@
         document.addEventListener('DOMContentLoaded', () => {
             const btnI = document.getElementById('btn-open-income');
             const btnE = document.getElementById('btn-open-expense');
+            const btnT = document.getElementById('btn-open-transfer');
+
             if (btnI) btnI.addEventListener('click', () => openModal('modal-income'));
             if (btnE) btnE.addEventListener('click', () => openModal('modal-expense'));
+            if (btnT) btnT.addEventListener('click', () => openModal('modal-transfer'));
 
             @if ($errors->any())
                 @if (old('_modal') === 'income')
@@ -390,5 +498,30 @@
                 @endif
             @endif
         });
+
+        // Update info saldo saat pilih rekening asal
+        function updateToOptions() {
+            const fromSelect  = document.getElementById('from_account');
+            const toSelect    = document.getElementById('to_account');
+            const balanceInfo = document.getElementById('balance-info');
+            const balanceText = document.getElementById('balance-text');
+            const fromId      = fromSelect.value;
+
+            // Sembunyikan option yang sama di rekening tujuan
+            Array.from(toSelect.options).forEach(opt => {
+                opt.disabled = opt.value === fromId;
+                if (opt.disabled && toSelect.value === fromId) toSelect.value = '';
+            });
+
+            // Tampilkan saldo
+            const selected = fromSelect.options[fromSelect.selectedIndex];
+            if (fromId && selected.dataset.balance !== undefined) {
+                const balance = parseFloat(selected.dataset.balance);
+                balanceText.textContent = 'Rp ' + balance.toLocaleString('id-ID');
+                balanceInfo.style.display = 'block';
+            } else {
+                balanceInfo.style.display = 'none';
+            }
+        }
     </script>
 </x-app-layout>

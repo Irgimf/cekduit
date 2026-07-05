@@ -10,8 +10,10 @@ class Transaction extends Model
     protected $fillable = [
         'user_id',
         'account_id',
+        'to_account_id',
         'category_id',
         'type',
+        'is_transfer',
         'amount',
         'description',
         'transaction_date',
@@ -20,7 +22,13 @@ class Transaction extends Model
     protected $casts = [
         'amount' => 'decimal:2',
         'transaction_date' => 'date',
+        'is_transfer' => 'boolean',
     ];
+
+    public function toAccount(): BelongsTo
+    {
+        return $this->belongsTo(Account::class, 'to_account_id');
+    }
 
     public function user(): BelongsTo
     {
