@@ -8,6 +8,15 @@
       "app.css"
     ]
   },
+  "resources/css/mobile.css": {
+    "file": "assets/mobile-u-NYDfG2.css",
+    "src": "resources/css/mobile.css",
+    "isEntry": true,
+    "name": "mobile",
+    "names": [
+      "mobile.css"
+    ]
+  },
   "resources/js/app.js": {
     "file": "assets/app-BfpX1doZ.js",
     "name": "app",

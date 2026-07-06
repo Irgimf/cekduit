@@ -72,6 +72,24 @@ class DashboardController extends Controller
             ->groupBy('category.name')
             ->map(fn ($items) => $items->sum('amount'));
 
+        // Data tambahan untuk kebutuhan view mobile
+        $accounts          = $user->accounts()->get();
+        $incomeCategories  = $user->categories()->where('type', 'income')->get();
+        $expenseCategories = $user->categories()->where('type', 'expense')->get();
+
+        if (config('is_mobile')) {
+            return view('mobile.dashboard', [
+                'totalBalance'      => $totalBalance,
+                'monthlyIncome'     => $monthlyIncome,
+                'monthlyExpense'    => $monthlyExpense,
+                'recentTransactions'=> $recentTransactions,
+                'accounts'          => $accounts,
+                'incomeCategories'  => $incomeCategories,
+                'expenseCategories' => $expenseCategories,
+            ]);
+        }
+
+        // Desktop view tetap seperti biasa
         return view('dashboard', [
             'totalBalance'          => $totalBalance,
             'monthlyIncome'         => $monthlyIncome,
