@@ -117,14 +117,18 @@
                          style="color:{{ $tx->type === 'income' ? '#16a34a' : '#dc2626' }};text-align:right;">
                         {{ $tx->type === 'income' ? '+' : '-' }}Rp {{ number_format($tx->amount, 0, ',', '.') }}
                     </div>
-                    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:4px;">
+                    
+                    {{-- Aksi Transaksi Compact --}}
+                    <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:6px;">
                         <a href="{{ route('transactions.edit', $tx) }}"
-                           style="font-size:11px;color:#014BAA;font-weight:600;text-decoration:none;">Edit</a>
+                           style="font-size:11px;color:#014BAA;font-weight:700;text-decoration:none;padding:4px 10px;background:#E8F0FB;border-radius:6px;">
+                            Edit
+                        </a>
                         <form action="{{ route('transactions.destroy', $tx) }}" method="POST"
-                              onsubmit="return confirm('Hapus transaksi ini?')" style="display:inline;">
+                              onsubmit="return confirm('Hapus?')" style="display:inline;">
                             @csrf @method('DELETE')
                             <button type="submit"
-                                    style="font-size:11px;color:#EF4444;font-weight:600;background:none;border:none;cursor:pointer;padding:0;">
+                                    style="font-size:11px;color:#EF4444;font-weight:700;background:#FEE2E2;border:none;cursor:pointer;padding:4px 10px;border-radius:6px;">
                                 Hapus
                             </button>
                         </form>
@@ -253,10 +257,19 @@
 
     @push('scripts')
     <script>
-        function openSheet(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeSheet(id) { document.getElementById(id).style.display = 'none'; }
+        function openSheet(id) {
+            const el = document.getElementById(id);
+            el.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSheet(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = '';
+        }
         document.querySelectorAll('.mobile-modal-overlay').forEach(el => {
-            el.addEventListener('click', e => { if (e.target === el) closeSheet(el.id); });
+            el.addEventListener('click', e => {
+                if (e.target === el) closeSheet(el.id);
+            });
         });
     </script>
     @endpush
