@@ -53,7 +53,7 @@ class TransactionController extends Controller
         // Summary stats (bulan ini selalu)
         $summaryQuery = auth()->user()->transactions()
             ->where('type', $activeTab)
-            ->where('is_transfer', false)   // ← tambahkan ini
+            ->where('is_transfer', false)
             ->whereYear('transaction_date', $now->year)
             ->whereMonth('transaction_date', $now->month);
 
@@ -119,7 +119,16 @@ class TransactionController extends Controller
         $categories = auth()->user()->categories()
             ->where('type', $transaction->type)->get();
 
-        return view('transactions.edit', compact('transaction', 'accounts', 'categories'));
+        if (config('is_mobile')) {
+            return view('mobile.transactions', compact(
+                'transactions', 'accounts', 'incomeCategories',
+                'expenseCategories', 'activeTab', 'summary'
+            ));
+        }
+        return view('transactions.index', compact(
+            'transactions', 'accounts', 'incomeCategories',
+            'expenseCategories', 'activeTab', 'summary'
+        ));
     }
 
     public function update(Request $request, Transaction $transaction): RedirectResponse

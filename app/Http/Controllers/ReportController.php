@@ -82,7 +82,13 @@ class ReportController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
 
-        // 3. Timpa data 'transactions' dengan yang sudah dipaginate, lalu kirim ke view
+        // 3. Cek kondisi jika diakses via mobile, jika tidak maka return view default desktop
+        if (config('is_mobile')) {
+            return view('mobile.reports', array_merge($data, [
+                'transactions' => $paginatedTransactions,
+            ]));
+        }
+
         return view('reports.index', array_merge($data, [
             'transactions' => $paginatedTransactions,
         ]));

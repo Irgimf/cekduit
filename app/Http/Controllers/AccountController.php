@@ -13,6 +13,12 @@ class AccountController extends Controller
     public function index(): View
     {
         $accounts = auth()->user()->accounts()->latest()->get();
+        
+        // Cek kondisi jika diakses via mobile
+        if (config('is_mobile')) {
+            return view('mobile.accounts', compact('accounts'));
+        }
+        
         return view('accounts.index', compact('accounts'));
     }
 
