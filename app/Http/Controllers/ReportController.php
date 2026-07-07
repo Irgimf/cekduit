@@ -96,11 +96,22 @@ class ReportController extends Controller
 
     public function exportPdf(Request $request)
     {
-        // Tetap aman mengekspor semua data
         $data = $this->getReportData($request);
-        $pdf = Pdf::loadView('reports.pdf', $data);
+        $pdf  = Pdf::loadView('reports.pdf', $data);
 
-        return $pdf->download('laporan-' . str($data['periodLabel'])->slug() . '.pdf');
+        // Deteksi iOS — tampilkan inline (bisa disimpan via Share di Safari)
+        $userAgent = $request->userAgent() ?? '';
+        $isIos     = stripos($userAgent, 'iPhone') !== false || stripos($userAgent, 'iPad') !== false;
+
+        $filename = 'laporan-' . str($data['periodLabel'])->slug() . '.pdf';
+
+        if ($isIos) {
+            // iOS: stream inline supaya bisa disimpan via Safari Share
+            return $pdf->stream($filename);
+        }
+
+        // Android & Desktop: langsung download
+        return $pdf->download($filename);
     }
 
     public function exportExcel(Request $request)

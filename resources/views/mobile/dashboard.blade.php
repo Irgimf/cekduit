@@ -102,7 +102,7 @@
     <div class="mobile-section">
         <div class="mobile-section-header">
             <span class="mobile-section-title">Transaksi Terbaru</span>
-            <a href="{{ route('transactions.index') }}" class="mobile-section-link">Lihat Semua</a>
+            <a href="{{ route('transactions.index', ['type' => 'income']) }}" class="mobile-section-link">Lihat Semua</a>
         </div>
 
         @forelse ($recentTransactions as $tx)

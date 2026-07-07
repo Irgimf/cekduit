@@ -19,11 +19,10 @@ class TransactionController extends Controller
         $activeTab = $request->get('type', 'income');
         $now = now();
 
-        // Period filter
         $period = $request->get('period', 'this_month');
-        $query = auth()->user()->transactions()
+        $query  = auth()->user()->transactions()
             ->where('type', $activeTab)
-            ->where('is_transfer', false)   // ← tambahkan ini
+            ->where('is_transfer', false)
             ->with(['account', 'category']);
 
         match($period) {
@@ -39,7 +38,6 @@ class TransactionController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
-        // Sort
         $sort = $request->get('sort', 'latest');
         match($sort) {
             'oldest'  => $query->oldest('transaction_date'),
@@ -50,7 +48,7 @@ class TransactionController extends Controller
 
         $transactions = $query->paginate(5)->withQueryString();
 
-        // Summary stats (bulan ini selalu)
+        // Summary stats
         $summaryQuery = auth()->user()->transactions()
             ->where('type', $activeTab)
             ->where('is_transfer', false)
@@ -58,28 +56,35 @@ class TransactionController extends Controller
             ->whereMonth('transaction_date', $now->month);
 
         $totalThisMonth = (clone $summaryQuery)->sum('amount');
-
-        $highestTx = (clone $summaryQuery)->with('category')->orderByDesc('amount')->first();
-
-        $daysInLast30 = 30;
-        $dailyAvg = auth()->user()->transactions()
+        $highestTx      = (clone $summaryQuery)->with('category')->orderByDesc('amount')->first();
+        $dailyAvg       = auth()->user()->transactions()
             ->where('type', $activeTab)
+            ->where('is_transfer', false)
             ->where('transaction_date', '>=', $now->copy()->subDays(30))
-            ->sum('amount') / $daysInLast30;
+            ->sum('amount') / 30;
 
         $summary = [
-            'total'             => $totalThisMonth,
-            'highest'           => $highestTx?->amount ?? 0,
-            'highest_category'  => $highestTx?->category?->name,
-            'daily_avg'         => $dailyAvg,
+            'total'            => $totalThisMonth,
+            'highest'          => $highestTx?->amount ?? 0,
+            'highest_category' => $highestTx?->category?->name,
+            'daily_avg'        => $dailyAvg,
         ];
 
         $accounts          = auth()->user()->accounts;
         $incomeCategories  = auth()->user()->categories()->where('type', 'income')->get();
         $expenseCategories = auth()->user()->categories()->where('type', 'expense')->get();
 
+        // ← INI YANG PENTING: pastikan baris ini ada
+        if (config('is_mobile')) {
+            return view('mobile.transactions', compact(
+                'transactions', 'accounts', 'incomeCategories',
+                'expenseCategories', 'activeTab', 'summary'
+            ));
+        }
+
         return view('transactions.index', compact(
-            'transactions', 'accounts', 'incomeCategories', 'expenseCategories', 'activeTab', 'summary'
+            'transactions', 'accounts', 'incomeCategories',
+            'expenseCategories', 'activeTab', 'summary'
         ));
     }
 
