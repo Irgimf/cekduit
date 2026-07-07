@@ -14,11 +14,18 @@ class CategoryController extends Controller
     {
         $categories = auth()->user()->categories()->latest()->get();
 
+        if (config('is_mobile')) {
+            return view('mobile.categories', compact('categories'));
+        }
+
         return view('categories.index', compact('categories'));
     }
 
     public function create(): View
     {
+        if (config('is_mobile')) {
+            return view('mobile.category-form');
+        }
         return view('categories.create');
     }
 
@@ -33,6 +40,10 @@ class CategoryController extends Controller
     public function edit(Category $category): View
     {
         $this->authorize('update', $category);
+
+        if (config('is_mobile')) {
+            return view('mobile.category-form', compact('category'));
+        }
 
         return view('categories.edit', compact('category'));
     }

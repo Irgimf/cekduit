@@ -24,6 +24,9 @@ class AccountController extends Controller
 
     public function create(): View
     {
+        if (config('is_mobile')) {
+            return view('mobile.account-form');
+        }
         return view('accounts.create');
     }
 
@@ -41,6 +44,11 @@ class AccountController extends Controller
     public function edit(Account $account): View
     {
         $this->authorize('update', $account);
+
+        if (config('is_mobile')) {
+            return view('mobile.account-form', compact('account'));
+        }
+
         return view('accounts.edit', compact('account'));
     }
 
