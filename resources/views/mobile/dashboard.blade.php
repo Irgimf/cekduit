@@ -1,6 +1,6 @@
 <x-mobile-layout>
     {{-- Header --}}
-    <div class="mobile-header">
+    <div class="mobile-header" style="padding-top:max(20px, calc(env(safe-area-inset-top, 0px) + 16px));">
         <div class="mobile-header-top">
             <div>
                 <div class="mobile-header-greeting">

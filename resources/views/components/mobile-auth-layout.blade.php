@@ -17,16 +17,24 @@
     @vite(['resources/css/app.css', 'resources/css/mobile.css', 'resources/js/app.js'])
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body { font-family: 'Figtree', -apple-system, sans-serif; }
-        .mobile-input { width: 100%; padding: 12px 14px; border: 1.5px solid #E2E8F0; border-radius: 10px; font-size: 14px; color: #1E293B; background: #fff; outline: none; transition: border-color 0.15s; font-family: inherit; }
+        html, body { height: 100%; }
+        body {
+            font-family: 'Figtree', -apple-system, sans-serif;
+            /* iOS: body butuh background sama dengan warna atas supaya area di belakang safe area tidak putih */
+            background-color: #014BAA;
+        }
+        /* Pastikan env() safe area tersedia */
+        @supports (padding-top: env(safe-area-inset-top)) {
+            body { padding-top: 0; }
+        }
+        .mobile-input { width: 100%; padding: 12px 14px; border: 1.5px solid #E2E8F0; border-radius: 10px; font-size: 14px; color: #1E293B; background: #fff; outline: none; transition: border-color 0.15s; font-family: inherit; -webkit-appearance: none; }
         .mobile-input:focus { border-color: #014BAA; }
         .mobile-label { display: block; font-size: 13px; font-weight: 600; color: #1E293B; margin-bottom: 6px; }
         .mobile-error { font-size: 12px; color: #EF4444; margin-top: 4px; }
-        .mobile-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; text-decoration: none; }
+        .mobile-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700; border: none; cursor: pointer; font-family: inherit; text-decoration: none; -webkit-appearance: none; }
         .mobile-btn-primary { background: #014BAA; color: #fff; }
         .mobile-btn-white { background: #fff; color: #1E293B; border: 1.5px solid #E2E8F0; }
         .mobile-form-group { margin-bottom: 14px; }
-        .mobile-toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: #1E293B; color: #fff; padding: 10px 16px; border-radius: 99px; font-size: 13px; font-weight: 500; z-index: 9999; white-space: nowrap; }
     </style>
 </head>
 <body>

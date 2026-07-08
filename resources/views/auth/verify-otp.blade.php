@@ -1,6 +1,6 @@
 @if (config('is_mobile'))
 <x-mobile-auth-layout>
-    <div style="min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#014BAA 0%,#0166E8 32%,#F0F4F8 32%);">
+    <div style="padding-top:max(48px, calc(env(safe-area-inset-top, 0px) + 24px));padding-left:32px;padding-right:32px;padding-bottom:24px;text-align:center;">
         <div class="mobile-auth-top" style="padding-left:32px;padding-right:32px;padding-bottom:32px;text-align:center;">
             <div style="width:64px;height:64px;background:rgba(255,255,255,0.2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
                 <svg xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;" fill="none" viewBox="0 0 24 24" stroke="white">
