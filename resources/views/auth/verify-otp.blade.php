@@ -1,7 +1,7 @@
 @if (config('is_mobile'))
 <x-mobile-auth-layout>
     <div style="min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(160deg,#014BAA 0%,#0166E8 32%,#F0F4F8 32%);">
-        <div style="padding:48px 32px 24px;text-align:center;">
+        <div class="mobile-auth-top" style="padding-left:32px;padding-right:32px;padding-bottom:32px;text-align:center;">
             <div style="width:64px;height:64px;background:rgba(255,255,255,0.2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
                 <svg xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;" fill="none" viewBox="0 0 24 24" stroke="white">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>

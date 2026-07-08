@@ -1,32 +1,73 @@
-/* ===== iOS SAFE AREA FIX ===== */
+/* ===== iOS SAFE AREA ===== */
 :root {
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --safe-left: env(safe-area-inset-left, 0px);
-    --safe-right: env(safe-area-inset-right, 0px);
 }
 
-/* Pastikan body tidak melewati safe area */
 .mobile-body {
-    padding-top: var(--safe-top);
-    background-color: #014baa; /* warna yang muncul di balik status bar */
+    background-color: #014baa;
+    padding-top: 0 !important;
+    margin: 0;
 }
 
-/* Bottom nav naik sesuai home indicator iPhone */
-.mobile-bottom-nav {
-    padding-bottom: calc(var(--safe-bottom) + 8px);
-    height: calc(68px + var(--safe-bottom));
+.mobile-app {
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: #f0f4f8;
 }
 
-/* Main content kasih ruang bawah yang cukup */
-.mobile-main {
-    padding-bottom: calc(80px + var(--safe-bottom));
-}
-
-/* Header halaman yang background biru — perlu tambah padding atas */
-.mobile-page-header,
+/* Semua elemen pertama yang punya background biru perlu padding top safe area */
 .mobile-header {
-    padding-top: max(20px, var(--safe-top));
+    padding-top: calc(var(--safe-top) + 20px) !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 32px;
+    background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.mobile-page-header {
+    padding-top: calc(var(--safe-top) + 16px) !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
+}
+
+/* Auth layout — gradient area atas perlu safe area juga */
+.mobile-auth-top {
+    padding-top: calc(var(--safe-top) + 40px) !important;
+}
+
+/* Bottom nav */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    /* Safe area untuk home indicator iPhone */
+    padding-bottom: var(--safe-bottom);
+    height: calc(64px + var(--safe-bottom));
+}
+
+.mobile-main {
+    flex: 1;
+    padding-bottom: calc(64px + var(--safe-bottom) + 16px);
+    overflow-x: hidden;
 }
 
 /* ===== MOBILE BASE ===== */
