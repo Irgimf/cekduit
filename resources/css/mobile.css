@@ -1,76 +1,9 @@
-/* ===== iOS SAFE AREA ===== */
+/* ===== iOS SAFE AREA & BASE ===== */
 :root {
     --safe-top: env(safe-area-inset-top, 0px);
     --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-.mobile-body {
-    background-color: #014baa;
-    padding-top: 0 !important;
-    margin: 0;
-}
-
-.mobile-app {
-    max-width: 480px;
-    margin: 0 auto;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    background: #f0f4f8;
-}
-
-/* Semua elemen pertama yang punya background biru perlu padding top safe area */
-.mobile-header {
-    padding-top: calc(var(--safe-top) + 20px) !important;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 32px;
-    background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
-    position: relative;
-    overflow: hidden;
-}
-
-.mobile-page-header {
-    padding-top: calc(var(--safe-top) + 16px) !important;
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
-}
-
-/* Auth layout — gradient area atas perlu safe area juga */
-.mobile-auth-top {
-    padding-top: calc(var(--safe-top) + 40px) !important;
-}
-
-/* Bottom nav */
-.mobile-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 480px;
-    background: #fff;
-    border-top: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    z-index: 1000;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-    /* Safe area untuk home indicator iPhone */
-    padding-bottom: var(--safe-bottom);
-    height: calc(64px + var(--safe-bottom));
-}
-
-.mobile-main {
-    flex: 1;
-    padding-bottom: calc(64px + var(--safe-bottom) + 16px);
-    overflow-x: hidden;
-}
-
-/* ===== MOBILE BASE ===== */
 * {
     box-sizing: border-box;
     -webkit-tap-highlight-color: transparent;
@@ -79,7 +12,8 @@
 .mobile-body {
     margin: 0;
     padding: 0;
-    background: #f0f4f8;
+    padding-top: 0 !important;
+    background-color: #014baa; /* Menghindari area putih fluktuatif di top notch saat scroll */
     font-family: "Figtree", sans-serif;
     overscroll-behavior: none;
 }
@@ -91,67 +25,25 @@
     display: flex;
     flex-direction: column;
     position: relative;
+    background: #f0f4f8;
 }
 
 .mobile-main {
     flex: 1;
-    padding-bottom: 80px; /* space for bottom nav */
+    padding-bottom: calc(
+        64px + var(--safe-bottom) + 16px
+    ); /* Mengikuti tinggi bottom nav + safe area */
     overflow-x: hidden;
 }
 
-/* ===== BOTTOM NAV ===== */
-.mobile-bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 480px;
-    height: 68px;
-    background: #fff;
-    border-top: 1px solid #e2e8f0;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    z-index: 1000;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-}
-
-.mobile-nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 3px;
-    padding: 8px 16px;
-    text-decoration: none;
-    color: #94a3b8;
-    transition: all 0.2s;
-    flex: 1;
-}
-
-.mobile-nav-item svg {
-    width: 22px;
-    height: 22px;
-    transition: all 0.2s;
-}
-
-.mobile-nav-item span {
-    font-size: 10px;
-    font-weight: 500;
-}
-
-.mobile-nav-item.active {
-    color: #014baa;
-}
-
-.mobile-nav-item.active svg {
-    stroke-width: 2.5;
-}
-
-/* ===== MOBILE HEADER ===== */
+/* ===== MOBILE HEADER & TOP AREAS ===== */
+/* Menangani Dynamic Island / Notch */
 .mobile-header {
+    padding-top: calc(var(--safe-top) + 20px) !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 32px;
     background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
-    padding: 20px 20px 32px;
     position: relative;
     overflow: hidden;
 }
@@ -176,6 +68,22 @@
     height: 100px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.04);
+}
+
+.mobile-page-header {
+    padding-top: calc(var(--safe-top) + 16px) !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Auth layout — gradient area atas perlu safe area juga */
+.mobile-auth-top {
+    padding-top: calc(var(--safe-top) + 40px) !important;
 }
 
 .mobile-header-top {
@@ -239,6 +147,57 @@
     font-weight: 800;
     letter-spacing: -0.5px;
     line-height: 1.1;
+}
+
+/* ===== BOTTOM NAV ===== */
+/* Menangani Home Indicator iPhone modern */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 1000;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+    padding-bottom: var(--safe-bottom);
+    height: calc(64px + var(--safe-bottom));
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 16px;
+    text-decoration: none;
+    color: #94a3b8;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.mobile-nav-item svg {
+    width: 22px;
+    height: 22px;
+    transition: all 0.2s;
+}
+
+.mobile-nav-item span {
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.mobile-nav-item.active {
+    color: #014baa;
+}
+
+.mobile-nav-item.active svg {
+    stroke-width: 2.5;
 }
 
 /* ===== SHORTCUT MENU ===== */
@@ -402,15 +361,7 @@
     color: #1e293b;
 }
 
-/* ===== MOBILE PAGE HEADER (non-home) ===== */
-.mobile-page-header {
-    background: linear-gradient(135deg, #014baa 0%, #0166e8 100%);
-    padding: 16px 20px 20px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
+/* ===== MOBILE PAGE HEADER COMPONENTS ===== */
 .mobile-back-btn {
     width: 36px;
     height: 36px;
