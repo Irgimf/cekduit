@@ -1,5 +1,5 @@
 <x-mobile-layout>
-    <div class="mobile-page-header">
+    <div class="mobile-page-header" style="padding-top:max(16px, calc(env(safe-area-inset-top, 0px) + 14px));">
         <div class="mobile-page-title">Laporan Keuangan</div>
     </div>
 

@@ -1,6 +1,6 @@
 <x-mobile-layout>
     {{-- Header --}}
-    <div class="mobile-page-header" style="flex-direction:column;align-items:center;padding:24px 20px 32px;">
+    <div class="mobile-page-header" style="flex-direction:column;align-items:center;padding-top:max(24px, calc(env(safe-area-inset-top, 0px) + 14px));padding-left:20px;padding-right:20px;padding-bottom:32px;">
         <img src="{{ Auth::user()->avatar_url }}" alt="Avatar"
              style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid rgba(255,255,255,0.4);margin-bottom:12px;">
         <div style="color:#fff;font-size:18px;font-weight:700;">{{ Auth::user()->name }}</div>

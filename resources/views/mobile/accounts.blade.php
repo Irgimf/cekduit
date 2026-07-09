@@ -1,5 +1,5 @@
 <x-mobile-layout>
-    <div class="mobile-page-header" style="justify-content:space-between;align-items:center;">
+    <div class="mobile-page-header" style="justify-content:space-between;align-items:center;padding-top:max(16px, calc(env(safe-area-inset-top, 0px) + 14px));">
         <div class="mobile-page-title">Rekening</div>
         <a href="{{ route('accounts.create') }}"
            style="width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;">

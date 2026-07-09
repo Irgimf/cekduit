@@ -1,6 +1,6 @@
 <x-mobile-layout>
     {{-- Header --}}
-    <div style="background:linear-gradient(135deg,#014BAA,#0166E8);padding:16px 20px 20px;display:flex;align-items:center;gap:12px;">
+    <div style="background:linear-gradient(135deg,#014BAA,#0166E8);padding-top:max(16px, calc(env(safe-area-inset-top, 0px) + 14px));padding-left:20px;padding-right:20px;padding-bottom:20px;display:flex;align-items:center;gap:12px;">
         <a href="{{ route('accounts.index') }}"
            style="width:36px;height:36px;background:rgba(255,255,255,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0;">
             <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="white">

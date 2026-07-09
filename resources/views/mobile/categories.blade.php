@@ -1,6 +1,6 @@
 <x-mobile-layout>
     {{-- Header --}}
-    <div style="background:linear-gradient(135deg,#014BAA,#0166E8);padding:20px 20px 24px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="background:linear-gradient(135deg,#014BAA,#0166E8);padding-top:max(20px, calc(env(safe-area-inset-top, 0px) + 14px));padding-left:20px;padding-right:20px;padding-bottom:24px;display:flex;align-items:center;justify-content:space-between;">
         <div>
             <div style="font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:2px;">Kelola transaksi kamu</div>
             <div style="font-size:20px;font-weight:700;color:#fff;">Kategori</div>

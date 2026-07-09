@@ -94,6 +94,13 @@
         .mobile-bottom-nav { padding-bottom: env(safe-area-inset-bottom); height: calc(68px + env(safe-area-inset-bottom)); }
         .mobile-main { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
     }
+        /* Safe area override — berlaku untuk semua halaman yang pakai mobile-layout */
+    .mobile-page-header {
+        padding-top: max(16px, calc(env(safe-area-inset-top, 0px) + 14px)) !important;
+    }
+    .mobile-header {
+        padding-top: max(20px, calc(env(safe-area-inset-top, 0px) + 16px)) !important;
+    }
 </style>
     @vite(['resources/css/app.css', 'resources/css/mobile.css', 'resources/js/app.js'])
 </head>
