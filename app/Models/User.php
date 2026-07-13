@@ -22,6 +22,10 @@ class User extends Authenticatable
         'avatar',
         'otp_code',
         'otp_expires_at',
+        'role',
+        'subscription_plan',
+        'subscription_expires_at',
+        'midtrans_order_id',
     ];
 
     protected $hidden = [
@@ -32,9 +36,10 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'otp_expires_at' => 'datetime',  // ← tambahkan ini
+            'email_verified_at'       => 'datetime',
+            'password'                => 'hashed',
+            'otp_expires_at'          => 'datetime',
+            'subscription_expires_at' => 'datetime',
         ];
     }
 
@@ -81,6 +86,48 @@ class User extends Authenticatable
     public function clearOtp(): void
     {
         $this->update(['otp_code' => null, 'otp_expires_at' => null]);
+    }
+    // ===== HELPER METHODS =====
+
+    // Apakah user adalah admin?
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    // Apakah user punya akses premium (termasuk admin)?
+    public function isPremium(): bool
+    {
+        if ($this->role === 'admin') return true;
+        if ($this->role === 'premium') {
+            // Cek apakah subscription masih aktif
+            if ($this->subscription_expires_at === null) return false;
+            return $this->subscription_expires_at->isFuture();
+        }
+        return false;
+    }
+
+    // Apakah user adalah free user?
+    public function isFree(): bool
+    {
+        return ! $this->isPremium();
+    }
+
+    // Berapa hari lagi subscription berakhir?
+    public function daysUntilExpiry(): int
+    {
+        if (! $this->subscription_expires_at) return 0;
+        return max(0, (int) now()->diffInDays($this->subscription_expires_at, false));
+    }
+
+    // Label status subscription untuk tampilan
+    public function subscriptionLabel(): string
+    {
+        if ($this->isAdmin()) return 'Admin';
+        if ($this->isPremium()) {
+            return 'Premium · Aktif hingga ' . $this->subscription_expires_at->format('d M Y');
+        }
+        return 'Free';
     }
 }
 

@@ -74,6 +74,23 @@
             @endforeach
         </nav>
 
+        {{-- Tambahkan sebelum link profil --}}
+        @if (auth()->user()->isFree())
+            <a href="{{ route('premium.upgrade') }}"
+            style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:#FEF9C3;color:#92400E;font-size:13px;font-weight:600;text-decoration:none;border:1px solid #FDE68A;transition:all 0.15s;"
+            onmouseover="this.style.background='#FDE68A'"
+            onmouseout="this.style.background='#FEF9C3'">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/>
+                </svg>
+                Upgrade Premium
+            </a>
+        @else
+            <span style="display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;background:#DCFCE7;color:#15803d;font-size:12px;font-weight:700;">
+                ⭐ Premium
+            </span>
+        @endif
+
         {{-- Footer Sidebar: Profile & Logout --}}
         <div class="sidebar-footer">
             <a href="{{ route('profile.edit') }}"

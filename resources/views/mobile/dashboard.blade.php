@@ -1,4 +1,5 @@
 <x-mobile-layout>
+
     {{-- Header --}}
     <div class="mobile-header" style="padding-top:max(20px, calc(env(safe-area-inset-top, 0px) + 16px));">
         <div class="mobile-header-top">
@@ -11,6 +12,17 @@
                     {{ $greeting }}, 👋
                 </div>
                 <div class="mobile-header-name">{{ Auth::user()->name }}</div>
+                
+                @if (auth()->user()->isFree())
+                    <a href="{{ route('premium.upgrade') }}" 
+                       style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(255,255,255,0.2);border-radius:99px;font-size:11px;font-weight:600;color:#fff;text-decoration:none;margin-top:6px;">
+                        ⚡ Upgrade Premium
+                    </a>
+                @else
+                    <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(34,197,94,0.2);border-radius:99px;font-size:11px;font-weight:600;color:#fff;margin-top:6px;">
+                        ⭐ Premium
+                    </span>
+                @endif
             </div>
             <a href="{{ route('profile.edit') }}">
                 <img src="{{ Auth::user()->avatar_url }}" alt="Avatar" class="mobile-header-avatar">
