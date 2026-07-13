@@ -1,8 +1,30 @@
 <x-app-layout>
     <x-slot name="header">Kategori</x-slot>
 
-    <div style="display:flex;flex-direction:column;gap:16px;">
+    @if (auth()->user()->isFree())
+        @php $catCount = $categories->count(); $maxCats = \App\Models\User::FREE_MAX_CATEGORIES; @endphp
+        <div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:13px;font-weight:600;color:var(--dark);">Kategori digunakan</span>
+                <span style="font-size:13px;font-weight:700;color:{{ $catCount >= $maxCats ? 'var(--red)' : 'var(--blue)' }};">
+                    {{ $catCount }}/{{ $maxCats }}
+                </span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden;">
+                <div style="height:100%;width:{{ ($catCount / $maxCats) * 100 }}%;background:{{ $catCount >= $maxCats ? 'var(--red)' : 'var(--blue)' }};border-radius:99px;"></div>
+            </div>
+            @if ($catCount >= $maxCats)
+                <p style="font-size:12px;color:var(--red);margin-top:6px;">
+                    Batas kategori tercapai.
+                    <a href="{{ route('premium.upgrade') }}" style="color:var(--blue);font-weight:600;">Upgrade Premium</a>
+                    untuk kategori tidak terbatas.
+                </p>
+            @endif
+        </div>
+    @endif
 
+    <div style="display:flex;flex-direction:column;gap:16px;">
+        
         {{-- Header row --}}
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
             <div>

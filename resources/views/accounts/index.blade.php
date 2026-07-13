@@ -5,8 +5,30 @@
         $cardScript = true;
     @endphp
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+    @if (auth()->user()->isFree())
+        @php $accountCount = $accounts->count(); $maxAccounts = \App\Models\User::FREE_MAX_ACCOUNTS; @endphp
+        <div style="background:#fff;border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid var(--border);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-size:13px;font-weight:600;color:var(--dark);">Rekening digunakan</span>
+                <span style="font-size:13px;font-weight:700;color:{{ $accountCount >= $maxAccounts ? 'var(--red)' : 'var(--blue)' }};">
+                    {{ $accountCount }}/{{ $maxAccounts }}
+                </span>
+            </div>
+            <div style="height:6px;background:var(--border);border-radius:99px;overflow:hidden;">
+                <div style="height:100%;width:{{ ($accountCount / $maxAccounts) * 100 }}%;background:{{ $accountCount >= $maxAccounts ? 'var(--red)' : 'var(--blue)' }};border-radius:99px;transition:width 0.3s;"></div>
+            </div>
+            @if ($accountCount >= $maxAccounts)
+                <p style="font-size:12px;color:var(--red);margin-top:6px;">
+                    Batas rekening tercapai.
+                    <a href="{{ route('premium.upgrade') }}" style="color:var(--blue);font-weight:600;">Upgrade Premium</a>
+                    untuk rekening tidak terbatas.
+                </p>
+            @endif
+        </div>
+    @endif
 
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+        
         {{-- Card Tambah Rekening --}}
         <a href="{{ route('accounts.create') }}"
            style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;

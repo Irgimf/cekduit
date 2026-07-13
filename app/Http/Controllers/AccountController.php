@@ -22,8 +22,15 @@ class AccountController extends Controller
         return view('accounts.index', compact('accounts'));
     }
 
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        $user = auth()->user();
+
+        if ($user->isFree() && $user->accounts()->count() >= \App\Models\User::FREE_MAX_ACCOUNTS) {
+            return redirect()->route('accounts.index')
+                ->with('upgrade_required', 'Batas rekening tercapai. Upgrade ke Premium untuk menambah lebih banyak rekening.');
+        }
+
         if (config('is_mobile')) {
             return view('mobile.account-form');
         }
@@ -32,9 +39,20 @@ class AccountController extends Controller
 
     public function store(StoreAccountRequest $request): RedirectResponse
     {
-        auth()->user()->accounts()->create(array_merge(
+        $user = auth()->user();
+
+        // Cek batas rekening untuk user free
+        if ($user->isFree()) {
+            $accountCount = $user->accounts()->count();
+            if ($accountCount >= \App\Models\User::FREE_MAX_ACCOUNTS) {
+                return redirect()->route('accounts.index')
+                    ->with('upgrade_required', 'Akun gratis hanya bisa membuat ' . \App\Models\User::FREE_MAX_ACCOUNTS . ' rekening. Upgrade ke Premium untuk rekening tidak terbatas.');
+            }
+        }
+
+        $user->accounts()->create(array_merge(
             $request->validated(),
-            ['balance' => 0] // saldo awal selalu 0
+            ['balance' => 0]
         ));
 
         return redirect()->route('accounts.index')

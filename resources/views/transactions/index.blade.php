@@ -98,6 +98,16 @@
             </form>
         </div>
 
+        @if (auth()->user()->isFree())
+            <div style="background:#E8F0FB;border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                <div style="font-size:13px;color:var(--blue);font-weight:500;">
+                    Menampilkan transaksi 30 hari terakhir.
+                    <a href="{{ route('premium.upgrade') }}" style="font-weight:700;text-decoration:underline;">Upgrade Premium</a>
+                    untuk akses riwayat penuh.
+                </div>
+            </div>
+        @endif
+
         {{-- Tabel --}}
         <div class="cd-card" style="overflow:hidden;">
             <table class="cd-table" style="min-width:600px;">

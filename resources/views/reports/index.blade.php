@@ -98,26 +98,53 @@
 
                     {{-- Kanan: Export --}}
                     <div style="display:flex;gap:8px;align-items:flex-end;">
-                        <div>
-                            <label class="cd-label" style="opacity:0;">_</label>
-                            <a href="{{ route('reports.export-pdf', request()->query()) }}"
-                               class="cd-btn cd-btn-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                Export PDF
-                            </a>
-                        </div>
-                        <div>
-                            <label class="cd-label" style="opacity:0;">_</label>
-                            <a href="{{ route('reports.export-excel', request()->query()) }}"
-                               class="cd-btn cd-btn-primary">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                                </svg>
-                                Export Excel
-                            </a>
-                        </div>
+                        @if (auth()->user()->isPremium())
+                            <div>
+                                <label class="cd-label" style="opacity:0;">_</label>
+                                <a href="{{ route('reports.export-pdf', request()->query()) }}"
+                                   class="cd-btn cd-btn-white">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    Export PDF
+                                </a>
+                            </div>
+                            <div>
+                                <label class="cd-label" style="opacity:0;">_</label>
+                                <a href="{{ route('reports.export-excel', request()->query()) }}"
+                                   class="cd-btn cd-btn-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                    Export Excel
+                                </a>
+                            </div>
+                        @else
+                            <div>
+                                <label class="cd-label" style="opacity:0;">_</label>
+                                <a href="{{ route('premium.upgrade') }}"
+                                   class="cd-btn cd-btn-white"
+                                   style="opacity:0.6;cursor:not-allowed;"
+                                   title="Fitur Premium — Upgrade untuk menggunakan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                    Export PDF ⭐
+                                </a>
+                            </div>
+                            <div>
+                                <label class="cd-label" style="opacity:0;">_</label>
+                                <a href="{{ route('premium.upgrade') }}"
+                                   class="cd-btn cd-btn-primary"
+                                   style="opacity:0.7;"
+                                   title="Fitur Premium — Upgrade untuk menggunakan">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                                    </svg>
+                                    Export Excel ⭐
+                                </a>
+                            </div>
+                        @endif
                     </div>
 
                 </div>

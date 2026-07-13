@@ -17,22 +17,29 @@ class TransactionController extends Controller
     public function index(Request $request): View
     {
         $activeTab = $request->get('type', 'income');
-        $now = now();
+        $user      = auth()->user();
+        $now       = now();
 
         $period = $request->get('period', 'this_month');
-        $query  = auth()->user()->transactions()
+        $query  = $user->transactions()
             ->where('type', $activeTab)
             ->where('is_transfer', false)
             ->with(['account', 'category']);
 
-        match($period) {
-            'last_month' => $query->whereYear('transaction_date', $now->copy()->subMonth()->year)
-                                ->whereMonth('transaction_date', $now->copy()->subMonth()->month),
-            'this_year'  => $query->whereYear('transaction_date', $now->year),
-            'all'        => $query,
-            default      => $query->whereYear('transaction_date', $now->year)
-                                ->whereMonth('transaction_date', $now->month),
-        };
+        // User free hanya bisa lihat 30 hari terakhir
+        if ($user->isFree()) {
+            $query->where('transaction_date', '>=', $now->copy()->subDays(\App\Models\User::FREE_HISTORY_DAYS));
+        } else {
+            // Premium: filter berdasarkan pilihan period
+            match($period) {
+                'last_month' => $query->whereYear('transaction_date', $now->copy()->subMonth()->year)
+                                    ->whereMonth('transaction_date', $now->copy()->subMonth()->month),
+                'this_year'  => $query->whereYear('transaction_date', $now->year),
+                'all'        => $query,
+                default      => $query->whereYear('transaction_date', $now->year)
+                                    ->whereMonth('transaction_date', $now->month),
+            };
+        }
 
         if ($request->filled('category_id')) {
             $query->where('category_id', $request->category_id);
@@ -48,8 +55,8 @@ class TransactionController extends Controller
 
         $transactions = $query->paginate(5)->withQueryString();
 
-        // Summary stats
-        $summaryQuery = auth()->user()->transactions()
+        // Summary
+        $summaryQuery = $user->transactions()
             ->where('type', $activeTab)
             ->where('is_transfer', false)
             ->whereYear('transaction_date', $now->year)
@@ -57,7 +64,7 @@ class TransactionController extends Controller
 
         $totalThisMonth = (clone $summaryQuery)->sum('amount');
         $highestTx      = (clone $summaryQuery)->with('category')->orderByDesc('amount')->first();
-        $dailyAvg       = auth()->user()->transactions()
+        $dailyAvg       = $user->transactions()
             ->where('type', $activeTab)
             ->where('is_transfer', false)
             ->where('transaction_date', '>=', $now->copy()->subDays(30))
@@ -70,11 +77,10 @@ class TransactionController extends Controller
             'daily_avg'        => $dailyAvg,
         ];
 
-        $accounts          = auth()->user()->accounts;
-        $incomeCategories  = auth()->user()->categories()->where('type', 'income')->get();
-        $expenseCategories = auth()->user()->categories()->where('type', 'expense')->get();
+        $accounts          = $user->accounts;
+        $incomeCategories  = $user->categories()->where('type', 'income')->get();
+        $expenseCategories = $user->categories()->where('type', 'expense')->get();
 
-        // ← INI YANG PENTING: pastikan baris ini ada
         if (config('is_mobile')) {
             return view('mobile.transactions', compact(
                 'transactions', 'accounts', 'incomeCategories',

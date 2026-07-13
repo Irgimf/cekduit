@@ -21,8 +21,15 @@ class CategoryController extends Controller
         return view('categories.index', compact('categories'));
     }
 
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
+        $user = auth()->user();
+
+        if ($user->isFree() && $user->categories()->count() >= \App\Models\User::FREE_MAX_CATEGORIES) {
+            return redirect()->route('categories.index')
+                ->with('upgrade_required', 'Batas kategori tercapai. Upgrade ke Premium untuk kategori tidak terbatas.');
+        }
+
         if (config('is_mobile')) {
             return view('mobile.category-form');
         }
@@ -31,7 +38,16 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request): RedirectResponse
     {
-        auth()->user()->categories()->create($request->validated());
+        $user = auth()->user();
+
+        if ($user->isFree()) {
+            if ($user->categories()->count() >= \App\Models\User::FREE_MAX_CATEGORIES) {
+                return redirect()->route('categories.index')
+                    ->with('upgrade_required', 'Akun gratis hanya bisa membuat ' . \App\Models\User::FREE_MAX_CATEGORIES . ' kategori. Upgrade ke Premium untuk kategori tidak terbatas.');
+            }
+        }
+
+        $user->categories()->create($request->validated());
 
         return redirect()->route('categories.index')
             ->with('success', 'Kategori berhasil ditambahkan.');

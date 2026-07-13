@@ -110,6 +110,17 @@
             @if (session('success'))
                 <div class="mobile-toast" id="mobile-toast">✓ {{ session('success') }}</div>
             @endif
+            @if (session('upgrade_required'))
+            <div style="margin:12px 16px 0;padding:12px 14px;background:#FEF9C3;border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+                <div style="font-size:13px;font-weight:500;color:#92400E;flex:1;">
+                    ⚡ {{ session('upgrade_required') }}
+                </div>
+                <a href="{{ route('premium.upgrade') }}"
+                style="flex-shrink:0;padding:6px 12px;background:#014BAA;color:#fff;border-radius:8px;font-size:12px;font-weight:600;text-decoration:none;">
+                    Upgrade
+                </a>
+            </div>
+        @endif
             {{ $slot }}
         </main>
 

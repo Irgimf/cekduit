@@ -96,28 +96,33 @@ class ReportController extends Controller
 
     public function exportPdf(Request $request)
     {
+        // Blokir user free
+        if (auth()->user()->isFree()) {
+            return redirect()->route('reports.index')
+                ->with('upgrade_required', 'Export PDF hanya tersedia untuk pengguna Premium.');
+        }
+
         $data = $this->getReportData($request);
         $pdf  = Pdf::loadView('reports.pdf', $data);
 
-        // Deteksi iOS — tampilkan inline (bisa disimpan via Share di Safari)
         $userAgent = $request->userAgent() ?? '';
-        $isIos     = stripos($userAgent, 'iPhone') !== false || stripos($userAgent, 'iPad') !== false;
+        $isIos     = stripos($userAgent, 'iPhone') !== false
+                || stripos($userAgent, 'iPad')   !== false;
 
         $filename = 'laporan-' . str($data['periodLabel'])->slug() . '.pdf';
 
-        if ($isIos) {
-            // iOS: stream inline supaya bisa disimpan via Safari Share
-            return $pdf->stream($filename);
-        }
-
-        // Android & Desktop: langsung download
-        return $pdf->download($filename);
+        return $isIos ? $pdf->stream($filename) : $pdf->download($filename);
     }
 
     public function exportExcel(Request $request)
     {
-        // Tetap aman mengekspor semua data
-        $data = $this->getReportData($request);
+        // Blokir user free
+        if (auth()->user()->isFree()) {
+            return redirect()->route('reports.index')
+                ->with('upgrade_required', 'Export Excel hanya tersedia untuk pengguna Premium.');
+        }
+
+        $data     = $this->getReportData($request);
         $filename = 'laporan-' . str($data['periodLabel'])->slug() . '.xlsx';
 
         return Excel::download(new TransactionsExport($data['transactions'], $data['summary']), $filename);
