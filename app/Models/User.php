@@ -11,14 +11,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-// Batas untuk user free
-const FREE_MAX_ACCOUNTS    = 2;
-const FREE_MAX_CATEGORIES  = 5;
-const FREE_HISTORY_DAYS    = 30;
-
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    // Konstanta batas free user
+    const FREE_MAX_ACCOUNTS   = 2;
+    const FREE_MAX_CATEGORIES = 5;
+    const FREE_HISTORY_DAYS   = 30;
 
     protected $fillable = [
         'name',
