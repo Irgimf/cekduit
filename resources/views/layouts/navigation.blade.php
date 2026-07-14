@@ -82,6 +82,12 @@
                                 </svg>
                                 Profil Saya
                             </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('payment.history')"
+                                style="display:flex;align-items:center;gap:8px;padding:9px 16px;font-size:14px;font-weight:500;color:var(--dark);">
+                                Riwayat Pembayaran
+                            </x-dropdown-link>
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <x-dropdown-link :href="route('logout')"
@@ -133,11 +139,12 @@
                     <div style="font-size:12px;color:var(--muted);">{{ Auth::user()->email }}</div>
                 </div>
             </div>
-            <div style="display:flex;gap:8px;">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
                 @if (Auth::user()->isAdmin())
                     <a href="{{ route('admin.dashboard') }}" class="cd-btn cd-btn-red cd-btn-sm" style="background:#dc2626;color:#fff;">Admin</a>
                 @endif
                 <a href="{{ route('profile.edit') }}" class="cd-btn cd-btn-white cd-btn-sm">Profil</a>
+                <a href="{{ route('payment.history') }}" class="cd-btn cd-btn-white cd-btn-sm">Pembayaran</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="cd-btn cd-btn-red cd-btn-sm">Keluar</button>

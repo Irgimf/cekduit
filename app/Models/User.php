@@ -62,13 +62,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     public function getAvatarUrlAttribute(): string
-    
-{
+    {
     return $this->avatar
         ? asset('storage/' . $this->avatar)
         : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=6366f1&color=fff';
     }
+
     public function generateAndSendOtp(string $purpose = 'verifikasi akun'): void
     {
         $code = (string) random_int(100000, 999999);
@@ -135,5 +141,3 @@ class User extends Authenticatable
         return 'Free';
     }
 }
-
-

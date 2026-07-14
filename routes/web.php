@@ -7,6 +7,7 @@ use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\PremiumController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
@@ -39,19 +40,28 @@ Route::middleware('auth')->group(function () {
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/export-pdf', [ReportController::class, 'exportPdf'])->name('reports.export-pdf');
     Route::get('/reports/export-excel', [ReportController::class, 'exportExcel'])->name('reports.export-excel');
-    Route::get('/premium/upgrade', [PremiumController::class, 'upgrade'])
-        ->name('premium.upgrade');
-    });
-
-    Route::prefix('admin')
-    ->middleware(['auth', 'admin'])
-    ->name('admin.')
-    ->group(function () {
-        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
-        Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
-        Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.update-role');
-        Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
-    });
+    Route::get('/premium/upgrade', [PremiumController::class, 'upgrade'])->name('premium.upgrade');
     
+    // Payment Routes (Auth)
+    Route::get('/payment/history', [PaymentController::class, 'index'])->name('payment.history');
+    Route::post('/payment/create', [PaymentController::class, 'createTransaction'])->name('payment.create');
+    Route::get('/payment/finish', [PaymentController::class, 'finish'])->name('payment.finish');
+});
+
+Route::prefix('admin')
+->middleware(['auth', 'admin'])
+->name('admin.')
+->group(function () {
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+    Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.update-role');
+    Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+});
+
+// Webhook tidak butuh auth (dipanggil server Midtrans)
+Route::post('/payment/webhook', [PaymentController::class, 'webhook'])
+    ->name('payment.webhook')
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
 require __DIR__.'/auth.php';

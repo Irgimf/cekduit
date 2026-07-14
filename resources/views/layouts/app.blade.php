@@ -170,20 +170,20 @@
                 </div>
             @endif
 
-                @if (session('upgrade_required'))
-        <div style="background:#FEF9C3;border:1px solid #FDE68A;color:#92400E;padding:12px 16px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-            <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                {{ session('upgrade_required') }}
-            </div>
-            <a href="{{ route('premium.upgrade') }}"
-            style="flex-shrink:0;padding:6px 14px;background:#014BAA;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">
-                Upgrade Sekarang
-            </a>
-        </div>
-    @endif
+            @if (session('upgrade_required'))
+                <div style="background:#FEF9C3;border:1px solid #FDE68A;color:#92400E;padding:12px 16px;border-radius:8px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:500;">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        {{ session('upgrade_required') }}
+                    </div>
+                    <a href="{{ route('premium.upgrade') }}"
+                    style="flex-shrink:0;padding:6px 14px;background:#014BAA;color:#fff;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">
+                        Upgrade Sekarang
+                    </a>
+                </div>
+            @endif
 
             {{ $slot }}
         </div>
