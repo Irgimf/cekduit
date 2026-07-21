@@ -98,7 +98,10 @@ class PaymentController extends Controller
 
         $payment = Payment::where('order_id', $orderId)->first();
 
-        if ($payment && in_array($transactionStatus, ['capture', 'settlement'])) {
+        // capture = kartu kredit berhasil, settlement = transfer/QRIS berhasil
+        $successStatuses = ['capture', 'settlement'];
+
+        if ($payment && in_array($transactionStatus, $successStatuses)) {
             $this->activatePremium($payment);
             return view('payment.success', compact('payment'));
         }
