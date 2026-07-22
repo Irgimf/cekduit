@@ -71,6 +71,8 @@ Route::prefix('admin')
         Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
         Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.update-role');
         Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/payments', [\App\Http\Controllers\Admin\UserController::class, 'payments'])->name('payments');
+Route::delete('/payments/{payment}', [\App\Http\Controllers\Admin\UserController::class, 'deletePayment'])->name('payments.destroy');
         
         // Konfirmasi Pembayaran oleh Admin
         Route::patch('/payment/{payment}/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm');

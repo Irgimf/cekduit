@@ -89,4 +89,29 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')
             ->with('success', "Akun {$name} berhasil dihapus.");
     }
+    public function payments(Request $request): View
+{
+    $query = \App\Models\Payment::with('user')->latest();
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    if ($request->filled('search')) {
+        $query->whereHas('user', fn($q) =>
+            $q->where('name', 'like', '%'.$request->search.'%')
+              ->orWhere('email', 'like', '%'.$request->search.'%')
+        )->orWhere('order_id', 'like', '%'.$request->search.'%');
+    }
+
+    $payments = $query->paginate(20)->withQueryString();
+
+    return view('admin.payments', compact('payments'));
+}
+
+    public function deletePayment(\App\Models\Payment $payment): RedirectResponse
+    {
+        $payment->delete();
+        return back()->with('success', "Order {$payment->order_id} berhasil dihapus.");
+    }
 }

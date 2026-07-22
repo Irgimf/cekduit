@@ -22,18 +22,29 @@ class PaymentController extends Controller
      * Tampilkan halaman intermediate yang otomatis membuka WhatsApp, 
      * kemudian mengarahkan user ke halaman pending.
      */
-    public function createOrder(Request $request): View
+    public function createOrder(Request $request): View|RedirectResponse
     {
         $request->validate([
             'plan' => ['required', 'in:monthly,yearly'],
         ]);
 
-        $user    = auth()->user();
+        $user = auth()->user();
+
+        // Cek apakah masih ada order pending
+        $existingPending = Payment::where('user_id', $user->id)
+                                ->where('status', 'pending')
+                                ->latest()
+                                ->first();
+
+        if ($existingPending) {
+            return redirect()->route('payment.pending')
+                ->with('info', 'Kamu masih memiliki pesanan yang menunggu konfirmasi admin. Silakan tunggu atau hubungi admin.');
+        }
+
         $plan    = $request->plan;
         $amount  = self::PRICES[$plan];
         $orderId = 'CEKDUIT-' . $user->id . '-' . time();
 
-        // Simpan transaksi baru dengan status pending
         Payment::create([
             'user_id'  => $user->id,
             'order_id' => $orderId,
@@ -44,7 +55,6 @@ class PaymentController extends Controller
 
         $user->update(['midtrans_order_id' => $orderId]);
 
-        // Format pesan teks untuk WhatsApp
         $planLabel  = $plan === 'monthly' ? 'Bulanan (1 bulan)' : 'Tahunan (12 bulan)';
         $amountText = 'Rp ' . number_format($amount, 0, ',', '.');
 
@@ -60,7 +70,6 @@ class PaymentController extends Controller
 
         $waUrl = 'https://wa.me/' . self::ADMIN_WA . '?text=' . rawurlencode($waMessage);
 
-        // Melempar ke view pembantu redirect
         return view('payment.redirect-wa', compact('waUrl'));
     }
 
@@ -69,15 +78,22 @@ class PaymentController extends Controller
      */
     public function pending(): View
     {
+        if (config('is_mobile')) {
+            return view('mobile.payment-pending');
+        }
         return view('payment.pending');
     }
 
     /**
      * Riwayat pembayaran milik user terautentikasi
      */
-    public function history(): View
+    public function index(): View
     {
         $payments = auth()->user()->payments()->latest()->paginate(10);
+
+        if (config('is_mobile')) {
+            return view('mobile.payment-history', compact('payments'));
+        }
         return view('payment.history', compact('payments'));
     }
 
