@@ -3,48 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use Midtrans\Config;
-use Midtrans\Snap;
-use Midtrans\Notification;
 
 class PaymentController extends Controller
 {
-    public function __construct()
-    {
-        // Konfigurasi Midtrans
-        Config::$serverKey    = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized  = true;
-        Config::$is3ds        = true;
-    }
+    // Harga paket
+    const PRICES = [
+        'monthly' => 15000,
+        'yearly'  => 120000,
+    ];
 
-    // Halaman riwayat pembayaran user
-    public function index(): View
-    {
-        $payments = auth()->user()->payments()->latest()->paginate(10);
-        return view('payment.history', compact('payments'));
-    }
+    // No WA admin
+    const ADMIN_WA = '6282317179877';
 
-    // Proses buat transaksi baru → dapat Snap Token
-    public function createTransaction(Request $request): JsonResponse
+    /**
+     * Tampilkan halaman intermediate yang otomatis membuka WhatsApp, 
+     * kemudian mengarahkan user ke halaman pending.
+     */
+    public function createOrder(Request $request): View
     {
         $request->validate([
             'plan' => ['required', 'in:monthly,yearly'],
         ]);
 
-        $user   = auth()->user();
-        $plan   = $request->plan;
-        $amount = config("midtrans.prices.{$plan}");
+        $user    = auth()->user();
+        $plan    = $request->plan;
+        $amount  = self::PRICES[$plan];
+        $orderId = 'CEKDUIT-' . $user->id . '-' . time();
 
-        // Buat order ID unik
-        $orderId = 'CEKDUIT-' . strtoupper($user->id) . '-' . time();
-
-        // Simpan payment dengan status pending
-        $payment = Payment::create([
+        // Simpan transaksi baru dengan status pending
+        Payment::create([
             'user_id'  => $user->id,
             'order_id' => $orderId,
             'plan'     => $plan,
@@ -52,138 +42,91 @@ class PaymentController extends Controller
             'status'   => 'pending',
         ]);
 
-        // Update user dengan order ID terbaru
         $user->update(['midtrans_order_id' => $orderId]);
 
-        // Parameter untuk Midtrans Snap
-        $params = [
-            'transaction_details' => [
-                'order_id'     => $orderId,
-                'gross_amount' => $amount,
-            ],
-            'customer_details' => [
-                'first_name' => $user->name,
-                'email'      => $user->email,
-            ],
-            'item_details' => [
-                [
-                    'id'       => "PREMIUM-{$plan}",
-                    'price'    => $amount,
-                    'quantity' => 1,
-                    'name'     => 'CekDuit Premium ' . ($plan === 'monthly' ? 'Bulanan' : 'Tahunan'),
-                ],
-            ],
-            'callbacks' => [
-                'finish' => route('payment.finish'),
-            ],
-        ];
+        // Format pesan teks untuk WhatsApp
+        $planLabel  = $plan === 'monthly' ? 'Bulanan (1 bulan)' : 'Tahunan (12 bulan)';
+        $amountText = 'Rp ' . number_format($amount, 0, ',', '.');
 
-        try {
-            $snapToken = Snap::getSnapToken($params);
-            return response()->json([
-                'snap_token' => $snapToken,
-                'order_id'   => $orderId,
-            ]);
-        } catch (\Exception $e) {
-            $payment->update(['status' => 'failed']);
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $waMessage = "Halo Admin CekDuit 👋\n\n"
+            . "Saya ingin berlangganan *CekDuit Premium*.\n\n"
+            . "📋 *Detail Pesanan:*\n"
+            . "• Nama      : {$user->name}\n"
+            . "• Email     : {$user->email}\n"
+            . "• Paket     : Premium {$planLabel}\n"
+            . "• Total     : {$amountText}\n"
+            . "• Order ID  : {$orderId}\n\n"
+            . "Mohon konfirmasi pembayaran dan informasi rekening/QRIS untuk transfer. Terima kasih! 🙏";
+
+        $waUrl = 'https://wa.me/' . self::ADMIN_WA . '?text=' . rawurlencode($waMessage);
+
+        // Melempar ke view pembantu redirect
+        return view('payment.redirect-wa', compact('waUrl'));
     }
 
-    // Halaman setelah payment selesai (redirect dari Midtrans)
-    public function finish(Request $request): View|RedirectResponse
+    /**
+     * Halaman tunggu konfirmasi pembayaran manual oleh user
+     */
+    public function pending(): View
     {
-        $orderId           = $request->order_id;
-        $transactionStatus = $request->transaction_status;
-
-        $payment = Payment::where('order_id', $orderId)->first();
-
-        // capture = kartu kredit berhasil, settlement = transfer/QRIS berhasil
-        $successStatuses = ['capture', 'settlement'];
-
-        if ($payment && in_array($transactionStatus, $successStatuses)) {
-            $this->activatePremium($payment);
-            return view('payment.success', compact('payment'));
-        }
-
-        return redirect()->route('premium.upgrade')
-            ->with('warning', 'Pembayaran belum selesai atau dibatalkan. Silakan coba lagi.');
+        return view('payment.pending');
     }
 
-    // Webhook dari Midtrans — update status otomatis
-    public function webhook(Request $request): JsonResponse
+    /**
+     * Riwayat pembayaran milik user terautentikasi
+     */
+    public function history(): View
     {
-        try {
-            $notification = new Notification();
-
-            $orderId           = $notification->order_id;
-            $transactionStatus = $notification->transaction_status;
-            $fraudStatus       = $notification->fraud_status;
-            $paymentType       = $notification->payment_type;
-            $transactionId     = $notification->transaction_id;
-
-            $payment = Payment::where('order_id', $orderId)->first();
-
-            if (! $payment) {
-                return response()->json(['status' => 'order not found'], 404);
-            }
-
-            // Tentukan status berdasarkan response Midtrans
-            if ($transactionStatus === 'capture') {
-                $status = $fraudStatus === 'challenge' ? 'pending' : 'success';
-            } elseif ($transactionStatus === 'settlement') {
-                $status = 'success';
-            } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
-                $status = $transactionStatus === 'expire' ? 'expired' : 'failed';
-            } elseif ($transactionStatus === 'pending') {
-                $status = 'pending';
-            } else {
-                $status = 'pending';
-            }
-
-            $payment->update([
-                'status'         => $status,
-                'payment_type'   => $paymentType,
-                'transaction_id' => $transactionId,
-                'paid_at'        => $status === 'success' ? now() : null,
-            ]);
-
-            // Kalau sukses, aktifkan premium
-            if ($status === 'success') {
-                $this->activatePremium($payment);
-            }
-
-            return response()->json(['status' => 'ok']);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $payments = auth()->user()->payments()->latest()->paginate(10);
+        return view('payment.history', compact('payments'));
     }
 
-    // Helper: aktifkan premium user
-    private function activatePremium(Payment $payment): void
+    /**
+     * Admin melakukan konfirmasi pembayaran manual via dashboard admin
+     */
+    public function confirm(Request $request, Payment $payment): RedirectResponse
+    {
+        if (! auth()->user()->isAdmin()) {
+            abort(403);
+        }
+
+        $request->validate([
+            'plan' => ['required', 'in:monthly,yearly'],
+        ]);
+
+        $this->activatePremium($payment, $request->plan);
+
+        return redirect()->route('admin.users.show', $payment->user)
+            ->with('success', "Pembayaran {$payment->order_id} berhasil dikonfirmasi. User sekarang Premium.");
+    }
+
+    /**
+     * Logic internal untuk mengaktifkan status premium & akumulasi masa aktif
+     */
+    private function activatePremium(Payment $payment, ?string $plan = null): void
     {
         $user = $payment->user;
+        $plan = $plan ?? $payment->plan;
 
-        // Hitung tanggal expired
-        $expiresAt = $payment->plan === 'yearly'
+        $expiresAt = $plan === 'yearly'
             ? now()->addYear()
             : now()->addMonth();
 
-        // Kalau user sudah premium dan belum expired, extend dari tanggal yang ada
+        // Jika user masih memiliki masa aktif premium, akumulasikan tanggal kedaluwarsanya
         if ($user->isPremium() && $user->subscription_expires_at?->isFuture()) {
-            $expiresAt = $payment->plan === 'yearly'
+            $expiresAt = $plan === 'yearly'
                 ? $user->subscription_expires_at->addYear()
                 : $user->subscription_expires_at->addMonth();
         }
 
         $user->update([
             'role'                    => 'premium',
-            'subscription_plan'       => $payment->plan,
+            'subscription_plan'       => $plan,
             'subscription_expires_at' => $expiresAt,
         ]);
 
         $payment->update([
+            'plan'    => $plan,
             'status'  => 'success',
             'paid_at' => now(),
         ]);
