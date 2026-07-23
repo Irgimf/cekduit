@@ -10,6 +10,7 @@ use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\PaymentAdminController;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page
@@ -55,9 +56,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/premium/upgrade', [PremiumController::class, 'upgrade'])->name('premium.upgrade');
     
     // Rute Pembayaran Baru (User)
-    Route::post('/payment/order', [PaymentController::class, 'createOrder'])->name('payment.order');
-    Route::get('/payment/pending', [PaymentController::class, 'pending'])->name('payment.pending');
-    Route::get('/payment/history', [PaymentController::class, 'history'])->name('payment.history');
+    Route::get('/payment/history', [\App\Http\Controllers\PaymentController::class, 'index'])
+         ->name('payment.history');
+    Route::post('/payment/order', [\App\Http\Controllers\PaymentController::class, 'createOrder'])
+         ->name('payment.order');
+    Route::get('/payment/pending', [\App\Http\Controllers\PaymentController::class, 'pending'])
+         ->name('payment.pending');
 });
 
 // Rute Khusus Admin
@@ -65,17 +69,22 @@ Route::prefix('admin')
     ->middleware(['auth', 'admin'])
     ->name('admin.')
     ->group(function () {
-        // Dashboard & Users
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+
+        // User management
         Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
         Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
         Route::patch('/users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.update-role');
         Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
-        Route::get('/payments', [\App\Http\Controllers\Admin\UserController::class, 'payments'])->name('payments');
-Route::delete('/payments/{payment}', [\App\Http\Controllers\Admin\UserController::class, 'deletePayment'])->name('payments.destroy');
-        
-        // Konfirmasi Pembayaran oleh Admin
-        Route::patch('/payment/{payment}/confirm', [PaymentController::class, 'confirm'])->name('payment.confirm');
-});
+
+        // Payment management
+        Route::get('/payments', [PaymentAdminController::class, 'index'])->name('payments');
+        Route::delete('/payments/{payment}', [PaymentAdminController::class, 'destroy'])->name('payments.destroy');
+    });
+
+// Konfirmasi pembayaran (dari PaymentController, bukan admin namespace)
+Route::patch('/payment/{payment}/confirm', [\App\Http\Controllers\PaymentController::class, 'confirm'])
+    ->middleware(['auth', 'admin'])
+    ->name('payment.confirm');
 
 require __DIR__.'/auth.php';
