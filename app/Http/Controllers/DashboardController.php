@@ -77,19 +77,36 @@ class DashboardController extends Controller
         $incomeCategories  = $user->categories()->where('type', 'income')->get();
         $expenseCategories = $user->categories()->where('type', 'expense')->get();
 
+        // --- FITUR BARU: BUDGET WARNING (Optimized) ---
+        $budgetWarnings = [];
+        if ($user->isPremium()) {
+            // Eager load category untuk menghindari N+1 query
+            $budgetWarnings = $user->budgets()->with('category')->get()
+                ->filter(fn($b) => in_array($b->status(), ['warning', 'exceeded']))
+                ->map(fn($b) => [
+                    'name'    => $b->category->name ?? 'Tanpa Kategori',
+                    'status'  => $b->status(),
+                    'spent'   => $b->spentThisMonth(),
+                    'amount'  => (float) $b->amount,
+                    'percent' => $b->spentPercent(),
+                ])->values()->toArray();
+        }
+
+        // Return untuk Mobile View
         if (config('is_mobile')) {
             return view('mobile.dashboard', [
-                'totalBalance'      => $totalBalance,
-                'monthlyIncome'     => $monthlyIncome,
-                'monthlyExpense'    => $monthlyExpense,
-                'recentTransactions'=> $recentTransactions,
-                'accounts'          => $accounts,
-                'incomeCategories'  => $incomeCategories,
-                'expenseCategories' => $expenseCategories,
+                'totalBalance'       => $totalBalance,
+                'monthlyIncome'      => $monthlyIncome,
+                'monthlyExpense'     => $monthlyExpense,
+                'recentTransactions' => $recentTransactions,
+                'accounts'           => $accounts,
+                'incomeCategories'   => $incomeCategories,
+                'expenseCategories'  => $expenseCategories,
+                'budgetWarnings'     => $budgetWarnings, // Ditambahkan agar mobile tidak error
             ]);
         }
 
-        // Desktop view tetap seperti biasa
+        // Return untuk Desktop View
         return view('dashboard', [
             'totalBalance'          => $totalBalance,
             'monthlyIncome'         => $monthlyIncome,
@@ -100,6 +117,7 @@ class DashboardController extends Controller
             'chartExpense'          => $chartExpense,
             'expenseCategoryLabels' => $expenseByCategory->keys(),
             'expenseCategoryData'   => $expenseByCategory->values(),
+            'budgetWarnings'        => $budgetWarnings, // Ditambahkan di sini
         ]);
     }
 }

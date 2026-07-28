@@ -140,4 +140,8 @@ class User extends Authenticatable
         }
         return 'Free';
     }
+    public function budgets(): HasMany
+    {
+        return $this->hasMany(Budget::class);
+    }
 }

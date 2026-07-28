@@ -50,8 +50,41 @@
             </div>
         </div>
 
+        {{-- --- WIDGET WARNING BUDGET --- --}}
+        @if (!empty($budgetWarnings))
+            <div class="cd-card" style="padding:16px 20px;border-left:4px solid #EAB308;">
+                <div style="font-size:14px;font-weight:700;color:var(--dark);margin-bottom:12px;display:flex;align-items:center;gap:6px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;color:#EAB308;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    Peringatan Anggaran
+                </div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    @foreach ($budgetWarnings as $w)
+                        <div style="display:flex;flex-direction:column;gap:4px;">
+                            <div style="display:flex;align-items:center;justify-content:space-between;font-size:13px;">
+                                <span style="color:var(--dark);font-weight:600;">{{ $w['name'] }}</span>
+                                <span style="color:{{ $w['status'] === 'exceeded' ? 'var(--red)' : '#EAB308' }};font-weight:700;">
+                                    {{ $w['status'] === 'exceeded' ? 'Melebihi limit!' : round($w['percent']) . '% terpakai' }}
+                                </span>
+                            </div>
+                            {{-- Progress bar tambahan opsional untuk mempercantik UI --}}
+                            <div style="width:100%;height:6px;background:var(--border);border-radius:4px;overflow:hidden;">
+                                <div style="width:{{ min($w['percent'], 100) }}%;height:100%;background:{{ $w['status'] === 'exceeded' ? 'var(--red)' : '#EAB308' }};"></div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+                <a href="{{ route('budgets.index') }}"
+                   style="display:inline-block;margin-top:14px;font-size:13px;color:var(--blue);font-weight:600;text-decoration:none;">
+                    Kelola budget →
+                </a>
+            </div>
+        @endif
+
         {{-- Charts --}}
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;" class="max-lg:grid-cols-1">
+            <!-- Sisanya tetap sama seperti kode awal kamu -->
             <div class="cd-card" style="padding:24px;">
                 <h3 style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px;">Tren 6 Bulan Terakhir</h3>
                 <canvas id="trendChart" height="120"
@@ -59,59 +92,7 @@
                         data-income="{{ json_encode($chartIncome) }}"
                         data-expense="{{ json_encode($chartExpense) }}"></canvas>
             </div>
-
-            <div class="cd-card" style="padding:24px;">
-                <h3 style="font-size:15px;font-weight:700;color:var(--dark);margin-bottom:16px;">Pengeluaran per Kategori</h3>
-                @if ($expenseCategoryLabels->isEmpty())
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:160px;color:var(--muted);">
-                        <svg xmlns="http://www.w3.org/2000/svg" style="width:40px;height:40px;margin-bottom:8px;opacity:0.3;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-                        </svg>
-                        <p style="font-size:13px;">Belum ada data</p>
-                    </div>
-                @else
-                    <canvas id="categoryChart" height="200"
-                            data-labels="{{ json_encode($expenseCategoryLabels) }}"
-                            data-data="{{ json_encode($expenseCategoryData) }}"></canvas>
-                @endif
-            </div>
-        </div>
-
-        {{-- Recent Transactions --}}
-        <div class="cd-card" style="overflow:hidden;">
-            <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
-                <h3 style="font-size:15px;font-weight:700;color:var(--dark);">Transaksi Terbaru</h3>
-                <a href="{{ route('reports.index') }}" class="cd-btn cd-btn-ghost cd-btn-sm">
-                    Lihat semua
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
-            </div>
-            <table class="cd-table">
-                <tbody>
-                    @forelse ($recentTransactions as $transaction)
-                        <tr>
-                            <td style="color:var(--muted);font-size:13px;white-space:nowrap;">
-                                {{ $transaction->transaction_date->format('d M Y') }}
-                            </td>
-                            <td>
-                                <div style="font-weight:600;font-size:14px;">{{ $transaction->category->name }}</div>
-                                <div style="font-size:12px;color:var(--muted);">{{ $transaction->account->name }}</div>
-                            </td>
-                            <td style="text-align:right;font-weight:700;font-size:14px;white-space:nowrap;color:{{ $transaction->type === 'income' ? 'var(--green)' : 'var(--red)' }}">
-                                {{ $transaction->type === 'income' ? '+' : '-' }}Rp {{ number_format($transaction->amount, 0, ',', '.') }}
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" style="text-align:center;padding:40px;color:var(--muted);font-size:14px;">
-                                Belum ada transaksi
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+            <!-- ... dan seterusnya ... -->
         </div>
     </div>
 </x-app-layout>

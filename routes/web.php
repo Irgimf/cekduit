@@ -11,6 +11,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PaymentAdminController;
+use App\Http\Controllers\BudgetController;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page
@@ -62,6 +63,11 @@ Route::middleware('auth')->group(function () {
          ->name('payment.order');
     Route::get('/payment/pending', [\App\Http\Controllers\PaymentController::class, 'pending'])
          ->name('payment.pending');
+
+    // Rute Budget
+    Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
+    Route::post('/budgets', [BudgetController::class, 'store'])->name('budgets.store');
+    Route::delete('/budgets/{budget}', [BudgetController::class, 'destroy'])->name('budgets.destroy');
 });
 
 // Rute Khusus Admin
