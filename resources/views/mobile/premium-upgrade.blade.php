@@ -37,7 +37,9 @@
                     ['Riwayat',           '30 hari',  'Selamanya'],
                     ['Export PDF/Excel',  '✗',        '✓'],
                     ['Laporan Lengkap',   '✗',        '✓'],
-                    ['Budget Kategori',   '✗',        '✓ Segera'],
+                    ['Budget Kategori',   '✗',        '✓'],
+                    ['Target Tabungan',   '✗',        '✓'],
+                    ['Transaksi Berulang', '✗',       '✓'],
                 ];
                 @endphp
                 @foreach ($features as $i => [$label, $free, $premium])

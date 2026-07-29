@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PaymentAdminController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\RecurringController;
+use App\Http\Controllers\SavingsController;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page
@@ -54,6 +55,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/transactions/{transaction}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
     Route::put('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
     Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+
+    // Savings Goals
+    Route::get('/savings', [SavingsController::class, 'index'])->name('savings.index');
+    Route::post('/savings', [SavingsController::class, 'store'])->name('savings.store');
+    Route::get('/savings/{goal}', [SavingsController::class, 'show'])->name('savings.show');
+    Route::post('/savings/{goal}/deposit', [SavingsController::class, 'deposit'])->name('savings.deposit');
+    Route::delete('/savings/{goal}', [SavingsController::class, 'destroy'])->name('savings.destroy');
     
     // Reports
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');

@@ -77,7 +77,7 @@ class DashboardController extends Controller
         $incomeCategories  = $user->categories()->where('type', 'income')->get();
         $expenseCategories = $user->categories()->where('type', 'expense')->get();
 
-        // --- FITUR BARU: BUDGET WARNING (Optimized) ---
+        // --- BUDGET WARNING ---
         $budgetWarnings = [];
         if ($user->isPremium()) {
             // Eager load category untuk menghindari N+1 query
@@ -92,6 +92,16 @@ class DashboardController extends Controller
                 ])->values()->toArray();
         }
 
+        // --- FITUR BARU: SAVINGS WIDGET ---
+        $activeSavings = [];
+        if ($user->isPremium()) {
+            $activeSavings = $user->savingsGoals()
+                ->where('is_completed', false)
+                ->latest()
+                ->take(3)
+                ->get();
+        }
+
         // Return untuk Mobile View
         if (config('is_mobile')) {
             return view('mobile.dashboard', [
@@ -102,7 +112,8 @@ class DashboardController extends Controller
                 'accounts'           => $accounts,
                 'incomeCategories'   => $incomeCategories,
                 'expenseCategories'  => $expenseCategories,
-                'budgetWarnings'     => $budgetWarnings, // Ditambahkan agar mobile tidak error
+                'budgetWarnings'     => $budgetWarnings,
+                'activeSavings'      => $activeSavings, // Ditambahkan untuk view mobile
             ]);
         }
 
@@ -117,7 +128,8 @@ class DashboardController extends Controller
             'chartExpense'          => $chartExpense,
             'expenseCategoryLabels' => $expenseByCategory->keys(),
             'expenseCategoryData'   => $expenseByCategory->values(),
-            'budgetWarnings'        => $budgetWarnings, // Ditambahkan di sini
+            'budgetWarnings'        => $budgetWarnings,
+            'activeSavings'         => $activeSavings, // Ditambahkan untuk view desktop
         ]);
     }
 }

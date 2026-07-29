@@ -81,6 +81,37 @@
             </div>
         @endif
 
+        {{-- FITUR BARU: Target Tabungan Widget --}}
+        @if (isset($activeSavings) && $activeSavings->isNotEmpty())
+            <div class="cd-card" style="padding:20px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                    <div style="font-size:14px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:6px;">
+                        <span>🏦</span> Target Tabungan Aktif
+                    </div>
+                    <a href="{{ route('savings.index') }}" style="font-size:13px;color:var(--blue);font-weight:600;text-decoration:none;">
+                        Lihat semua →
+                    </a>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:14px;">
+                    @foreach ($activeSavings as $goal)
+                        <div>
+                            <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
+                                <span style="font-weight:600;color:var(--dark);">
+                                    {{ $goal->icon ?? '🎯' }} {{ $goal->name }}
+                                </span>
+                                <span style="color:var(--blue);font-weight:700;">
+                                    {{ $goal->progressPercent() }}%
+                                </span>
+                            </div>
+                            <div style="width:100%;height:7px;background:var(--border);border-radius:99px;overflow:hidden;">
+                                <div style="height:100%;width:{{ min($goal->progressPercent(), 100) }}%;background:var(--blue);border-radius:99px;"></div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        @endif
+
         {{-- Charts --}}
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;" class="max-lg:grid-cols-1">
             <div class="cd-card" style="padding:24px;">

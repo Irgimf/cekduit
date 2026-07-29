@@ -53,8 +53,9 @@
                         ['Transfer Rekening',   '✓',            '✓'],
                         ['Export PDF & Excel',  '✗',            '✓'],
                         ['Laporan Lengkap',     '✗',            '✓'],
-                        ['Budget per Kategori', '✗',            '✓ Segera'],
-                        ['Target Tabungan',     '✗',            '✓ Segera'],
+                        ['Budget per Kategori', '✗',            '✓'],
+                        ['Target Tabungan',     '✗',            '✓'],
+                        ['Transaksi Berulang',  '✗',            '✓'],
                     ];
                     @endphp
                     @foreach ($features as $i => [$label, $free, $premium])
