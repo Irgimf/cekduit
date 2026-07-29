@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\PaymentAdminController;
 use App\Http\Controllers\BudgetController;
+use App\Http\Controllers\RecurringController;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page
@@ -38,6 +39,12 @@ Route::middleware('auth')->group(function () {
     // Resources Management
     Route::resource('accounts', AccountController::class)->except('show');
     Route::resource('categories', CategoryController::class)->except('show');
+
+    // Recurring Transactions
+    Route::get('/recurring', [RecurringController::class, 'index'])->name('recurring.index');
+    Route::post('/recurring', [RecurringController::class, 'store'])->name('recurring.store');
+    Route::patch('/recurring/{recurring}/toggle', [RecurringController::class, 'toggle'])->name('recurring.toggle');
+    Route::delete('/recurring/{recurring}', [RecurringController::class, 'destroy'])->name('recurring.destroy');
     
     // Transactions
     Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
