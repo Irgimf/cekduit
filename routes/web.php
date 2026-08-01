@@ -24,15 +24,15 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-// Rute Publik Baru (Tanpa Auth)
-Route::get('/terms', fn() => view('legal.terms'))->name('legal.terms');
-Route::get('/privacy', fn() => view('legal.privacy'))->name('legal.privacy');
-Route::get('/contact', fn() => view('legal.contact'))->name('legal.contact');
-
 // Dashboard User
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+
+Route::get('/terms', fn() => view('legal.terms'))->name('legal.terms');
+Route::get('/privacy', fn() => view('legal.privacy'))->name('legal.privacy');
+Route::get('/contact', fn() => view('legal.contact'))->name('legal.contact');
 
 // Rute Pengguna Terautentikasi (General Auth)
 Route::middleware('auth')->group(function () {

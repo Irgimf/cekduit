@@ -33,11 +33,7 @@
     <a href="{{ url()->previous() }}" class="back">← Kembali</a>
     <div class="card">
         <div class="logo">
-            <div class="logo-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-                    <text x="4" y="18" font-family="Arial" font-size="14" font-weight="bold" fill="white">Rp</text>
-                </svg>
-            </div>
+            <x-logo-icon size="40" radius="10" />
             <span class="logo-text">CekDuit</span>
         </div>
 

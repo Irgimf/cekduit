@@ -806,7 +806,7 @@
 <nav class="nav">
     <a href="/" class="nav-logo">
         <div class="nav-logo-icon">
-            <x-logo-icon size="36" radius="10" />
+            <x-logo-icon size="36" radius="9" />
         </div>
         CekDuit
     </a>

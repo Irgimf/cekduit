@@ -18,7 +18,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('dashboard') }}" class="sidebar-logo">
-            <x-logo-icon size="32" radius="8" />
+            <x-logo-icon size="36" radius="8" />
             <span class="sidebar-logo-text">CekDuit</span>
         </a>
 

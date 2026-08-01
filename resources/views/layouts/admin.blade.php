@@ -221,7 +221,7 @@
     {{-- Sidebar --}}
     <aside class="admin-sidebar">
         <div class="admin-sidebar-logo">
-            <x-logo-icon size="32" radius="8" />
+            <x-logo-icon size="36" radius="8" />
             <div>
                 <div class="admin-sidebar-logo-text">CekDuit</div>
                 <div class="admin-sidebar-logo-sub">Admin Panel</div>

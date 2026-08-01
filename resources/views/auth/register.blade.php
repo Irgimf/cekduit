@@ -2,7 +2,7 @@
 <x-mobile-auth-layout>
     <div style="padding-top:max(44px, calc(env(safe-area-inset-top, 0px) + 24px));padding-left:32px;padding-right:32px;padding-bottom:24px;text-align:center;">
         <div class="mobile-auth-top" style="padding-left:32px;padding-right:32px;padding-bottom:32px;text-align:center;">
-            <x-logo-icon size="64" radius="20" />
+            <x-logo-icon size="72" radius="18" />
             <div style="font-size:26px;font-weight:800;color:#fff;">CekDuit</div>
             <div style="font-size:13px;color:rgba(255,255,255,0.75);margin-top:4px;">Mulai kelola keuangan kamu</div>
         </div>
