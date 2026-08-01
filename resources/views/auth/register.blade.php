@@ -2,11 +2,7 @@
 <x-mobile-auth-layout>
     <div style="padding-top:max(44px, calc(env(safe-area-inset-top, 0px) + 24px));padding-left:32px;padding-right:32px;padding-bottom:24px;text-align:center;">
         <div class="mobile-auth-top" style="padding-left:32px;padding-right:32px;padding-bottom:32px;text-align:center;">
-            <div style="width:64px;height:64px;background:rgba(255,255,255,0.2);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
+            <x-logo-icon size="64" radius="20" />
             <div style="font-size:26px;font-weight:800;color:#fff;">CekDuit</div>
             <div style="font-size:13px;color:rgba(255,255,255,0.75);margin-top:4px;">Mulai kelola keuangan kamu</div>
         </div>
@@ -40,6 +36,22 @@
                     <input type="password" name="password_confirmation" required
                            class="mobile-input" placeholder="Ulangi password">
                 </div>
+
+                <!-- Checkbox Persetujuan Mobile -->
+                <div style="background:#F8FAFF;border-radius:10px;padding:12px;margin-bottom:4px;text-align:left;">
+                    <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+                        <input type="checkbox" name="agree_terms" required
+                               style="width:16px;height:16px;margin-top:2px;accent-color:#014BAA;flex-shrink:0;">
+                        <span style="font-size:12px;color:#64748B;line-height:1.6;">
+                            Saya menyetujui
+                            <a href="{{ route('legal.terms') }}" target="_blank" style="color:#014BAA;font-weight:700;">Syarat & Ketentuan</a>
+                            dan
+                            <a href="{{ route('legal.privacy') }}" target="_blank" style="color:#014BAA;font-weight:700;">Kebijakan Privasi</a>
+                            CekDuit
+                        </span>
+                    </label>
+                </div>
+
                 <button type="submit" class="mobile-btn mobile-btn-primary" style="margin-top:4px;">
                     Buat Akun
                 </button>
@@ -79,6 +91,22 @@
             <label class="cd-label">Konfirmasi Password</label>
             <input type="password" name="password_confirmation" required class="cd-input" placeholder="Ulangi password">
         </div>
+
+        <!-- Checkbox Persetujuan Desktop -->
+        <div style="background:#F8FAFF;border-radius:10px;padding:12px;border:1px solid #E2E8F0;">
+            <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;">
+                <input type="checkbox" name="agree_terms" required
+                       style="width:15px;height:15px;margin-top:2px;accent-color:#014BAA;flex-shrink:0;">
+                <span style="font-size:13px;color:var(--muted);line-height:1.6;">
+                    Saya menyetujui
+                    <a href="{{ route('legal.terms') }}" target="_blank" style="color:var(--blue);font-weight:600;">Syarat & Ketentuan</a>
+                    dan
+                    <a href="{{ route('legal.privacy') }}" target="_blank" style="color:var(--blue);font-weight:600;">Kebijakan Privasi</a>
+                    CekDuit
+                </span>
+            </label>
+        </div>
+
         <button type="submit" class="cd-btn cd-btn-primary" style="justify-content:center;padding:11px;">Buat Akun</button>
     </form>
     <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--muted);">

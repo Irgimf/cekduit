@@ -64,7 +64,7 @@
                         <label class="cd-label">Jumlah (Rp)</label>
                         <div style="position:relative;">
                             <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--muted);">Rp</span>
-                            <input type="number" name="amount" min="1" step="1000"
+                            <input type="number" name="amount" min="1000" step="1"
                                    class="cd-input" style="padding-left:30px;" placeholder="500000">
                         </div>
                         @error('amount') <p class="cd-error">{{ $message }}</p> @enderror

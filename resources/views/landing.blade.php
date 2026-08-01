@@ -806,9 +806,7 @@
 <nav class="nav">
     <a href="/" class="nav-logo">
         <div class="nav-logo-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
+            <x-logo-icon size="36" radius="10" />
         </div>
         CekDuit
     </a>
@@ -1180,11 +1178,7 @@
         <div class="footer-top">
             <div>
                 <div class="footer-brand-name">
-                    <div style="width:32px;height:32px;background:#014BAA;border-radius:8px;display:flex;align-items:center;justify-content:center;">
-                        <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                        </svg>
-                    </div>
+                    <x-logo-icon size="32" radius="8" />
                     CekDuit
                 </div>
                 <p class="footer-brand-desc">
@@ -1206,9 +1200,9 @@
             <div>
                 <div class="footer-col-title">Info</div>
                 <ul class="footer-links">
-                    <li><a href="#">Syarat & Ketentuan</a></li>
-                    <li><a href="#">Kebijakan Privasi</a></li>
-                    <li><a href="#">Hubungi Kami</a></li>
+                    <li><a href="{{ route('legal.terms') }}">Syarat & Ketentuan</a></li>
+                    <li><a href="{{ route('legal.privacy') }}">Kebijakan Privasi</a></li>
+                    <li><a href="{{ route('legal.contact') }}">Hubungi Kami</a></li>
                 </ul>
             </div>
         </div>

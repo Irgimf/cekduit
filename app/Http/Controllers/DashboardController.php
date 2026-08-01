@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Carbon;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -11,7 +12,7 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
 
-        // Total saldo tetap dari rekening (benar, tidak perlu filter)
+        // Total saldo tetap dari rekening
         $totalBalance = $user->accounts()->sum('balance');
 
         $startOfMonth = Carbon::now()->startOfMonth();
@@ -77,30 +78,42 @@ class DashboardController extends Controller
         $incomeCategories  = $user->categories()->where('type', 'income')->get();
         $expenseCategories = $user->categories()->where('type', 'expense')->get();
 
-        // --- BUDGET WARNING ---
-        $budgetWarnings = [];
-        if ($user->isPremium()) {
-            // Eager load category untuk menghindari N+1 query
-            $budgetWarnings = $user->budgets()->with('category')->get()
-                ->filter(fn($b) => in_array($b->status(), ['warning', 'exceeded']))
-                ->map(fn($b) => [
-                    'name'    => $b->category->name ?? 'Tanpa Kategori',
-                    'status'  => $b->status(),
-                    'spent'   => $b->spentThisMonth(),
-                    'amount'  => (float) $b->amount,
-                    'percent' => $b->spentPercent(),
-                ])->values()->toArray();
+        // --- FIX DEFENSIVE: BUDGET WARNINGS ---
+        $budgetWarnings = collect();
+        if ($user->isPremium() && method_exists($user, 'budgets')) {
+            try {
+                $budgetWarnings = $user->budgets()->with('category')->get()
+                    ->filter(fn($b) => in_array($b->status(), ['warning', 'exceeded']))
+                    ->map(fn($b) => [
+                        'name'    => $b->category->name ?? 'Tanpa Kategori',
+                        'status'  => $b->status(),
+                        'spent'   => $b->spentThisMonth(),
+                        'amount'  => (float) $b->amount,
+                        'percent' => $b->spentPercent(),
+                    ])->values();
+            } catch (\Exception $e) {
+                Log::error('Gagal mengambil data budget di Dashboard: ' . $e->getMessage());
+                $budgetWarnings = collect();
+            }
         }
 
-        // --- FITUR BARU: SAVINGS WIDGET ---
-        $activeSavings = [];
-        if ($user->isPremium()) {
-            $activeSavings = $user->savingsGoals()
-                ->where('is_completed', false)
-                ->latest()
-                ->take(3)
-                ->get();
+        // --- FIX DEFENSIVE: SAVINGS WIDGET ---
+        $activeSavings = collect();
+        if ($user->isPremium() && method_exists($user, 'savingsGoals')) {
+            try {
+                $activeSavings = $user->savingsGoals()
+                    ->where('is_completed', false)
+                    ->latest()
+                    ->take(3)
+                    ->get();
+            } catch (\Exception $e) {
+                Log::error('Gagal mengambil data savings goals di Dashboard: ' . $e->getMessage());
+                $activeSavings = collect();
+            }
         }
+
+        // Konversi ke array untuk menjaga kompatibilitas struktur lama di view mobile
+        $budgetWarningsArray = $budgetWarnings->toArray();
 
         // Return untuk Mobile View
         if (config('is_mobile')) {
@@ -112,8 +125,8 @@ class DashboardController extends Controller
                 'accounts'           => $accounts,
                 'incomeCategories'   => $incomeCategories,
                 'expenseCategories'  => $expenseCategories,
-                'budgetWarnings'     => $budgetWarnings,
-                'activeSavings'      => $activeSavings, // Ditambahkan untuk view mobile
+                'budgetWarnings'     => $budgetWarningsArray,
+                'activeSavings'      => $activeSavings,
             ]);
         }
 
@@ -128,8 +141,8 @@ class DashboardController extends Controller
             'chartExpense'          => $chartExpense,
             'expenseCategoryLabels' => $expenseByCategory->keys(),
             'expenseCategoryData'   => $expenseByCategory->values(),
-            'budgetWarnings'        => $budgetWarnings,
-            'activeSavings'         => $activeSavings, // Ditambahkan untuk view desktop
+            'budgetWarnings'        => $budgetWarningsArray,
+            'activeSavings'         => $activeSavings,
         ]);
     }
 }

@@ -26,6 +26,7 @@ class RegisteredUserController extends Controller   // ← class baru mulai di s
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'agree_terms' => ['required', 'accepted'],
         ]);
 
         $user = DB::transaction(function () use ($request) {

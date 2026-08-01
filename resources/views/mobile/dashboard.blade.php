@@ -47,30 +47,32 @@
         </div>
     </div>
 
-    {{-- Shortcut Menu --}}
+    {{-- Shortcut Menu (Fix 5 Integrasi Penuh) --}}
     <div class="mobile-shortcuts">
-        <div class="mobile-shortcut-grid">
+        {{-- Baris 1: Transaksi --}}
+        <div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">Catat Transaksi</div>
+        <div class="mobile-shortcut-grid" style="margin-bottom:16px;">
             <button class="mobile-shortcut-item" onclick="openSheet('sheet-income')">
                 <div class="mobile-shortcut-icon" style="background:#DCFCE7;">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;color:#16a34a;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;color:#16a34a;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                     </svg>
                 </div>
-                <span class="mobile-shortcut-label">Catat Pemasukan</span>
+                <span class="mobile-shortcut-label">Pemasukan</span>
             </button>
 
             <button class="mobile-shortcut-item" onclick="openSheet('sheet-expense')">
                 <div class="mobile-shortcut-icon" style="background:#FEE2E2;">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;color:#dc2626;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;color:#dc2626;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/>
                     </svg>
                 </div>
-                <span class="mobile-shortcut-label">Catat Pengeluaran</span>
+                <span class="mobile-shortcut-label">Pengeluaran</span>
             </button>
 
             <button class="mobile-shortcut-item" onclick="openSheet('sheet-transfer')">
                 <div class="mobile-shortcut-icon" style="background:#E0E7FF;">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;color:#4338ca;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;color:#4338ca;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
                     </svg>
                 </div>
@@ -79,23 +81,79 @@
 
             <a href="{{ route('accounts.index') }}" class="mobile-shortcut-item">
                 <div class="mobile-shortcut-icon" style="background:#FEF9C3;">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;color:#ca8a04;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;color:#ca8a04;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
                     </svg>
                 </div>
                 <span class="mobile-shortcut-label">Rekening</span>
             </a>
         </div>
-    </div>
 
-    <a href="{{ route('savings.index') }}" class="mobile-shortcut-item">
-        <div class="mobile-shortcut-icon" style="background:#E8F0FB;">
-            <svg xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;color:#014BAA;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
-            </svg>
+        {{-- Baris 2: Fitur Premium --}}
+        <div style="font-size:11px;font-weight:700;color:#94A3B8;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">
+            Fitur ⭐
+            @if (auth()->user()->isFree())
+                <span style="font-size:10px;color:#EAB308;font-weight:600;margin-left:4px;">(Premium)</span>
+            @endif
         </div>
-        <span class="mobile-shortcut-label">Tabungan</span>
-    </a>
+        <div class="mobile-shortcut-grid">
+            <a href="{{ auth()->user()->isPremium() ? route('budgets.index') : route('premium.upgrade') }}"
+               class="mobile-shortcut-item">
+                <div class="mobile-shortcut-icon"
+                     style="background:{{ auth()->user()->isPremium() ? '#E0F2FE' : '#F1F5F9' }};">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         style="width:22px;height:22px;color:{{ auth()->user()->isPremium() ? '#0284c7' : '#94A3B8' }};"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                </div>
+                <span class="mobile-shortcut-label" style="color:{{ auth()->user()->isPremium() ? '#1E293B' : '#94A3B8' }};">
+                    Budget
+                </span>
+            </a>
+
+            <a href="{{ auth()->user()->isPremium() ? route('recurring.index') : route('premium.upgrade') }}"
+               class="mobile-shortcut-item">
+                <div class="mobile-shortcut-icon"
+                     style="background:{{ auth()->user()->isPremium() ? '#F0FDF4' : '#F1F5F9' }};">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         style="width:22px;height:22px;color:{{ auth()->user()->isPremium() ? '#16a34a' : '#94A3B8' }};"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                </div>
+                <span class="mobile-shortcut-label" style="color:{{ auth()->user()->isPremium() ? '#1E293B' : '#94A3B8' }};">
+                    Berulang
+                </span>
+            </a>
+
+            <a href="{{ auth()->user()->isPremium() ? route('savings.index') : route('premium.upgrade') }}"
+               class="mobile-shortcut-item">
+                <div class="mobile-shortcut-icon"
+                     style="background:{{ auth()->user()->isPremium() ? '#FFF7ED' : '#F1F5F9' }};">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         style="width:22px;height:22px;color:{{ auth()->user()->isPremium() ? '#ea580c' : '#94A3B8' }};"
+                         fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <span class="mobile-shortcut-label" style="color:{{ auth()->user()->isPremium() ? '#1E293B' : '#94A3B8' }};">
+                    Tabungan
+                </span>
+            </a>
+
+            <a href="{{ route('premium.upgrade') }}" class="mobile-shortcut-item">
+                <div class="mobile-shortcut-icon" style="background:#FEF9C3;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;color:#ca8a04;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/>
+                    </svg>
+                </div>
+                <span class="mobile-shortcut-label">
+                    {{ auth()->user()->isPremium() ? 'Premium ⭐' : 'Upgrade' }}
+                </span>
+            </a>
+        </div>
+    </div>
 
     {{-- Summary Bulan Ini --}}
     <div class="mobile-section">
@@ -260,10 +318,10 @@
                 @csrf
                 <div class="mobile-form-group">
                     <label class="mobile-label">Dari Rekening</label>
-                    <select name="from_account_id" class="mobile-select" onchange="updateBalanceInfo(this)">
+                    <select name="from_account_id" class="mobile-select">
                         <option value="">-- Pilih --</option>
                         @foreach ($accounts as $account)
-                            <option value="{{ $account->id }}" data-balance="{{ $account->balance }}">
+                            <option value="{{ $account->id }}">
                                 {{ $account->name }} — Rp {{ number_format($account->balance, 0, ',', '.') }}
                             </option>
                         @endforeach

@@ -18,11 +18,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('dashboard') }}" class="sidebar-logo">
-            <div style="width:32px;height:32px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
-            </div>
+            <x-logo-icon size="32" radius="8" />
             <span class="sidebar-logo-text">CekDuit</span>
         </a>
 
@@ -90,37 +86,46 @@
                     <span class="sidebar-link-label">{{ $nav['label'] }}</span>
                 </a>
             @endforeach
-
-            @if (Auth::user()->isAdmin())
-                <a href="{{ route('admin.dashboard') }}"
-                   style="display:flex;align-items:center;gap:5px;padding:6px 12px;border-radius:8px;background:#FEE2E2;color:#dc2626;font-size:13px;font-weight:600;text-decoration:none;margin-top:8px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                    Admin Panel
-                </a>
-            @endif
         </nav>
 
-        {{-- Tambahkan sebelum link profil --}}
-        @if (auth()->user()->isFree())
-            <a href="{{ route('premium.upgrade') }}"
-            style="display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:8px;background:#FEF9C3;color:#92400E;font-size:13px;font-weight:600;text-decoration:none;border:1px solid #FDE68A;transition:all 0.15s;"
-            onmouseover="this.style.background='#FDE68A'"
-            onmouseout="this.style.background='#FEF9C3'">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3l14 9-14 9V3z"/>
-                </svg>
-                Upgrade Premium
-            </a>
-        @else
-            <span style="display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:8px;background:#DCFCE7;color:#15803d;font-size:12px;font-weight:700;">
-                ⭐ Premium
-            </span>
-        @endif
-
-        {{-- Footer Sidebar: Profile & Logout --}}
+        {{-- Footer Sidebar: Admin, Premium, Profile & Logout --}}
         <div class="sidebar-footer">
+            {{-- Admin Panel link --}}
+            @if (Auth::user()->isAdmin())
+                <a href="{{ route('admin.dashboard') }}"
+                   class="sidebar-link"
+                   style="background:#FEE2E2;color:#dc2626;margin-bottom:6px;font-size:13px;"
+                   title="Admin Panel">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="sidebar-link-label">Admin Panel</span>
+                </a>
+            @endif
+
+            {{-- Premium badge / Upgrade button --}}
+            @if (Auth::user()->isPremium())
+                <div class="sidebar-link"
+                     style="background:#DCFCE7;color:#15803d;cursor:default;font-size:13px;margin-bottom:6px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;flex-shrink:0;" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="sidebar-link-label">Premium Aktif</span>
+                </div>
+            @else
+                <a href="{{ route('premium.upgrade') }}"
+                   class="sidebar-link"
+                   style="background:#FEF9C3;color:#92400E;font-size:13px;margin-bottom:6px;"
+                   title="Upgrade Premium">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;flex-shrink:0;" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                    </svg>
+                    <span class="sidebar-link-label">Upgrade Premium</span>
+                </a>
+            @endif
+
+            {{-- Profil & Logout --}}
             <a href="{{ route('profile.edit') }}"
                class="sidebar-link {{ request()->routeIs('profile.*') ? 'active' : '' }}"
                title="Profil">
@@ -130,8 +135,10 @@
             </a>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="sidebar-link" style="width:100%;background:none;border:none;cursor:pointer;text-align:left;" title="Keluar">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <button type="submit" class="sidebar-link"
+                        style="width:100%;background:none;border:none;cursor:pointer;text-align:left;"
+                        title="Keluar">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;flex-shrink:0;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
                     <span class="sidebar-link-label">Keluar</span>
@@ -146,36 +153,36 @@
     {{-- ===== MAIN CONTENT ===== --}}
     <div class="main-content" id="main-content">
 
-    {{-- Topbar --}}
-    <div class="topbar" style="padding: 10px 32px 10px 24px;">
-        <div class="topbar-left">
-            <button class="topbar-toggle" id="sidebar-toggle" onclick="toggleSidebar()">
-                <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
-            <div>
-                <div class="topbar-date" id="topbar-date"></div>
-                @if (isset($header))
-                    <div style="font-size:18px;font-weight:700;color:var(--dark);line-height:1.2;margin-top:1px;">
-                        {{ $header }}
-                    </div>
-                @endif
+        {{-- Topbar --}}
+        <div class="topbar" style="padding: 10px 32px 10px 24px;">
+            <div class="topbar-left">
+                <button class="topbar-toggle" id="sidebar-toggle" onclick="toggleSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="width:18px;height:18px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+                <div>
+                    <div class="topbar-date" id="topbar-date"></div>
+                    @if (isset($header))
+                        <div style="font-size:18px;font-weight:700;color:var(--dark);line-height:1.2;margin-top:1px;">
+                            {{ $header }}
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            {{-- User info --}}
+            <div style="display:flex;align-items:center;gap:10px;margin-right:8px;">
+                <a href="{{ route('profile.edit') }}"
+                style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);transition:all 0.15s;"
+                onmouseover="this.style.borderColor='var(--blue)'"
+                onmouseout="this.style.borderColor='var(--border)'">
+                    <img src="{{ Auth::user()->avatar_url }}" alt="Avatar"
+                        style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--blue-light);">
+                    <span style="font-size:14px;font-weight:600;color:var(--dark);">{{ Auth::user()->name }}</span>
+                </a>
             </div>
         </div>
-
-        {{-- User info — beri margin kanan supaya tidak mentok --}}
-        <div style="display:flex;align-items:center;gap:10px;margin-right:8px;">
-            <a href="{{ route('profile.edit') }}"
-            style="display:flex;align-items:center;gap:8px;text-decoration:none;padding:6px 14px;border-radius:99px;border:1.5px solid var(--border);background:var(--white);transition:all 0.15s;"
-            onmouseover="this.style.borderColor='var(--blue)'"
-            onmouseout="this.style.borderColor='var(--border)'">
-                <img src="{{ Auth::user()->avatar_url }}" alt="Avatar"
-                    style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid var(--blue-light);">
-                <span style="font-size:14px;font-weight:600;color:var(--dark);">{{ Auth::user()->name }}</span>
-            </a>
-        </div>
-    </div>
 
         {{-- Flash message --}}
         <div class="page-content">

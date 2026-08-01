@@ -24,6 +24,11 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
+// Rute Publik Baru (Tanpa Auth)
+Route::get('/terms', fn() => view('legal.terms'))->name('legal.terms');
+Route::get('/privacy', fn() => view('legal.privacy'))->name('legal.privacy');
+Route::get('/contact', fn() => view('legal.contact'))->name('legal.contact');
+
 // Dashboard User
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
@@ -72,11 +77,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/premium/upgrade', [PremiumController::class, 'upgrade'])->name('premium.upgrade');
     
     // Rute Pembayaran Baru (User)
-    Route::get('/payment/history', [\App\Http\Controllers\PaymentController::class, 'index'])
+    Route::get('/payment/history', [PaymentController::class, 'index'])
          ->name('payment.history');
-    Route::post('/payment/order', [\App\Http\Controllers\PaymentController::class, 'createOrder'])
+    Route::post('/payment/order', [PaymentController::class, 'createOrder'])
          ->name('payment.order');
-    Route::get('/payment/pending', [\App\Http\Controllers\PaymentController::class, 'pending'])
+    Route::get('/payment/pending', [PaymentController::class, 'pending'])
          ->name('payment.pending');
 
     // Rute Budget
@@ -104,7 +109,7 @@ Route::prefix('admin')
     });
 
 // Konfirmasi pembayaran (dari PaymentController, bukan admin namespace)
-Route::patch('/payment/{payment}/confirm', [\App\Http\Controllers\PaymentController::class, 'confirm'])
+Route::patch('/payment/{payment}/confirm', [PaymentController::class, 'confirm'])
     ->middleware(['auth', 'admin'])
     ->name('payment.confirm');
 
