@@ -31,6 +31,7 @@ class User extends Authenticatable
         'subscription_plan',
         'subscription_expires_at',
         'midtrans_order_id',
+        'onboarding_completed',
     ];
 
     protected $hidden = [

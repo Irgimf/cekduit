@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PaymentAdminController;
 use App\Http\Controllers\BudgetController;
 use App\Http\Controllers\RecurringController;
 use App\Http\Controllers\SavingsController;
+use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page
@@ -88,6 +89,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/budgets', [BudgetController::class, 'index'])->name('budgets.index');
     Route::post('/budgets', [BudgetController::class, 'store'])->name('budgets.store');
     Route::delete('/budgets/{budget}', [BudgetController::class, 'destroy'])->name('budgets.destroy');
+
+    // Rute Onboarding
+    Route::get('/onboarding', [OnboardingController::class, 'index'])->name('onboarding.index');
+    Route::get('/onboarding/{step}', [OnboardingController::class, 'step'])->name('onboarding.step');
+    Route::post('/onboarding/account', [OnboardingController::class, 'storeAccount'])->name('onboarding.store-account');
+    Route::post('/onboarding/categories', [OnboardingController::class, 'storeCategories'])->name('onboarding.store-categories');
+    Route::post('/onboarding/transaction', [OnboardingController::class, 'storeTransaction'])->name('onboarding.store-transaction');
+    Route::post('/onboarding/complete', [OnboardingController::class, 'complete'])->name('onboarding.complete');
+    Route::post('/onboarding/skip', [OnboardingController::class, 'skip'])->name('onboarding.skip');
 });
 
 // Rute Khusus Admin

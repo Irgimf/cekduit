@@ -11,10 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Tetap mempertahankan middleware yang di-append sebelumnya
         $middleware->append(\App\Http\Middleware\DetectMobile::class);
+        $middleware->append(\App\Http\Middleware\CheckOnboarding::class);
 
-        // Menambahkan alias middleware baru di sini
         $middleware->alias([
             'premium' => \App\Http\Middleware\CheckPremium::class,
             'admin'   => \App\Http\Middleware\CheckAdmin::class,
