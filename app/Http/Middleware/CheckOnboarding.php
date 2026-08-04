@@ -7,35 +7,42 @@ use Illuminate\Http\Request;
 
 class CheckOnboarding
 {
-    // Route yang dikecualikan dari redirect onboarding
-    protected array $except = [
-        'onboarding*',
-        'logout',
-        'profile*',
-        'legal*',
-    ];
-
     public function handle(Request $request, Closure $next)
     {
-        if (
-            auth()->check()
-            && ! auth()->user()->onboarding_completed
-            && ! auth()->user()->isAdmin()
-            && ! $this->isExcluded($request)
-        ) {
-            return redirect()->route('onboarding.index');
+        // Skip kalau user belum login
+        if (! auth()->check()) {
+            return $next($request);
         }
 
-        return $next($request);
-    }
+        $user = auth()->user();
 
-    private function isExcluded(Request $request): bool
-    {
-        foreach ($this->except as $pattern) {
-            if ($request->routeIs($pattern)) {
-                return true;
-            }
+        // Skip kalau sudah selesai onboarding
+        if ($user->onboarding_completed) {
+            return $next($request);
         }
-        return false;
+
+        // Skip kalau user admin
+        if ($user->isAdmin()) {
+            return $next($request);
+        }
+
+        // Skip kalau sedang di route onboarding itu sendiri
+        if ($request->routeIs('onboarding.*')) {
+            return $next($request);
+        }
+
+        // Skip kalau sedang logout atau legal pages
+        if ($request->routeIs('logout') || $request->routeIs('legal.*')) {
+            return $next($request);
+        }
+
+        // Skip kalau request bukan GET (POST, PATCH, DELETE tetap jalan)
+        // agar form submit tidak ter-redirect
+        if (! $request->isMethod('GET')) {
+            return $next($request);
+        }
+
+        // Redirect ke onboarding
+        return redirect()->route('onboarding.index');
     }
 }

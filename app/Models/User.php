@@ -46,6 +46,7 @@ class User extends Authenticatable
             'password'                => 'hashed',
             'otp_expires_at'          => 'datetime',
             'subscription_expires_at' => 'datetime',
+            'onboarding_completed'    => 'boolean',
         ];
     }
 
