@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class CheckOnboarding
 {
+    // Path yang dikecualikan
+    protected array $exceptPaths = [
+        'onboarding',
+        'onboarding/*',
+        'logout',
+        'terms',
+        'privacy',
+        'contact',
+        'legal/*',
+    ];
+
     public function handle(Request $request, Closure $next)
     {
         // Skip kalau user belum login
@@ -26,23 +37,27 @@ class CheckOnboarding
             return $next($request);
         }
 
-        // Skip kalau sedang di route onboarding itu sendiri
-        if ($request->routeIs('onboarding.*')) {
+        // Skip kalau path dikecualikan
+        if ($this->isExcluded($request)) {
             return $next($request);
         }
 
-        // Skip kalau sedang logout atau legal pages
-        if ($request->routeIs('logout') || $request->routeIs('legal.*')) {
-            return $next($request);
-        }
-
-        // Skip kalau request bukan GET (POST, PATCH, DELETE tetap jalan)
-        // agar form submit tidak ter-redirect
+        // Hanya redirect untuk GET request
         if (! $request->isMethod('GET')) {
             return $next($request);
         }
 
         // Redirect ke onboarding
-        return redirect()->route('onboarding.index');
+        return redirect('/onboarding');
+    }
+
+    private function isExcluded(Request $request): bool
+    {
+        foreach ($this->exceptPaths as $path) {
+            if ($request->is($path)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
