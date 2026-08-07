@@ -42,7 +42,14 @@ class OtpVerificationController extends Controller
         $user->clearOtp();
         $request->session()->forget('otp_last_sent_at');
 
-        return redirect()->route('dashboard')->with('success', 'Email berhasil diverifikasi!');
+        // Cek apakah user perlu onboarding
+        if (! $user->onboarding_completed) {
+            return redirect()->route('onboarding.index')
+                ->with('success', 'Email berhasil diverifikasi! Mari setup akun kamu.');
+        }
+
+        return redirect()->route('dashboard')
+            ->with('success', 'Email berhasil diverifikasi!');
     }
 
     public function resend(Request $request): RedirectResponse
