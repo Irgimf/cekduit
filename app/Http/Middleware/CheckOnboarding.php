@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class CheckOnboarding
 {
-    // Path yang dikecualikan
     protected array $exceptPaths = [
         'onboarding',
         'onboarding/*',
@@ -16,6 +15,7 @@ class CheckOnboarding
         'privacy',
         'contact',
         'legal/*',
+        '_debugbar/*',
     ];
 
     public function handle(Request $request, Closure $next)
@@ -28,7 +28,7 @@ class CheckOnboarding
         $user = auth()->user();
 
         // Skip kalau sudah selesai onboarding
-        if ($user->onboarding_completed) {
+        if ((bool) $user->onboarding_completed === true) {
             return $next($request);
         }
 
@@ -37,27 +37,19 @@ class CheckOnboarding
             return $next($request);
         }
 
-        // Skip kalau path dikecualikan
-        if ($this->isExcluded($request)) {
-            return $next($request);
-        }
-
-        // Hanya redirect untuk GET request
+        // Skip kalau bukan GET request
         if (! $request->isMethod('GET')) {
             return $next($request);
         }
 
-        // Redirect ke onboarding
-        return redirect('/onboarding');
-    }
-
-    private function isExcluded(Request $request): bool
-    {
+        // Skip kalau path dikecualikan
         foreach ($this->exceptPaths as $path) {
             if ($request->is($path)) {
-                return true;
+                return $next($request);
             }
         }
-        return false;
+
+        // Semua GET request dari user yang belum onboarding → redirect
+        return redirect('/onboarding');
     }
 }
