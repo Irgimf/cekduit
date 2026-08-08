@@ -47,24 +47,37 @@ class OnboardingController extends Controller
     public function storeCategories(Request $request): RedirectResponse
     {
         $user = auth()->user();
+        $isFree = $user->isFree();
+        $maxCategories = $isFree ? \App\Models\User::FREE_MAX_CATEGORIES : 999;
 
-        // Tambahkan kategori yang dipilih user
-        $incomeCategories  = $request->income_categories  ?? [];
-        $expenseCategories = $request->expense_categories ?? [];
+        $incomeCategories  = array_filter($request->income_categories  ?? []);
+        $expenseCategories = array_filter($request->expense_categories ?? []);
+        $allSelected       = array_merge($incomeCategories, $expenseCategories);
 
+        // Batasi total kategori untuk user free
+        if ($isFree && count($allSelected) > $maxCategories) {
+            return back()->withErrors([
+                'categories' => "Akun gratis hanya bisa memiliki maksimal {$maxCategories} kategori total. Kamu memilih " . count($allSelected) . " kategori. Kurangi pilihanmu."
+            ])->withInput();
+        }
+
+        // Simpan kategori
+        $saved = 0;
         foreach ($incomeCategories as $name) {
-            if (trim($name)) {
+            if (trim($name) && $saved < $maxCategories) {
                 $user->categories()->firstOrCreate(
-                    ['name' => trim($name), 'type' => 'income'],
+                    ['name' => trim($name), 'type' => 'income']
                 );
+                $saved++;
             }
         }
 
         foreach ($expenseCategories as $name) {
-            if (trim($name)) {
+            if (trim($name) && $saved < $maxCategories) {
                 $user->categories()->firstOrCreate(
-                    ['name' => trim($name), 'type' => 'expense'],
+                    ['name' => trim($name), 'type' => 'expense']
                 );
+                $saved++;
             }
         }
 
