@@ -8,7 +8,7 @@
 
         @if (session('info'))
             <div style="background:#FEF9C3;border-radius:12px;padding:14px;font-size:13px;color:#92400E;font-weight:500;">
-                ⚠️ {{ session('info') }}
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ {{ session('info') }}
             </div>
         @endif
 
@@ -34,7 +34,7 @@
                     ['1', '#014BAA', 'Tunggu balasan WhatsApp dari admin CekDuit'],
                     ['2', '#014BAA', 'Lakukan pembayaran sesuai instruksi yang dikirim admin'],
                     ['3', '#014BAA', 'Kirim bukti transfer ke WhatsApp admin'],
-                    ['✓', '#22C55E', 'Akun Premium kamu akan aktif dalam hitungan menit'],
+                    ['<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />', '#22C55E', 'Akun Premium kamu akan aktif dalam hitungan menit'],
                 ] as [$num, $bg, $text])
                 <div style="display:flex;align-items:flex-start;gap:12px;">
                     <div style="width:26px;height:26px;background:{{ $bg }};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">

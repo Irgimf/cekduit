@@ -18,7 +18,7 @@
                 <div style="display:grid;grid-template-columns:auto 2fr 2fr 2fr auto;gap:12px;align-items:end;">
                     <div>
                         <label class="cd-label">Ikon</label>
-                        <input type="text" name="icon" value="{{ old('icon', '🎯') }}"
+                        <input type="text" name="icon" value="{{ old('icon', '<x-heroicon-o-bullseye class="w-6 h-6 inline text-red-500" />') }}"
                                class="cd-input" style="width:56px;text-align:center;font-size:20px;">
                     </div>
                     <div>
@@ -54,7 +54,7 @@
         {{-- Daftar goal --}}
         @if ($goals->isEmpty())
             <div class="cd-card" style="padding:48px;text-align:center;">
-                <div style="font-size:48px;margin-bottom:12px;">🏦</div>
+                <div style="font-size:48px;margin-bottom:12px;"><x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" /></div>
                 <p style="color:var(--muted);font-size:15px;font-weight:500;">Belum ada target tabungan</p>
                 <p style="color:var(--muted);font-size:13px;margin-top:4px;">Buat goal pertamamu di atas dan mulai menabung!</p>
             </div>
@@ -63,10 +63,10 @@
                 @foreach ($goals as $goal)
                 @php
                     $statusInfo = [
-                        'completed' => ['color'=>'#22C55E','bg'=>'#DCFCE7','label'=>'✅ Tercapai!'],
-                        'almost'    => ['color'=>'#EAB308','bg'=>'#FEF9C3','label'=>'🔥 Hampir!'],
-                        'overdue'   => ['color'=>'#EF4444','bg'=>'#FEE2E2','label'=>'⚠️ Terlambat'],
-                        'active'    => ['color'=>'#014BAA','bg'=>'#E8F0FB','label'=>'💪 Berjalan'],
+                        'completed' => ['color'=>'#22C55E','bg'=>'#DCFCE7','label'=>'<x-heroicon-s-check-circle class="w-5 h-5 inline text-green-500" /> Tercapai!'],
+                        'almost'    => ['color'=>'#EAB308','bg'=>'#FEF9C3','label'=>'<x-heroicon-o-fire class="w-5 h-5 inline text-orange-500" /> Hampir!'],
+                        'overdue'   => ['color'=>'#EF4444','bg'=>'#FEE2E2','label'=>'<x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ Terlambat'],
+                        'active'    => ['color'=>'#014BAA','bg'=>'#E8F0FB','label'=>'<x-heroicon-o-hand-thumb-up class="w-5 h-5 inline text-yellow-500" /> Berjalan'],
                     ];
                     $si = $statusInfo[$goal->status()];
                 @endphp

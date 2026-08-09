@@ -96,7 +96,7 @@
         </div>
         @empty
         <div style="text-align:center;padding:40px 20px;color:#94A3B8;">
-            <div style="font-size:40px;margin-bottom:12px;">📊</div>
+            <div style="font-size:40px;margin-bottom:12px;"><x-heroicon-o-chart-bar class="w-6 h-6 inline text-blue-500" /></div>
             <div style="font-size:15px;font-weight:600;margin-bottom:4px;color:#64748B;">Belum ada budget</div>
             <div style="font-size:13px;">Tambahkan budget di atas untuk mulai mengontrol pengeluaran kamu.</div>
         </div>

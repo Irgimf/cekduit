@@ -38,7 +38,7 @@
         <div style="display:flex;align-items:center;gap:12px;">
             <button type="submit" class="cd-btn cd-btn-primary">Simpan Perubahan</button>
             @if (session('status') === 'profile-updated')
-                <p style="font-size:13px;color:var(--green);font-weight:500;">✓ Tersimpan</p>
+                <p style="font-size:13px;color:var(--green);font-weight:500;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Tersimpan</p>
             @endif
         </div>
     </form>

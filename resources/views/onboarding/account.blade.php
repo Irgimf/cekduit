@@ -39,9 +39,9 @@
                 <label class="ob-label">Jenis Rekening</label>
                 <div class="ob-chip-grid">
                     @foreach ([
-                        ['cash',     '👛', 'Dompet / Cash'],
-                        ['bank',     '🏦', 'Bank'],
-                        ['e_wallet', '📱', 'E-Wallet'],
+                        ['cash',     '<x-heroicon-o-wallet class="w-6 h-6 inline text-purple-500" />', 'Dompet / Cash'],
+                        ['bank',     '<x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" />', 'Bank'],
+                        ['e_wallet', '<x-heroicon-o-device-phone-mobile class="w-6 h-6 inline text-gray-500" />', 'E-Wallet'],
                     ] as [$val, $emoji, $label])
                     <div class="ob-chip {{ old('type','cash') === $val ? 'selected' : '' }}"
                          onclick="selectType('{{ $val }}', this)"

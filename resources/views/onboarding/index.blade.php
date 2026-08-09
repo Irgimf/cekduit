@@ -32,7 +32,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                 </svg>
             </div>
-            <div class="ob-title" style="text-align:center;">Selamat Datang,<br>{{ auth()->user()->name }}! 👋</div>
+            <div class="ob-title" style="text-align:center;">Selamat Datang,<br>{{ auth()->user()->name }}! <x-heroicon-o-hand-raised class="w-6 h-6 inline text-yellow-500" /></div>
             <div class="ob-desc" style="text-align:center;margin-bottom:0;">
                 Mari setup akun CekDuit kamu dalam<br>
                 <strong style="color:#014BAA;">3 langkah mudah</strong> — hanya butuh 2 menit.
@@ -42,9 +42,9 @@
         {{-- Steps preview --}}
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
             @foreach ([
-                ['🏦', '#E8F0FB', '#014BAA', 'Langkah 1', 'Tambah rekening pertamamu', 'Dompet, bank, atau e-wallet'],
-                ['🏷️', '#DCFCE7', '#16a34a', 'Langkah 2', 'Pilih kategori', 'Pengeluaran dan pemasukan'],
-                ['💰', '#FEF9C3', '#ca8a04', 'Langkah 3', 'Catat transaksi pertama', 'Opsional, bisa dilewati'],
+                ['<x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" />', '#E8F0FB', '#014BAA', 'Langkah 1', 'Tambah rekening pertamamu', 'Dompet, bank, atau e-wallet'],
+                ['<x-heroicon-o-tag class="w-5 h-5 inline text-blue-500" />️', '#DCFCE7', '#16a34a', 'Langkah 2', 'Pilih kategori', 'Pengeluaran dan pemasukan'],
+                ['<x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" />', '#FEF9C3', '#ca8a04', 'Langkah 3', 'Catat transaksi pertama', 'Opsional, bisa dilewati'],
             ] as [$emoji, $bg, $color, $step, $title, $desc])
             <div style="background:#fff;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;">
                 <div style="width:44px;height:44px;background:{{ $bg }};border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">

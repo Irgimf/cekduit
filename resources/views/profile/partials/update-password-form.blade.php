@@ -31,7 +31,7 @@
         <div style="display:flex;align-items:center;gap:12px;">
             <button type="submit" class="cd-btn cd-btn-dark">Update Password</button>
             @if (session('status') === 'password-updated')
-                <p style="font-size:13px;color:var(--green);font-weight:500;">✓ Password diperbarui</p>
+                <p style="font-size:13px;color:var(--green);font-weight:500;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Password diperbarui</p>
             @endif
         </div>
     </form>

@@ -130,7 +130,7 @@
         </div>
         @empty
         <div style="text-align:center;padding:40px 20px;color:#94A3B8;">
-            <div style="font-size:40px;margin-bottom:12px;">🔄</div>
+            <div style="font-size:40px;margin-bottom:12px;"><x-heroicon-o-arrow-path class="w-5 h-5 inline text-blue-500" /></div>
             <div style="font-size:15px;font-weight:600;margin-bottom:4px;color:#64748B;">Belum ada transaksi berulang</div>
             <div style="font-size:13px;">Tambahkan di atas untuk transaksi rutin otomatis</div>
         </div>

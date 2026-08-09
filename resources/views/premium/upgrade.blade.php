@@ -5,7 +5,7 @@
 
         @if (session('warning'))
             <div style="background:#FEF9C3;border:1px solid #FDE68A;color:#92400E;padding:12px 16px;border-radius:8px;margin-bottom:16px;font-size:14px;">
-                ⚠️ {{ session('warning') }}
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ {{ session('warning') }}
             </div>
         @endif
 
@@ -24,7 +24,7 @@
                 @if (auth()->user()->isPremium())
                     <div style="margin-left:auto;">
                         <div style="background:rgba(34,197,94,0.2);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#4ade80;">
-                            ✓ Aktif
+                            <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Aktif
                         </div>
                     </div>
                 @endif
@@ -50,18 +50,18 @@
                         ['Rekening',            '2 rekening',   'Tidak terbatas'],
                         ['Kategori',            '5 kategori',   'Tidak terbatas'],
                         ['Riwayat Transaksi',   '30 hari',      'Selamanya'],
-                        ['Transfer Rekening',   '✓',            '✓'],
-                        ['Export PDF & Excel',  '✗',            '✓'],
-                        ['Laporan Lengkap',     '✗',            '✓'],
-                        ['Budget per Kategori', '✗',            '✓'],
-                        ['Target Tabungan',     '✗',            '✓'],
-                        ['Transaksi Berulang',  '✗',            '✓'],
+                        ['Transfer Rekening',   '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />',            '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
+                        ['Export PDF & Excel',  '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',            '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
+                        ['Laporan Lengkap',     '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',            '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
+                        ['Budget per Kategori', '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',            '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
+                        ['Target Tabungan',     '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',            '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
+                        ['Transaksi Berulang',  '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',            '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
                     ];
                     @endphp
                     @foreach ($features as $i => [$label, $free, $premium])
                     <tr style="{{ $i % 2 === 0 ? '' : 'background:#FAFBFC;' }}">
                         <td style="padding:11px 20px;font-size:14px;color:var(--dark);border-bottom:1px solid var(--border);">{{ $label }}</td>
-                        <td style="padding:11px 20px;text-align:center;font-size:13px;color:{{ $free === '✗' ? '#94A3B8' : 'var(--muted)' }};border-bottom:1px solid var(--border);">{{ $free }}</td>
+                        <td style="padding:11px 20px;text-align:center;font-size:13px;color:{{ $free === '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />' ? '#94A3B8' : 'var(--muted)' }};border-bottom:1px solid var(--border);">{{ $free }}</td>
                         <td style="padding:11px 20px;text-align:center;font-size:13px;font-weight:600;color:var(--blue);border-bottom:1px solid var(--border);background:rgba(232,240,251,0.4);">
                             @if (str_contains($premium, 'Segera'))
                                 <span style="font-size:11px;background:#FEF9C3;color:#92400E;padding:2px 8px;border-radius:99px;">{{ $premium }}</span>
@@ -118,7 +118,7 @@
             </form>
 
             <p style="text-align:center;font-size:12px;color:var(--muted);">
-                💬 Kamu akan diarahkan ke WhatsApp untuk konfirmasi pembayaran
+                <x-heroicon-o-chat-bubble-left-ellipsis class="w-5 h-5 inline text-blue-500" /> Kamu akan diarahkan ke WhatsApp untuk konfirmasi pembayaran
             </p>
 
             <div style="text-align:center;margin-top:12px;">
@@ -153,7 +153,7 @@
         @else
             {{-- Sudah premium --}}
             <div class="cd-card" style="padding:28px;text-align:center;background:var(--green-bg);">
-                <div style="font-size:40px;margin-bottom:12px;">🎉</div>
+                <div style="font-size:40px;margin-bottom:12px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" /></div>
                 <div style="font-size:18px;font-weight:700;color:#15803d;margin-bottom:6px;">Kamu sudah Premium!</div>
                 <div style="font-size:14px;color:var(--muted);">{{ auth()->user()->subscriptionLabel() }}</div>
             </div>

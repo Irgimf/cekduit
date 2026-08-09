@@ -886,7 +886,7 @@
                         </div>
                     </div>
                     <div class="phone-header">
-                        <div class="phone-greeting">Selamat Pagi, 👋</div>
+                        <div class="phone-greeting">Selamat Pagi, <x-heroicon-o-hand-raised class="w-6 h-6 inline text-yellow-500" /></div>
                         <div class="phone-name">Akun Pengguna</div>
                         <div class="phone-balance-label">Total Saldo</div>
                         <div class="phone-balance">Rp 2.450.000</div>
@@ -1108,7 +1108,7 @@
                 <div class="pricing-name">Premium</div>
                 <div class="pricing-price">Rp 15rb</div>
                 <div class="pricing-period">/bulan</div>
-                <div class="pricing-annual">💡 Hemat 33% — Rp 120.000/tahun</div>
+                <div class="pricing-annual"><x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" /> Hemat 33% — Rp 120.000/tahun</div>
 
                 <ul class="pricing-features">
                     <li class="pricing-feature">
@@ -1209,7 +1209,7 @@
 
         <div class="footer-bottom">
             <div class="footer-copy">
-                &copy; {{ date('Y') }} CekDuit. Dibuat dengan ❤️ untuk masyarakat Indonesia.
+                &copy; {{ date('Y') }} CekDuit. Dibuat dengan <x-heroicon-s-heart class="w-5 h-5 inline text-red-500" />️ untuk masyarakat Indonesia.
             </div>
             <div style="font-size:13px;">
                 Aman · Terpercaya · Mudah Digunakan

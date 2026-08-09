@@ -36,7 +36,7 @@
                         Kirim bukti transfer ke WhatsApp admin
                     </div>
                     <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);">
-                        <span style="width:22px;height:22px;background:#22C55E;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">✓</span>
+                        <span style="width:22px;height:22px;background:#22C55E;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /></span>
                         Akun Premium kamu akan aktif dalam hitungan menit
                     </div>
                 </div>

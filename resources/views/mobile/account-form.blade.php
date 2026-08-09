@@ -38,9 +38,9 @@
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
                         @php $currentType = old('type', isset($account) ? $account->type : 'cash'); @endphp
                         @foreach ([
-                            ['value' => 'cash', 'label' => 'Cash', 'emoji' => '👛'],
-                            ['value' => 'bank', 'label' => 'Bank', 'emoji' => '🏦'],
-                            ['value' => 'e_wallet', 'label' => 'E-Wallet', 'emoji' => '📱'],
+                            ['value' => 'cash', 'label' => 'Cash', 'emoji' => '<x-heroicon-o-wallet class="w-6 h-6 inline text-purple-500" />'],
+                            ['value' => 'bank', 'label' => 'Bank', 'emoji' => '<x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" />'],
+                            ['value' => 'e_wallet', 'label' => 'E-Wallet', 'emoji' => '<x-heroicon-o-device-phone-mobile class="w-6 h-6 inline text-gray-500" />'],
                         ] as $type)
                         <label style="cursor:pointer;" onclick="switchType('{{ $type['value'] }}')">
                             <input type="radio" name="type" value="{{ $type['value'] }}"
@@ -104,7 +104,7 @@
                 @else
                     <div style="background:#FEF9C3;border-radius:10px;padding:12px 14px;">
                         <div style="font-size:13px;color:#92400e;">
-                            💡 Saldo awal otomatis Rp 0 dan akan berubah sesuai transaksi yang kamu catat.
+                            <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" /> Saldo awal otomatis Rp 0 dan akan berubah sesuai transaksi yang kamu catat.
                         </div>
                     </div>
                 @endif
