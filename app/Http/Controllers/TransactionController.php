@@ -154,14 +154,29 @@ class TransactionController extends Controller
         $validated = $request->validate($formRequest->rules());
 
         DB::transaction(function () use ($validated, $transaction) {
-            if ($transaction->type === 'income') {
-                $transaction->account->decrement('balance', $transaction->amount);
-                $transaction->update($validated);
-                $transaction->account()->first()->increment('balance', $transaction->amount);
+            $oldAccount = $transaction->account;
+            $oldAmount  = $transaction->amount;
+            $type       = $transaction->type;
+
+            // Kembalikan saldo rekening lama
+            if ($type === 'income') {
+                $oldAccount->decrement('balance', $oldAmount);
             } else {
-                $transaction->account->increment('balance', $transaction->amount);
-                $transaction->update($validated);
-                $transaction->account()->first()->decrement('balance', $transaction->amount);
+                $oldAccount->increment('balance', $oldAmount);
+            }
+
+            // Perbarui data transaksi
+            $transaction->update($validated);
+            $transaction->refresh();
+
+            // Terapkan saldo pada rekening baru/terbaru
+            $newAccount = $transaction->account;
+            $newAmount  = $transaction->amount;
+
+            if ($type === 'income') {
+                $newAccount->increment('balance', $newAmount);
+            } else {
+                $newAccount->decrement('balance', $newAmount);
             }
         });
 
@@ -185,7 +200,8 @@ class TransactionController extends Controller
         return redirect()->route('transactions.index', ['type' => $transaction->type])
             ->with('success', 'Transaksi berhasil dihapus.');
     }
-        public function storeTransfer(Request $request): RedirectResponse
+
+    public function storeTransfer(Request $request): RedirectResponse
     {
         $request->validate([
             'from_account_id' => ['required', 'exists:accounts,id'],
