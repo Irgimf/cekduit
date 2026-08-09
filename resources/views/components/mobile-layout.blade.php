@@ -80,7 +80,7 @@
     .mobile-toast { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: #1E293B; color: #fff; padding: 10px 16px; border-radius: 99px; font-size: 13px; font-weight: 500; z-index: 9999; white-space: nowrap; box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
     .mobile-empty { text-align: center; padding: 40px 20px; color: #94A3B8; }
     .mobile-tab-bar { display: flex; background: #E8F0FB; border-radius: 12px; padding: 4px; margin: 0 16px 16px; }
-    .mobile-tab { flex: 1; text-align: center; padding: 9px; border-radius: 9px; font-size: 13px; font-weight: 600; color: #64748B; text-decoration: none; }
+    .mobile-tab { flex: 1; text-align: center; padding: 9px; border-radius: 99px; font-size: 13px; font-weight: 600; color: #64748B; text-decoration: none; }
     .mobile-tab.active { background: #014BAA; color: #fff; }
     .mobile-page-header { background: linear-gradient(135deg, #014BAA 0%, #0166E8 100%); padding: 16px 20px 20px; display: flex; align-items: center; gap: 12px; }
     .mobile-back-btn { width: 36px; height: 36px; border-radius: 10px; background: rgba(255,255,255,0.15); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; text-decoration: none; }
@@ -153,6 +153,88 @@
         }
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
     </script>
+
+    {{-- Custom Confirm Modal --}}
+    <div id="cd-confirm-overlay"
+         style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:99999;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:#fff;border-radius:20px;padding:28px 24px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.2);animation:cdModalIn 0.2s ease;">
+            <div id="cd-confirm-icon"
+                 style="width:52px;height:52px;border-radius:14px;background:#FEE2E2;display:flex;align-items:center;justify-content:center;margin-bottom:16px;">
+                <svg xmlns="http://www.w3.org/2000/svg" style="width:26px;height:26px;color:#dc2626;"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+            </div>
+            <div id="cd-confirm-title"
+                 style="font-size:17px;font-weight:700;color:#0F172A;margin-bottom:6px;">
+                Konfirmasi
+            </div>
+            <div id="cd-confirm-message"
+                 style="font-size:14px;color:#64748B;line-height:1.6;margin-bottom:24px;">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+                <button onclick="cdCancelConfirm()"
+                        style="padding:12px;background:#F1F5F9;color:#64748B;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;">
+                    Batal
+                </button>
+                <button id="cd-confirm-btn"
+                        onclick="cdDoConfirm()"
+                        style="padding:12px;background:#EF4444;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.15s;">
+                    Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    @keyframes cdModalIn {
+        from { transform: scale(0.92); opacity: 0; }
+        to   { transform: scale(1);    opacity: 1; }
+    }
+    </style>
+
+    <script>
+    let _cdPendingForm = null;
+
+    function cdConfirm(message, formEl, options = {}) {
+        _cdPendingForm = formEl;
+
+        const overlay  = document.getElementById('cd-confirm-overlay');
+        const msgEl    = document.getElementById('cd-confirm-message');
+        const titleEl  = document.getElementById('cd-confirm-title');
+        const btnEl    = document.getElementById('cd-confirm-btn');
+        const iconEl   = document.getElementById('cd-confirm-icon');
+
+        msgEl.textContent   = message;
+        titleEl.textContent = options.title  || 'Konfirmasi Hapus';
+        btnEl.textContent   = options.action || 'Hapus';
+        btnEl.style.background = options.color || '#EF4444';
+        iconEl.style.background = options.iconBg || '#FEE2E2';
+
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function cdDoConfirm() {
+        if (_cdPendingForm) {
+            _cdPendingForm.submit();
+        }
+        cdCancelConfirm();
+    }
+
+    function cdCancelConfirm() {
+        document.getElementById('cd-confirm-overlay').style.display = 'none';
+        document.body.style.overflow = '';
+        _cdPendingForm = null;
+    }
+
+    // Tutup kalau klik overlay
+    document.getElementById('cd-confirm-overlay').addEventListener('click', function(e) {
+        if (e.target === this) cdCancelConfirm();
+    });
+    </script>
+
     @stack('scripts')
 </body>
 </html>

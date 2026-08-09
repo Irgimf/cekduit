@@ -126,19 +126,18 @@ class TransactionController extends Controller
     {
         $this->authorize('update', $transaction);
 
-        $accounts = auth()->user()->accounts;
-        $categories = auth()->user()->categories()
-            ->where('type', $transaction->type)->get();
+        $accounts          = auth()->user()->accounts;
+        $incomeCategories  = auth()->user()->categories()->where('type', 'income')->get();
+        $expenseCategories = auth()->user()->categories()->where('type', 'expense')->get();
 
         if (config('is_mobile')) {
-            return view('mobile.transactions', compact(
-                'transactions', 'accounts', 'incomeCategories',
-                'expenseCategories', 'activeTab', 'summary'
+            return view('mobile.transaction-edit', compact(
+                'transaction', 'accounts', 'incomeCategories', 'expenseCategories'
             ));
         }
-        return view('transactions.index', compact(
-            'transactions', 'accounts', 'incomeCategories',
-            'expenseCategories', 'activeTab', 'summary'
+
+        return view('transactions.edit', compact(
+            'transaction', 'accounts', 'incomeCategories', 'expenseCategories'
         ));
     }
 

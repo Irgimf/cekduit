@@ -83,7 +83,7 @@
                                         Edit
                                     </a>
                                     <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                                          onsubmit="return confirm('Hapus kategori ini?')">
+                                          onsubmit="cdConfirm('Hapus kategori {{ $category->name }}?', this); return false;">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="cd-btn cd-btn-red cd-btn-sm">

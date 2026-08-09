@@ -114,7 +114,7 @@
                         Edit
                     </a>
                     <form action="{{ route('accounts.destroy', $account) }}" method="POST"
-                          onsubmit="return confirm('Hapus rekening ini?')" style="flex:1;">
+                          onsubmit="cdConfirm('Hapus rekening {{ $account->name }}? Semua data terkait akan ikut terhapus.', this); return false;" style="flex:1;">
                         @csrf
                         @method('DELETE')
                         <button type="submit"

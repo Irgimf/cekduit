@@ -102,7 +102,7 @@
                             Edit
                         </a>
                         <form action="{{ route('transactions.destroy', $tx) }}" method="POST"
-                              onsubmit="return confirm('Hapus transaksi ini?')" style="display:inline;">
+                              onsubmit="cdConfirm('Hapus transaksi ini? Data tidak bisa dikembalikan.', this); return false;" style="display:inline;">
                             @csrf @method('DELETE')
                             <button type="submit"
                                     style="font-size:11px;color:#EF4444;font-weight:700;background:#FEE2E2;border:none;cursor:pointer;padding:3px 10px;border-radius:6px;font-family:inherit;">

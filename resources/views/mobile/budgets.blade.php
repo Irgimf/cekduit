@@ -86,7 +86,7 @@
             </div>
 
             <form action="{{ route('budgets.destroy', $budget) }}" method="POST"
-                  onsubmit="return confirm('Hapus budget ini?')">
+                 onsubmit="cdConfirm('Hapus budget {{ $budget->category->name }}?', this); return false;">
                 @csrf @method('DELETE')
                 <button type="submit"
                         style="width:100%;padding:8px;background:#FEE2E2;color:#dc2626;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;">

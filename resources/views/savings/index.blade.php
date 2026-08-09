@@ -131,7 +131,7 @@
                             Detail & Setor
                         </a>
                         <form action="{{ route('savings.destroy', $goal) }}" method="POST"
-                              onsubmit="return confirm('Hapus goal ini? Dana akan dikembalikan ke rekening.')">
+                              onsubmit="cdConfirm('Hapus goal ini? Dana akan dikembalikan ke rekening.', this); return false;">
                             @csrf @method('DELETE')
                             <button type="submit" class="cd-btn cd-btn-red cd-btn-sm">Hapus</button>
                         </form>

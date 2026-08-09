@@ -101,7 +101,7 @@
                                 {{ $sc['text'] }}
                             </span>
                             <form action="{{ route('budgets.destroy', $budget) }}" method="POST"
-                                  onsubmit="return confirm('Hapus budget {{ $budget->category->name }}?')">
+                                  onsubmit="cdConfirm('Hapus budget {{ $budget->category->name }}?', this); return false;">
                                 @csrf @method('DELETE')
                                 <button type="submit" class="cd-btn cd-btn-red cd-btn-sm">Hapus</button>
                             </form>

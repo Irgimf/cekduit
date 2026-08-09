@@ -87,7 +87,7 @@
                 @if ($user->id !== auth()->id())
                 <div style="margin-top:24px;padding-top:20px;border-top:1px solid #F1F5F9;">
                     <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                          onsubmit="return confirm('Hapus akun {{ $user->name }}? Semua datanya akan ikut terhapus.')">
+                          onsubmit="cdConfirm('Hapus akun {{ $user->name }}? Semua data akan ikut terhapus permanen.', this, {color:'#dc2626', title:'Hapus Akun User'}); return false;">
                         @csrf @method('DELETE')
                         <button type="submit" class="admin-btn admin-btn-red admin-btn-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" style="width:14px;height:14px;" fill="none" viewBox="0 0 24 24" stroke="currentColor">

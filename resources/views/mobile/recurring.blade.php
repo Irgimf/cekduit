@@ -119,7 +119,7 @@
                     </button>
                 </form>
                 <form action="{{ route('recurring.destroy', $item) }}" method="POST"
-                      onsubmit="return confirm('Hapus transaksi berulang ini?')" style="flex:1;">
+                      onsubmit="cdConfirm('Hapus transaksi berulang ini?', this); return false;" style="flex:1;">
                     @csrf @method('DELETE')
                     <button type="submit"
                             style="width:100%;padding:8px;background:#FEE2E2;color:#dc2626;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">

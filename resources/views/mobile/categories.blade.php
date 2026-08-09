@@ -71,7 +71,7 @@
                     Edit
                 </a>
                 <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                      onsubmit="return confirm('Hapus kategori {{ $category->name }}?')" style="display:inline;">
+                      onsubmit="cdConfirm('Hapus kategori {{ $category->name }}?', this); return false;" style="display:inline;">
                     @csrf @method('DELETE')
                     <button type="submit"
                             style="padding:6px 12px;background:#FEE2E2;border-radius:8px;font-size:12px;font-weight:600;color:#dc2626;border:none;cursor:pointer;font-family:inherit;">
@@ -110,7 +110,7 @@
                     Edit
                 </a>
                 <form action="{{ route('categories.destroy', $category) }}" method="POST"
-                      onsubmit="return confirm('Hapus kategori {{ $category->name }}?')" style="display:inline;">
+                      onsubmit="cdConfirm('Hapus kategori {{ $category->name }}?', this); return false;" style="display:inline;">
                     @csrf @method('DELETE')
                     <button type="submit"
                             style="padding:6px 12px;background:#FEE2E2;border-radius:8px;font-size:12px;font-weight:600;color:#dc2626;border:none;cursor:pointer;font-family:inherit;">
