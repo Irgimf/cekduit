@@ -30,15 +30,18 @@
         <div style="background:#fff;border-radius:14px;padding:16px;">
             <div style="font-size:14px;font-weight:700;color:#1E293B;margin-bottom:14px;">Yang perlu kamu lakukan:</div>
             <div style="display:flex;flex-direction:column;gap:12px;">
-                @foreach ([
-                    ['1', '#014BAA', 'Tunggu balasan WhatsApp dari admin CekDuit'],
-                    ['2', '#014BAA', 'Lakukan pembayaran sesuai instruksi yang dikirim admin'],
-                    ['3', '#014BAA', 'Kirim bukti transfer ke WhatsApp admin'],
-                    ['<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />', '#22C55E', 'Akun Premium kamu akan aktif dalam hitungan menit'],
-                ] as [$num, $bg, $text])
+                @php
+                    $steps = [
+                        ['1', '#014BAA', 'Tunggu balasan WhatsApp dari admin CekDuit'],
+                        ['2', '#014BAA', 'Lakukan pembayaran sesuai instruksi yang dikirim admin'],
+                        ['3', '#014BAA', 'Kirim bukti transfer ke WhatsApp admin'],
+                        ['check', '#22C55E', 'Akun Premium kamu akan aktif dalam hitungan menit'],
+                    ];
+                @endphp
+                @foreach ($steps as [$num, $bg, $text])
                 <div style="display:flex;align-items:flex-start;gap:12px;">
                     <div style="width:26px;height:26px;background:{{ $bg }};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">
-                        {{ $num }}
+                        @if($num === 'check') <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> @else {{ $num }} @endif
                     </div>
                     <div style="font-size:13px;color:#64748B;line-height:1.5;flex:1;">{{ $text }}</div>
                 </div>

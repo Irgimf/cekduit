@@ -38,15 +38,18 @@
             <div class="ob-form-group">
                 <label class="ob-label">Jenis Rekening</label>
                 <div class="ob-chip-grid">
-                    @foreach ([
-                        ['cash',     '<x-heroicon-o-wallet class="w-6 h-6 inline text-purple-500" />', 'Dompet / Cash'],
-                        ['bank',     '<x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" />', 'Bank'],
-                        ['e_wallet', '<x-heroicon-o-device-phone-mobile class="w-6 h-6 inline text-gray-500" />', 'E-Wallet'],
-                    ] as [$val, $emoji, $label])
+                    @php
+                        $types = [
+                            ['cash', 'heroicon-o-wallet', 'text-purple-500', 'Dompet / Cash'],
+                            ['bank', 'heroicon-o-building-library', 'text-blue-500', 'Bank'],
+                            ['e_wallet', 'heroicon-o-device-phone-mobile', 'text-gray-500', 'E-Wallet'],
+                        ];
+                    @endphp
+                    @foreach ($types as [$val, $icon, $color, $label])
                     <div class="ob-chip {{ old('type','cash') === $val ? 'selected' : '' }}"
                          onclick="selectType('{{ $val }}', this)"
                          style="{{ $val === 'e_wallet' ? 'grid-column:1/-1;' : '' }}">
-                        {{ $emoji }} {{ $label }}
+                        <x-dynamic-component :component="$icon" class="w-6 h-6 inline {{ $color }}" /> {{ $label }}
                     </div>
                     @endforeach
                 </div>

@@ -18,7 +18,7 @@
                 <div style="display:grid;grid-template-columns:auto 2fr 2fr 2fr auto;gap:12px;align-items:end;">
                     <div>
                         <label class="cd-label">Ikon</label>
-                        <input type="text" name="icon" value="{{ old('icon', '<x-heroicon-o-bullseye class="w-6 h-6 inline text-red-500" />') }}"
+                        <input type="text" name="icon" value="{{ old('icon', '<x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" />') }}"
                                class="cd-input" style="width:56px;text-align:center;font-size:20px;">
                     </div>
                     <div>

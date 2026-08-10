@@ -16,7 +16,7 @@
                 <div style="display:grid;grid-template-columns:56px 1fr;gap:10px;">
                     <div>
                         <label style="display:block;font-size:13px;font-weight:600;color:#1E293B;margin-bottom:5px;">Ikon</label>
-                        <input type="text" name="icon" value="<x-heroicon-o-bullseye class="w-6 h-6 inline text-red-500" />"
+                        <input type="text" name="icon" value="<x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" />"
                                class="mobile-input" style="text-align:center;font-size:22px;padding:8px;">
                     </div>
                     <div>
@@ -41,7 +41,7 @@
 
                 <button type="submit"
                         style="width:100%;padding:13px;background:#014BAA;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">
-                    <x-heroicon-o-bullseye class="w-6 h-6 inline text-red-500" /> Buat Target
+                    <x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" /> Buat Target
                 </button>
             </form>
         </div>

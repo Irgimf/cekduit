@@ -41,14 +41,17 @@
 
         {{-- Steps preview --}}
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:28px;">
-            @foreach ([
-                ['<x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" />', '#E8F0FB', '#014BAA', 'Langkah 1', 'Tambah rekening pertamamu', 'Dompet, bank, atau e-wallet'],
-                ['<x-heroicon-o-tag class="w-5 h-5 inline text-blue-500" />️', '#DCFCE7', '#16a34a', 'Langkah 2', 'Pilih kategori', 'Pengeluaran dan pemasukan'],
-                ['<x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" />', '#FEF9C3', '#ca8a04', 'Langkah 3', 'Catat transaksi pertama', 'Opsional, bisa dilewati'],
-            ] as [$emoji, $bg, $color, $step, $title, $desc])
+            @php
+                $steps = [
+                    ['heroicon-o-building-library', 'text-blue-500', '#E8F0FB', '#014BAA', 'Langkah 1', 'Tambah rekening pertamamu', 'Dompet, bank, atau e-wallet'],
+                    ['heroicon-o-tag', 'text-blue-500', '#DCFCE7', '#16a34a', 'Langkah 2', 'Pilih kategori', 'Pengeluaran dan pemasukan'],
+                    ['heroicon-o-currency-dollar', 'text-green-500', '#FEF9C3', '#ca8a04', 'Langkah 3', 'Catat transaksi pertama', 'Opsional, bisa dilewati'],
+                ];
+            @endphp
+            @foreach ($steps as [$icon, $iconColor, $bg, $color, $step, $title, $desc])
             <div style="background:#fff;border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;">
                 <div style="width:44px;height:44px;background:{{ $bg }};border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">
-                    {{ $emoji }}
+                    <x-dynamic-component :component="$icon" class="w-6 h-6 inline {{ $iconColor }}" />
                 </div>
                 <div>
                     <div style="font-size:11px;font-weight:600;color:{{ $color }};text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px;">{{ $step }}</div>

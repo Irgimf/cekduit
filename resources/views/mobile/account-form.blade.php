@@ -37,18 +37,21 @@
                     <label style="display:block;font-size:13px;font-weight:600;color:#1E293B;margin-bottom:10px;">Jenis Rekening</label>
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
                         @php $currentType = old('type', isset($account) ? $account->type : 'cash'); @endphp
-                        @foreach ([
-                            ['value' => 'cash', 'label' => 'Cash', 'emoji' => '<x-heroicon-o-wallet class="w-6 h-6 inline text-purple-500" />'],
-                            ['value' => 'bank', 'label' => 'Bank', 'emoji' => '<x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" />'],
-                            ['value' => 'e_wallet', 'label' => 'E-Wallet', 'emoji' => '<x-heroicon-o-device-phone-mobile class="w-6 h-6 inline text-gray-500" />'],
-                        ] as $type)
+                        @php
+                            $types = [
+                                ['value' => 'cash', 'label' => 'Cash', 'icon' => 'heroicon-o-wallet', 'color' => 'text-purple-500'],
+                                ['value' => 'bank', 'label' => 'Bank', 'icon' => 'heroicon-o-building-library', 'color' => 'text-blue-500'],
+                                ['value' => 'e_wallet', 'label' => 'E-Wallet', 'icon' => 'heroicon-o-device-phone-mobile', 'color' => 'text-gray-500'],
+                            ];
+                        @endphp
+                        @foreach ($types as $type)
                         <label style="cursor:pointer;" onclick="switchType('{{ $type['value'] }}')">
                             <input type="radio" name="type" value="{{ $type['value'] }}"
                                    {{ $currentType === $type['value'] ? 'checked' : '' }}
                                    style="display:none;">
                             <div id="type-{{ $type['value'] }}"
                                  style="padding:12px 8px;border-radius:12px;border:2px solid {{ $currentType === $type['value'] ? '#014BAA' : '#E2E8F0' }};text-align:center;background:{{ $currentType === $type['value'] ? '#E8F0FB' : '#fff' }};transition:all 0.15s;">
-                                <div style="font-size:20px;margin-bottom:4px;">{{ $type['emoji'] }}</div>
+                                <div style="font-size:20px;margin-bottom:4px;"><x-dynamic-component :component="$type['icon']" class="w-6 h-6 inline {{ $type['color'] }}" /></div>
                                 <div style="font-size:12px;font-weight:700;color:#1E293B;">{{ $type['label'] }}</div>
                             </div>
                         </label>

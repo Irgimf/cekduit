@@ -97,7 +97,7 @@
                         <div>
                             <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
                                 <span style="font-weight:600;color:var(--dark);">
-                                    {{ $goal->icon ?? '<x-heroicon-o-bullseye class="w-6 h-6 inline text-red-500" />' }} {{ $goal->name }}
+                                    {{ $goal->icon ?? '<x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" />' }} {{ $goal->name }}
                                 </span>
                                 <span style="color:var(--blue);font-weight:700;">
                                     {{ $goal->progressPercent() }}%
