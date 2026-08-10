@@ -9,14 +9,14 @@
                         $hour = now()->hour;
                         $greeting = $hour < 11 ? 'Selamat Pagi' : ($hour < 15 ? 'Selamat Siang' : ($hour < 18 ? 'Selamat Sore' : 'Selamat Malam'));
                     @endphp
-                    {{ $greeting }}, <x-heroicon-o-hand-raised class="w-6 h-6 inline text-yellow-500" />
+                    {{ $greeting }}, <x-heroicon-o-hand-raised class="w-6 h-6 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />
                 </div>
                 <div class="mobile-header-name">{{ Auth::user()->name }}</div>
                 
                 @if (auth()->user()->isFree())
                     <a href="{{ route('premium.upgrade') }}" 
                        style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(255,255,255,0.2);border-radius:99px;font-size:11px;font-weight:600;color:#fff;text-decoration:none;margin-top:6px;">
-                        <x-heroicon-o-bolt class="w-5 h-5 inline text-yellow-500" /> Upgrade Premium
+                        <x-heroicon-o-bolt class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /> Upgrade Premium
                     </a>
                 @else
                     <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:rgba(34,197,94,0.2);border-radius:99px;font-size:11px;font-weight:600;color:#fff;margin-top:6px;">

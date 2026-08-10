@@ -21,7 +21,7 @@
 
         @if (session('info'))
             <div style="background:#FEF9C3;border-radius:12px;padding:14px;font-size:13px;color:#92400E;font-weight:500;">
-                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ {{ session('info') }}
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />️ {{ session('info') }}
             </div>
         @endif
 
@@ -35,17 +35,17 @@
                     ['Rekening',          '2',        '∞'],
                     ['Kategori',          '5',        '∞'],
                     ['Riwayat',           '30 hari',  'Selamanya'],
-                    ['Export PDF/Excel',  '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',        '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
-                    ['Laporan Lengkap',   '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',        '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
-                    ['Budget Kategori',   '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',        '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
-                    ['Target Tabungan',   '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',        '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
-                    ['Transaksi Berulang', '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />',       '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" />'],
+                    ['Export PDF/Excel',  '✗',        '✓'],
+                    ['Laporan Lengkap',   '✗',        '✓'],
+                    ['Budget Kategori',   '✗',        '✓'],
+                    ['Target Tabungan',   '✗',        '✓'],
+                    ['Transaksi Berulang', '✗',       '✓'],
                 ];
                 @endphp
                 @foreach ($features as $i => [$label, $free, $premium])
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:11px 16px;border-bottom:{{ $i < count($features)-1 ? '1px solid #F8FAFC' : 'none' }};background:{{ $i%2===0 ? '#fff' : '#FAFBFC' }};">
                     <div style="font-size:13px;color:#1E293B;font-weight:500;">{{ $label }}</div>
-                    <div style="font-size:12px;color:{{ $free === '<x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" />' ? '#CBD5E1' : '#64748B' }};text-align:center;">{{ $free }}</div>
+                    <div style="font-size:12px;color:{{ $free === '✗' ? '#CBD5E1' : '#64748B' }};text-align:center;">{{ $free }}</div>
                     <div style="font-size:12px;font-weight:700;color:#014BAA;text-align:center;">
                         @if (str_contains($premium, 'Segera'))
                             <span style="font-size:10px;background:#FEF9C3;color:#92400E;padding:1px 6px;border-radius:99px;">Segera</span>
@@ -95,7 +95,7 @@
             </form>
 
             <p style="text-align:center;font-size:12px;color:#94A3B8;">
-                <x-heroicon-o-chat-bubble-left-ellipsis class="w-5 h-5 inline text-blue-500" /> Kamu akan diarahkan ke WhatsApp untuk konfirmasi pembayaran
+                <x-heroicon-o-chat-bubble-left-ellipsis class="w-5 h-5 inline text-blue-500" style="width:1.2em; height:1.2em;"  /> Kamu akan diarahkan ke WhatsApp untuk konfirmasi pembayaran
             </p>
 
             <a href="{{ route('payment.history') }}"
@@ -105,7 +105,7 @@
 
         @else
             <div style="background:#DCFCE7;border-radius:14px;padding:28px;text-align:center;">
-                <div style="font-size:36px;margin-bottom:10px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" /></div>
+                <div style="font-size:36px;margin-bottom:10px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /></div>
                 <div style="font-size:17px;font-weight:700;color:#15803d;margin-bottom:4px;">Kamu sudah Premium!</div>
                 <div style="font-size:13px;color:#64748B;">{{ auth()->user()->subscriptionLabel() }}</div>
             </div>

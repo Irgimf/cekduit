@@ -16,7 +16,7 @@
 
                 @if (session('status') === 'avatar-updated')
                     <div style="background:#DCFCE7;color:#16a34a;padding:10px 12px;border-radius:8px;font-size:13px;font-weight:500;margin-bottom:12px;">
-                        <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Foto profil berhasil diperbarui
+                        <x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Foto profil berhasil diperbarui
                     </div>
                 @endif
 
@@ -69,7 +69,7 @@
                         Simpan Perubahan
                     </button>
                     @if (session('status') === 'profile-updated')
-                        <div style="text-align:center;color:#16a34a;font-size:13px;font-weight:500;margin-top:8px;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Profil berhasil diperbarui</div>
+                        <div style="text-align:center;color:#16a34a;font-size:13px;font-weight:500;margin-top:8px;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Profil berhasil diperbarui</div>
                     @endif
                 </form>
             </div>
@@ -103,7 +103,7 @@
                         Update Password
                     </button>
                     @if (session('status') === 'password-updated')
-                        <div style="text-align:center;color:#16a34a;font-size:13px;font-weight:500;margin-top:8px;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Password berhasil diperbarui</div>
+                        <div style="text-align:center;color:#16a34a;font-size:13px;font-weight:500;margin-top:8px;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Password berhasil diperbarui</div>
                     @endif
                 </form>
             </div>

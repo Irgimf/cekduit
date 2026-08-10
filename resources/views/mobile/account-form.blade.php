@@ -107,7 +107,7 @@
                 @else
                     <div style="background:#FEF9C3;border-radius:10px;padding:12px 14px;">
                         <div style="font-size:13px;color:#92400e;">
-                            <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" /> Saldo awal otomatis Rp 0 dan akan berubah sesuai transaksi yang kamu catat.
+                            <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /> Saldo awal otomatis Rp 0 dan akan berubah sesuai transaksi yang kamu catat.
                         </div>
                     </div>
                 @endif

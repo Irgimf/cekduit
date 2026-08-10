@@ -6,10 +6,10 @@
         {{-- Progress card --}}
         @php
             $statusInfo = [
-                'completed' => ['color'=>'#22C55E','bg'=>'#DCFCE7','label'=>'<x-heroicon-s-check-circle class="w-5 h-5 inline text-green-500" /> Tercapai!'],
-                'almost'    => ['color'=>'#EAB308','bg'=>'#FEF9C3','label'=>'<x-heroicon-o-fire class="w-5 h-5 inline text-orange-500" /> Hampir!'],
-                'overdue'   => ['color'=>'#EF4444','bg'=>'#FEE2E2','label'=>'<x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ Terlambat'],
-                'active'    => ['color'=>'#014BAA','bg'=>'#E8F0FB','label'=>'<x-heroicon-o-hand-thumb-up class="w-5 h-5 inline text-yellow-500" /> Berjalan'],
+                'completed' => ['color'=>'#22C55E','bg'=>'#DCFCE7','label'=>'✅ Tercapai!'],
+                'almost'    => ['color'=>'#EAB308','bg'=>'#FEF9C3','label'=>'🔥 Hampir!'],
+                'overdue'   => ['color'=>'#EF4444','bg'=>'#FEE2E2','label'=>'<x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />️ Terlambat'],
+                'active'    => ['color'=>'#014BAA','bg'=>'#E8F0FB','label'=>'💪 Berjalan'],
             ];
             $si = $statusInfo[$goal->status()];
         @endphp
@@ -64,7 +64,7 @@
         {{-- Form Setor --}}
         @if (! $goal->is_completed)
         <div class="cd-card" style="padding:24px;">
-            <h3 style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:16px;"><x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" /> Setor ke Goal Ini</h3>
+            <h3 style="font-size:16px;font-weight:700;color:var(--dark);margin-bottom:16px;"><x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Setor ke Goal Ini</h3>
             <form action="{{ route('savings.deposit', $goal) }}" method="POST"
                   style="display:flex;flex-direction:column;gap:14px;">
                 @csrf
@@ -106,13 +106,13 @@
                 </div>
 
                 <button type="submit" class="cd-btn cd-btn-primary" style="justify-content:center;padding:13px;">
-                    <x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" /> Setor Sekarang
+                    <x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Setor Sekarang
                 </button>
             </form>
         </div>
         @else
         <div class="cd-card" style="padding:24px;text-align:center;background:#DCFCE7;">
-            <div style="font-size:40px;margin-bottom:10px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" /></div>
+            <div style="font-size:40px;margin-bottom:10px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /></div>
             <div style="font-size:18px;font-weight:700;color:#15803d;">Goal Tercapai!</div>
             <div style="font-size:14px;color:#64748B;margin-top:4px;">Selamat! Kamu berhasil mencapai target tabungan ini.</div>
         </div>

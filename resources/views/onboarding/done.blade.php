@@ -19,7 +19,7 @@
             </svg>
         </div>
 
-        <div style="font-size:32px;margin-bottom:12px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" /></div>
+        <div style="font-size:32px;margin-bottom:12px;"><x-heroicon-o-sparkles class="w-6 h-6 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /></div>
         <div class="ob-title" style="text-align:center;font-size:26px;">Akun Siap!</div>
         <div class="ob-desc" style="text-align:center;max-width:280px;margin:8px auto 32px;">
             Setup selesai! Kamu sudah bisa mulai mencatat keuangan dengan CekDuit.
@@ -31,19 +31,19 @@
             <div style="display:flex;flex-direction:column;gap:8px;">
                 @if (auth()->user()->accounts->isNotEmpty())
                 <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#64748B;">
-                    <span style="width:22px;height:22px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#16a34a;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /></span>
+                    <span style="width:22px;height:22px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#16a34a;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /></span>
                     {{ auth()->user()->accounts->count() }} rekening ditambahkan
                 </div>
                 @endif
                 @if (auth()->user()->categories->isNotEmpty())
                 <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#64748B;">
-                    <span style="width:22px;height:22px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#16a34a;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /></span>
+                    <span style="width:22px;height:22px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#16a34a;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /></span>
                     {{ auth()->user()->categories->count() }} kategori dipilih
                 </div>
                 @endif
                 @if (auth()->user()->transactions->isNotEmpty())
                 <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:#64748B;">
-                    <span style="width:22px;height:22px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#16a34a;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" /></span>
+                    <span style="width:22px;height:22px;background:#DCFCE7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;color:#16a34a;font-weight:700;flex-shrink:0;"><x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /></span>
                     Transaksi pertama dicatat
                 </div>
                 @endif
@@ -53,7 +53,7 @@
         <form method="POST" action="{{ route('onboarding.complete') }}" style="width:100%;">
             @csrf
             <button type="submit" class="ob-btn ob-btn-primary" style="font-size:17px;">
-                <x-heroicon-o-rocket-launch class="w-6 h-6 inline text-blue-500" /> Mulai Gunakan CekDuit
+                <x-heroicon-o-rocket-launch class="w-6 h-6 inline text-blue-500" style="width:1.2em; height:1.2em;"  /> Mulai Gunakan CekDuit
             </button>
         </form>
     </div>

@@ -41,7 +41,7 @@
 
         @if ($errors->has('categories'))
             <div style="background:#FEE2E2;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:#dc2626;font-weight:500;">
-                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ {{ $errors->first('categories') }}
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />️ {{ $errors->first('categories') }}
             </div>
         @endif
 
@@ -51,7 +51,7 @@
             {{-- Kategori Pemasukan --}}
             <div style="margin-bottom:24px;">
                 <div style="font-size:12px;font-weight:700;color:#16a34a;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
-                    <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" /> Pemasukan
+                    <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Pemasukan
                 </div>
 
                 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;" id="income-chips">
@@ -97,7 +97,7 @@
             {{-- Kategori Pengeluaran --}}
             <div style="margin-bottom:28px;">
                 <div style="font-size:12px;font-weight:700;color:#dc2626;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;display:flex;align-items:center;gap:6px;">
-                    <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" /> Pengeluaran
+                    <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" style="width:1.2em; height:1.2em;"  /> Pengeluaran
                 </div>
 
                 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;" id="expense-chips">

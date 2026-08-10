@@ -16,7 +16,7 @@
                 <div style="display:grid;grid-template-columns:56px 1fr;gap:10px;">
                     <div>
                         <label style="display:block;font-size:13px;font-weight:600;color:#1E293B;margin-bottom:5px;">Ikon</label>
-                        <input type="text" name="icon" value="<x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" />"
+                        <input type="text" name="icon" value="🏆"
                                class="mobile-input" style="text-align:center;font-size:22px;padding:8px;">
                     </div>
                     <div>
@@ -41,7 +41,7 @@
 
                 <button type="submit"
                         style="width:100%;padding:13px;background:#014BAA;color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit;">
-                    <x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" /> Buat Target
+                    🏆 Buat Target
                 </button>
             </form>
         </div>
@@ -50,10 +50,10 @@
         @forelse ($goals as $goal)
         @php
             $statusInfo = [
-                'completed' => ['color'=>'#22C55E','label'=>'<x-heroicon-s-check-circle class="w-5 h-5 inline text-green-500" /> Tercapai'],
-                'almost'    => ['color'=>'#EAB308','label'=>'<x-heroicon-o-fire class="w-5 h-5 inline text-orange-500" /> Hampir'],
-                'overdue'   => ['color'=>'#EF4444','label'=>'<x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ Terlambat'],
-                'active'    => ['color'=>'#014BAA','label'=>'<x-heroicon-o-hand-thumb-up class="w-5 h-5 inline text-yellow-500" /> Berjalan'],
+                'completed' => ['color'=>'#22C55E','label'=>'✅ Tercapai'],
+                'almost'    => ['color'=>'#EAB308','label'=>'🔥 Hampir'],
+                'overdue'   => ['color'=>'#EF4444','label'=>'<x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />️ Terlambat'],
+                'active'    => ['color'=>'#014BAA','label'=>'💪 Berjalan'],
             ];
             $si = $statusInfo[$goal->status()];
         @endphp
@@ -94,14 +94,14 @@
 
             @if (!$goal->is_completed && $goal->monthlyNeeded())
             <div style="font-size:12px;color:#94A3B8;margin-bottom:10px;">
-                <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" /> Perlu ~Rp {{ number_format($goal->monthlyNeeded(), 0, ',', '.') }}/bulan
+                <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /> Perlu ~Rp {{ number_format($goal->monthlyNeeded(), 0, ',', '.') }}/bulan
             </div>
             @endif
 
             <div style="display:flex;gap:8px;">
                 <a href="{{ route('savings.show', $goal) }}"
                    style="flex:1;display:flex;align-items:center;justify-content:center;padding:9px;background:#E8F0FB;border-radius:9px;font-size:13px;font-weight:700;color:#014BAA;text-decoration:none;">
-                    <x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" /> Detail & Setor
+                    <x-heroicon-o-currency-dollar class="w-6 h-6 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Detail & Setor
                 </a>
                 <form action="{{ route('savings.destroy', $goal) }}" method="POST"
                       onsubmit="cdConfirm('Hapus goal ini? Dana yang sudah disetor akan dikembalikan ke rekening.', this); return false;">
@@ -115,7 +115,7 @@
         </div>
         @empty
         <div style="text-align:center;padding:40px 20px;color:#94A3B8;">
-            <div style="font-size:48px;margin-bottom:12px;"><x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" /></div>
+            <div style="font-size:48px;margin-bottom:12px;"><x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" style="width:1.2em; height:1.2em;"  /></div>
             <div style="font-size:15px;font-weight:600;margin-bottom:4px;color:#64748B;">Belum ada target tabungan</div>
             <div style="font-size:13px;">Buat goal pertamamu di atas!</div>
         </div>

@@ -56,7 +56,7 @@
                 </div>
 
                 <p style="font-size:12px;color:var(--muted);padding:10px;background:var(--blue-light);border-radius:8px;">
-                    <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" /> Saldo awal otomatis Rp 0 dan akan bertambah/berkurang sesuai transaksi yang kamu catat.
+                    <x-heroicon-o-light-bulb class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  /> Saldo awal otomatis Rp 0 dan akan bertambah/berkurang sesuai transaksi yang kamu catat.
                 </p>
 
                 <div style="display:flex;gap:10px;justify-content:flex-end;padding-top:4px;">

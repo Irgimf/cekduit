@@ -29,14 +29,14 @@
                                     border-radius:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;
                                     color:{{ $transaction->type === 'income' ? '#16a34a' : '#64748B' }};
                                     background:{{ $transaction->type === 'income' ? '#DCFCE7' : '#fff' }};">
-                            <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" /> Pemasukan
+                            <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Pemasukan
                         </div>
                         <div onclick="selectType('expense')" id="btn-expense"
                              style="padding:10px;border:2px solid {{ $transaction->type === 'expense' ? '#dc2626' : '#E2E8F0' }};
                                     border-radius:10px;text-align:center;cursor:pointer;font-size:13px;font-weight:700;
                                     color:{{ $transaction->type === 'expense' ? '#dc2626' : '#64748B' }};
                                     background:{{ $transaction->type === 'expense' ? '#FEE2E2' : '#fff' }};">
-                            <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" /> Pengeluaran
+                            <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" style="width:1.2em; height:1.2em;"  /> Pengeluaran
                         </div>
                     </div>
                     <input type="hidden" name="type" id="type-input" value="{{ $transaction->type }}">

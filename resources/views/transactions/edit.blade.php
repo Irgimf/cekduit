@@ -19,7 +19,7 @@
                             <div :style="type === 'income'
                                     ? 'padding:12px;border:2px solid #16a34a;border-radius:10px;text-align:center;font-size:14px;font-weight:700;color:#16a34a;background:#DCFCE7;cursor:pointer;'
                                     : 'padding:12px;border:2px solid #E2E8F0;border-radius:10px;text-align:center;font-size:14px;font-weight:700;color:#64748B;background:#fff;cursor:pointer;'">
-                                <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" /> Pemasukan
+                                <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Pemasukan
                             </div>
                         </label>
                         <label style="cursor:pointer;">
@@ -28,7 +28,7 @@
                             <div :style="type === 'expense'
                                     ? 'padding:12px;border:2px solid #dc2626;border-radius:10px;text-align:center;font-size:14px;font-weight:700;color:#dc2626;background:#FEE2E2;cursor:pointer;'
                                     : 'padding:12px;border:2px solid #E2E8F0;border-radius:10px;text-align:center;font-size:14px;font-weight:700;color:#64748B;background:#fff;cursor:pointer;'">
-                                <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" /> Pengeluaran
+                                <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" style="width:1.2em; height:1.2em;"  /> Pengeluaran
                             </div>
                         </label>
                     </div>

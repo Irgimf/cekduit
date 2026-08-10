@@ -86,7 +86,7 @@
             <div class="cd-card" style="padding:20px;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
                     <div style="font-size:14px;font-weight:700;color:var(--dark);display:flex;align-items:center;gap:6px;">
-                        <span><x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" /></span> Target Tabungan Aktif
+                        <span><x-heroicon-o-building-library class="w-6 h-6 inline text-blue-500" style="width:1.2em; height:1.2em;"  /></span> Target Tabungan Aktif
                     </div>
                     <a href="{{ route('savings.index') }}" style="font-size:13px;color:var(--blue);font-weight:600;text-decoration:none;">
                         Lihat semua →
@@ -97,7 +97,7 @@
                         <div>
                             <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;">
                                 <span style="font-weight:600;color:var(--dark);">
-                                    {{ $goal->icon ?? '<x-heroicon-o-trophy class="w-6 h-6 inline text-red-500" />' }} {{ $goal->name }}
+                                    {{ $goal->icon ?? '🏆' }} {{ $goal->name }}
                                 </span>
                                 <span style="color:var(--blue);font-weight:700;">
                                     {{ $goal->progressPercent() }}%

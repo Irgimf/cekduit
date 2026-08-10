@@ -31,7 +31,7 @@
         @if ($accounts->isEmpty())
             {{-- Kalau tidak ada rekening, skip langsung ke done --}}
             <div style="background:#FEF9C3;border-radius:12px;padding:16px;margin-bottom:20px;font-size:14px;color:#92400E;">
-                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ Kamu belum memiliki rekening. Lewati langkah ini dan tambah rekening dulu dari dashboard.
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />️ Kamu belum memiliki rekening. Lewati langkah ini dan tambah rekening dulu dari dashboard.
             </div>
             <a href="{{ route('onboarding.step', 'done') }}"
                class="ob-btn ob-btn-primary"
@@ -53,14 +53,14 @@
                              style="padding:12px;border:2px solid #16a34a;border-radius:12px;
                                     text-align:center;cursor:pointer;background:#DCFCE7;
                                     font-size:14px;font-weight:700;color:#16a34a;">
-                            <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" /> Pemasukan
+                            <x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Pemasukan
                         </div>
                         <div id="btn-expense"
                              onclick="selectTxType('expense')"
                              style="padding:12px;border:2px solid #E2E8F0;border-radius:12px;
                                     text-align:center;cursor:pointer;background:#fff;
                                     font-size:14px;font-weight:700;color:#64748B;">
-                            <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" /> Pengeluaran
+                            <x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" style="width:1.2em; height:1.2em;"  /> Pengeluaran
                         </div>
                     </div>
                     <input type="hidden" name="type" id="tx-type" value="income">

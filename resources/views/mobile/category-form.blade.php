@@ -40,7 +40,7 @@
                             <div class="type-option" data-value="income"
                                  style="padding:14px;border-radius:12px;border:2px solid #E2E8F0;text-align:center;transition:all 0.15s;
                                         {{ old('type', isset($category) ? $category->type : '') === 'income' ? 'border-color:#16a34a;background:#DCFCE7;' : '' }}">
-                                <div style="font-size:22px;margin-bottom:6px;"><x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" /></div>
+                                <div style="font-size:22px;margin-bottom:6px;"><x-heroicon-o-arrow-trending-up class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /></div>
                                 <div style="font-size:13px;font-weight:700;color:#16a34a;">Pemasukan</div>
                             </div>
                         </label>
@@ -51,7 +51,7 @@
                             <div class="type-option" data-value="expense"
                                  style="padding:14px;border-radius:12px;border:2px solid #E2E8F0;text-align:center;transition:all 0.15s;
                                         {{ old('type', isset($category) ? $category->type : '') === 'expense' ? 'border-color:#dc2626;background:#FEE2E2;' : '' }}">
-                                <div style="font-size:22px;margin-bottom:6px;"><x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" /></div>
+                                <div style="font-size:22px;margin-bottom:6px;"><x-heroicon-o-arrow-trending-down class="w-5 h-5 inline text-red-500" style="width:1.2em; height:1.2em;"  /></div>
                                 <div style="font-size:13px;font-weight:700;color:#dc2626;">Pengeluaran</div>
                             </div>
                         </label>

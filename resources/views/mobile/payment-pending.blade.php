@@ -8,7 +8,7 @@
 
         @if (session('info'))
             <div style="background:#FEF9C3;border-radius:12px;padding:14px;font-size:13px;color:#92400E;font-weight:500;">
-                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" />️ {{ session('info') }}
+                <x-heroicon-o-exclamation-triangle class="w-5 h-5 inline text-yellow-500" style="width:1.2em; height:1.2em;"  />️ {{ session('info') }}
             </div>
         @endif
 
@@ -41,7 +41,7 @@
                 @foreach ($steps as [$num, $bg, $text])
                 <div style="display:flex;align-items:flex-start;gap:12px;">
                     <div style="width:26px;height:26px;background:{{ $bg }};color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;margin-top:1px;">
-                        @if($num === 'check') <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> @else {{ $num }} @endif
+                        @if($num === 'check') <x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> @else {{ $num }} @endif
                     </div>
                     <div style="font-size:13px;color:#64748B;line-height:1.5;flex:1;">{{ $text }}</div>
                 </div>

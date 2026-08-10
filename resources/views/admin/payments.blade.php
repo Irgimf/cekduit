@@ -74,7 +74,7 @@
                             @csrf @method('PATCH')
                             <input type="hidden" name="plan" value="{{ $payment->plan }}">
                             <button type="submit" class="admin-btn admin-btn-primary admin-btn-sm">
-                                <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Konfirmasi
+                                <x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Konfirmasi
                             </button>
                         </form>
                         @endif

@@ -299,12 +299,12 @@
         <div class="admin-content">
             @if (session('success'))
                 <div style="background:#DCFCE7;border:1px solid #BBF7D0;color:#15803d;padding:12px 16px;border-radius:8px;margin-bottom:20px;font-size:14px;font-weight:500;">
-                    <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> {{ session('success') }}
+                    <x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> {{ session('success') }}
                 </div>
             @endif
             @if (session('error'))
                 <div style="background:#FEE2E2;border:1px solid #FECACA;color:#dc2626;padding:12px 16px;border-radius:8px;margin-bottom:20px;font-size:14px;font-weight:500;">
-                    <x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" /> {{ session('error') }}
+                    <x-heroicon-o-x-mark class="w-5 h-5 inline text-red-500" style="width:1.2em; height:1.2em;"  /> {{ session('error') }}
                 </div>
             @endif
 

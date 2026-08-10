@@ -118,7 +118,7 @@
     {{-- Toast copy --}}
     <div id="copy-toast"
          style="display:none;position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1E293B;color:#fff;padding:8px 16px;border-radius:99px;font-size:13px;font-weight:500;z-index:9999;white-space:nowrap;">
-        <x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Nomor disalin
+        <x-heroicon-o-check class="w-5 h-5 inline text-green-500" style="width:1.2em; height:1.2em;"  /> Nomor disalin
     </div>
 
     @push('scripts')
@@ -132,7 +132,7 @@
 
                 // Ubah teks tombol sementara
                 const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<x-heroicon-o-check class="w-5 h-5 inline text-green-500" /> Disalin';
+                btn.innerHTML = '✓ Disalin';
                 btn.style.background = 'rgba(34,197,94,0.35)';
                 setTimeout(() => {
                     btn.innerHTML = originalHTML;
