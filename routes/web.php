@@ -25,11 +25,17 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
+// Android Digital Asset Links Verification
+Route::get('/.well-known/assetlinks.json', function () {
+    return response()->file(public_path('.well-known/assetlinks.json'), [
+        'Content-Type' => 'application/json',
+    ]);
+});
+
 // Dashboard User
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
-
 
 Route::get('/terms', fn() => view('legal.terms'))->name('legal.terms');
 Route::get('/privacy', fn() => view('legal.privacy'))->name('legal.privacy');

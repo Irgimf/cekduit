@@ -1,0 +1,10 @@
+[
+    {
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "net.alwaysdata.cekduit",
+            "sha256_cert_fingerprints": ["AKAN_DIISI_SETELAH_KEYSTORE_DIBUAT"]
+        }
+    }
+]
