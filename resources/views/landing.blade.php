@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#014BAA">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="CekDuit">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CekDuit — Kelola Keuangan Pribadi dengan Mudah</title>
@@ -1217,6 +1223,11 @@
         </div>
     </div>
 </footer>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+</script>
 
 </body>
 </html>

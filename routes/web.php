@@ -17,6 +17,25 @@ use App\Http\Controllers\SavingsController;
 use App\Http\Controllers\OnboardingController;
 use Illuminate\Support\Facades\Route;
 
+// Public Static & PWA Assets (Bypass middleware onboarding/auth)
+Route::get('/manifest.json', function () {
+    return response()->file(public_path('manifest.json'), [
+        'Content-Type' => 'application/manifest+json',
+    ]);
+})->withoutMiddleware([\App\Http\Middleware\CheckOnboarding::class]);
+
+Route::get('/sw.js', function () {
+    return response()->file(public_path('sw.js'), [
+        'Content-Type' => 'application/javascript',
+    ]);
+})->withoutMiddleware([\App\Http\Middleware\CheckOnboarding::class]);
+
+Route::get('/.well-known/assetlinks.json', function () {
+    return response()->file(public_path('.well-known/assetlinks.json'), [
+        'Content-Type' => 'application/json',
+    ]);
+})->withoutMiddleware([\App\Http\Middleware\CheckOnboarding::class]);
+
 // Landing Page
 Route::get('/', function () {
     if (auth()->check()) {
@@ -24,13 +43,6 @@ Route::get('/', function () {
     }
     return view('landing');
 })->name('landing');
-
-// Android Digital Asset Links Verification
-Route::get('/.well-known/assetlinks.json', function () {
-    return response()->file(public_path('.well-known/assetlinks.json'), [
-        'Content-Type' => 'application/json',
-    ]);
-});
 
 // Dashboard User
 Route::get('/dashboard', [DashboardController::class, 'index'])
