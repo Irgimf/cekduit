@@ -6,10 +6,12 @@
     "start_url": "/",
     "scope": "/",
     "display": "standalone",
+    "display_override": ["standalone", "minimal-ui"],
     "orientation": "portrait",
+    "dir": "ltr",
+    "lang": "id",
     "background_color": "#014BAA",
     "theme_color": "#014BAA",
-    "lang": "id",
     "categories": ["finance", "productivity"],
     "prefer_related_applications": false,
     "icons": [
