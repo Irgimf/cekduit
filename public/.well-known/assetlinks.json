@@ -3,8 +3,10 @@
         "relation": ["delegate_permission/common.handle_all_urls"],
         "target": {
             "namespace": "android_app",
-            "package_name": "net.alwaysdata.cekduit",
-            "sha256_cert_fingerprints": ["AKAN_DIISI_SETELAH_KEYSTORE_DIBUAT"]
+            "package_name": "net.alwaysdata.cekduit.twa",
+            "sha256_cert_fingerprints": [
+                "24:C7:3A:BE:70:D2:2D:2D:FA:D1:BA:B7:B6:25:A8:DB:6C:09:01:7C:15:34:BC:D8:9F:D3:58:A9:39:D6:BD:28"
+            ]
         }
     }
 ]
