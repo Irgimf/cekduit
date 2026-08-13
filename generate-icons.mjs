@@ -1,42 +1,33 @@
+// generate-maskable-icons.mjs
 import sharp from "sharp";
-import { mkdirSync } from "fs";
 
-mkdirSync("public/icons", { recursive: true });
+const SIZE_LARGE = 512;
+const SIZE_SMALL = 192;
+const BG_COLOR = "#014BAA"; // samain dengan theme_color
+const SOURCE_LOGO = "public/icons/icon-512.png"; // logo sumber, resolusi tinggi
 
-const source = "public/icons/icon-512.png";
+async function generateMaskable(size) {
+    // Maskable butuh safe zone ~20% padding di semua sisi
+    const logoSize = Math.round(size * 0.6); // logo isi 60% canvas, sisanya padding aman
 
-// Generate ukuran standar
-const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
-for (const size of sizes) {
-    await sharp(source)
-        .resize(size, size)
+    const logo = await sharp(SOURCE_LOGO)
+        .resize(logoSize, logoSize, { fit: "contain" })
+        .toBuffer();
+
+    await sharp({
+        create: {
+            width: size,
+            height: size,
+            channels: 4,
+            background: BG_COLOR,
+        },
+    })
+        .composite([{ input: logo, gravity: "center" }])
         .png()
-        .toFile(`public/icons/icon-${size}.png`);
-    console.log(`✓ icon-${size}.png`);
+        .toFile(`public/icons/icon-maskable-${size}.png`);
+
+    console.log(`✅ icon-maskable-${size}.png generated`);
 }
 
-// Maskable 512 - icon dengan safe zone 20%
-// Icon asli di-resize ke 60% dari total, sisanya background biru
-const iconSize = Math.round(512 * 0.6);
-const padding = Math.round((512 - iconSize) / 2);
-
-await sharp(source)
-    .resize(iconSize, iconSize)
-    .extend({
-        top: padding,
-        bottom: padding,
-        left: padding,
-        right: padding,
-        background: { r: 1, g: 75, b: 170, alpha: 1 },
-    })
-    .png()
-    .toFile("public/icons/icon-maskable-512.png");
-console.log("✓ icon-maskable-512.png");
-
-await sharp("public/icons/icon-maskable-512.png")
-    .resize(192, 192)
-    .png()
-    .toFile("public/icons/icon-maskable-192.png");
-console.log("✓ icon-maskable-192.png");
-
-console.log("\nSemua icon berhasil dibuat!");
+await generateMaskable(SIZE_LARGE);
+await generateMaskable(SIZE_SMALL);

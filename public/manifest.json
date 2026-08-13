@@ -1,4 +1,5 @@
 {
+    "id": "/",
     "name": "CekDuit — Kelola Keuangan Pribadi",
     "short_name": "CekDuit",
     "description": "Aplikasi manajemen keuangan pribadi untuk pelajar dan mahasiswa Indonesia. Catat pemasukan, pengeluaran, dan kelola rekening dalam satu tempat.",
@@ -40,14 +41,14 @@
     "screenshots": [
         {
             "src": "/screenshots/mobile-home.png",
-            "sizes": "390x844",
+            "sizes": "720x1600",
             "type": "image/png",
             "form_factor": "narrow",
             "label": "Halaman Home CekDuit"
         },
         {
             "src": "/screenshots/mobile-transaction.png",
-            "sizes": "390x844",
+            "sizes": "720x1600",
             "type": "image/png",
             "form_factor": "narrow",
             "label": "Halaman Transaksi"
